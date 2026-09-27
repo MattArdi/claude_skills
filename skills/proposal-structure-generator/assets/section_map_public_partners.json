@@ -1,0 +1,552 @@
+{
+ "proposal_type": "Public Partners",
+ "source": "Start2_Proposal_Template_for_Public_Partners.docx; Notion Boilerplate Content Blocks (snapshot 2026-09-27)",
+ "sections": {
+  "PP-001": {
+   "section": "Cover Page",
+   "level": "Fixed",
+   "template_content": "Fixed text",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-002": {
+   "section": "Table of Contents",
+   "level": "Fixed",
+   "template_content": "Fixed text",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-003": {
+   "section": "Company Information/Cover Page",
+   "level": "H1",
+   "template_content": "Table",
+   "notion_block": "Company Information",
+   "notion_status": "Not used"
+  },
+  "PP-004": {
+   "section": "Joint Submission",
+   "level": "H1",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-005": {
+   "section": "Executive Summary",
+   "level": "H1",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-006": {
+   "section": "Compliance and Eligibility",
+   "level": "H1",
+   "template_content": "Table",
+   "notion_block": "Compliance and Eligibility",
+   "notion_status": "Not used"
+  },
+  "PP-007": {
+   "section": "Company Overview",
+   "level": "H1",
+   "template_content": "Replaced",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-008": {
+   "section": "About Start2 Group",
+   "level": "Body",
+   "template_content": "None",
+   "notion_block": "Company Overview > About Start2 Group",
+   "notion_status": "Reviewed"
+  },
+  "PP-009": {
+   "section": "Geographical Presence",
+   "level": "Body",
+   "template_content": "None",
+   "notion_block": "Company Overview > About Start2 Group > Geographical Presence",
+   "notion_status": "Reviewed"
+  },
+  "PP-010": {
+   "section": "Key Benefits of Partnering with Start2 Group",
+   "level": "Body",
+   "template_content": "None",
+   "notion_block": "Company Overview > Key Benefits of Partnering with Start2 Group",
+   "notion_status": "Reviewed"
+  },
+  "PP-011": {
+   "section": "Relevant Expertise of the Firm",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-012": {
+   "section": "Experience in Startup Acceleration",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": "Expertise of the Firm > Experience in High Tech Acceleration Programs",
+   "notion_status": "Reviewed"
+  },
+  "PP-013": {
+   "section": "Experience in Geographies",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-014": {
+   "section": "Asia",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Geographies > Asia",
+   "notion_status": "Empty"
+  },
+  "PP-015": {
+   "section": "Europe",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Geographies > Europe",
+   "notion_status": "Empty"
+  },
+  "PP-016": {
+   "section": "Americas",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Geographies > Americas",
+   "notion_status": "Empty"
+  },
+  "PP-017": {
+   "section": "Experience in Verticals",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-018": {
+   "section": "Climate Technology",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Verticals > Climate Technology",
+   "notion_status": "Reviewed"
+  },
+  "PP-019": {
+   "section": "Manufacturing",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Verticals > Manufacturing",
+   "notion_status": "Empty"
+  },
+  "PP-020": {
+   "section": "Automotive",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Verticals > Automotive",
+   "notion_status": "Empty"
+  },
+  "PP-021": {
+   "section": "Fintech",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-022": {
+   "section": "Digital Health / Healthcare",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-023": {
+   "section": "Foodtech",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-024": {
+   "section": "Education",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-025": {
+   "section": "Experience in Technology Focus",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-026": {
+   "section": "Artificial Intelligence",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Technology Focus > Artificial Intelligence",
+   "notion_status": "Empty"
+  },
+  "PP-027": {
+   "section": "Deep Tech",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Expertise of the Firm > Experience in Technology Focus > Deep Tech",
+   "notion_status": "Empty"
+  },
+  "PP-028": {
+   "section": "Our Mentor Network",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": "Expertise of the Firm > Information on Network > Our Mentor Network",
+   "notion_status": "Reviewed"
+  },
+  "PP-029": {
+   "section": "Our Investor Network",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": "Expertise of the Firm > Information on Network > Our Investor Network",
+   "notion_status": "Empty"
+  },
+  "PP-030": {
+   "section": "Our Partner Network",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": "Expertise of the Firm > Information on Network > Our Partner Network",
+   "notion_status": "Empty"
+  },
+  "PP-031": {
+   "section": "Relevant Program Track Record",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-032": {
+   "section": "Program Track Record",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": "Relevant Track Record > Program Track Record",
+   "notion_status": "Reviewed"
+  },
+  "PP-033": {
+   "section": "Startup Success Stories",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": "Relevant Track Record > Startup Success Stories",
+   "notion_status": "Empty"
+  },
+  "PP-034": {
+   "section": "Our Fundraising Support to Startups",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Relevant Track Record > Startup Success Stories > Our Fundraising Support to Startups",
+   "notion_status": "Reviewed"
+  },
+  "PP-035": {
+   "section": "Trade Mission Success Stories",
+   "level": "H2",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-036": {
+   "section": "Program Structure",
+   "level": "H1",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-037": {
+   "section": "Methodology and Frameworks for Success",
+   "level": "H2",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-038": {
+   "section": "Program Design Strategy and Methodology",
+   "level": "H3",
+   "template_content": "Placeholder",
+   "notion_block": "Program Structure > Methodology and Frameworks for Success > Program Design Strategy and Methodology",
+   "notion_status": "Pending Review"
+  },
+  "PP-039": {
+   "section": "Recruitment and Selection Strategy",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Program Structure > Methodology and Frameworks for Success > Recruitment & Selection Strategy",
+   "notion_status": "Reviewed"
+  },
+  "PP-040": {
+   "section": "Program Components",
+   "level": "H2",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-041": {
+   "section": "Delivery Approach",
+   "level": "H3",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-042": {
+   "section": "Workplan and Time Table",
+   "level": "H3",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-043": {
+   "section": "Online Components",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-044": {
+   "section": "Workshop",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-045": {
+   "section": "Mentoring",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-046": {
+   "section": "Pitch Deck Review / Pitch Training",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-047": {
+   "section": "Peer-to-Peer Learning",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-048": {
+   "section": "Market Intelligence",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-049": {
+   "section": "Market Briefing",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-050": {
+   "section": "Singapore Business Culture",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-051": {
+   "section": "Offline Components",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-052": {
+   "section": "Networking",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-053": {
+   "section": "Demo Day",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-054": {
+   "section": "Industry Visit",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-055": {
+   "section": "Regional Event Participation",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-056": {
+   "section": "B2B Matchmaking",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-057": {
+   "section": "Investor Pitching",
+   "level": "H4",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-058": {
+   "section": "Open Innovation / Hackathon Management",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-059": {
+   "section": "Reporting",
+   "level": "H2",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-060": {
+   "section": "Risk Management",
+   "level": "H3",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-061": {
+   "section": "Performance and Result Reporting",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-062": {
+   "section": "Final Reporting",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-063": {
+   "section": "Quality Management",
+   "level": "H2",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-064": {
+   "section": "KPI Monitoring and Performance",
+   "level": "H3",
+   "template_content": "Table",
+   "notion_block": "Reporting > Quality Management > KPI Monitoring and Performance",
+   "notion_status": "Reviewed"
+  },
+  "PP-065": {
+   "section": "Change Management and Scalability",
+   "level": "H3",
+   "template_content": "Placeholder",
+   "notion_block": "Reporting > Quality Management > Change Management and Scalability",
+   "notion_status": "Reviewed"
+  },
+  "PP-066": {
+   "section": "Continuity Measures",
+   "level": "H3",
+   "template_content": "Placeholder",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-067": {
+   "section": "Sustainability Measures",
+   "level": "H3",
+   "template_content": "None",
+   "notion_block": "Reporting > Quality Management > Sustainability Measures",
+   "notion_status": "Empty"
+  },
+  "PP-068": {
+   "section": "Governance Structure and Key Personnel",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-069": {
+   "section": "Program Governance for Accelerator Programs",
+   "level": "H2",
+   "template_content": "Placeholder",
+   "notion_block": "Governance Structure and Key Personnel > Program Governance for Accelerator Programs",
+   "notion_status": "Empty"
+  },
+  "PP-070": {
+   "section": "RACI Matrix",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": "Governance Structure and Key Personnel > RACI Matrix",
+   "notion_status": "Reviewed"
+  },
+  "PP-071": {
+   "section": "Start2 Group Team",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": "Governance Structure and Key Personnel > Start2 Group Team",
+   "notion_status": "Reviewed"
+  },
+  "PP-072": {
+   "section": "Deliverables and KPIs",
+   "level": "H1",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-073": {
+   "section": "Financial Proposal",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-074": {
+   "section": "Price Summary",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-075": {
+   "section": "Payment Schedule",
+   "level": "H2",
+   "template_content": "Table",
+   "notion_block": null,
+   "notion_status": "Not used"
+  },
+  "PP-076": {
+   "section": "Contact Details",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": "Contact Details",
+   "notion_status": "Empty"
+  },
+  "PP-077": {
+   "section": "Appendix A: Required Annexes",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": null,
+   "notion_status": "No block"
+  },
+  "PP-078": {
+   "section": "Appendix B: Banking Details",
+   "level": "H1",
+   "template_content": "None",
+   "notion_block": "Appendix B > Banking Details",
+   "notion_status": "Empty"
+  }
+ }
+}
