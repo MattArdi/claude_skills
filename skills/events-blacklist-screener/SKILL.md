@@ -48,7 +48,7 @@ Takes a guest list in any reasonable spreadsheet layout, checks every person aga
 | Exact email match, against any of the blacklisted person's addresses | `Blacklisted` |
 | Exact LinkedIn profile match (`/in/<slug>`) | `Blacklisted` |
 | Exact full name (same words in the same order, ignoring case, accents and punctuation; blacklist aliases count) | `Blacklisted` |
-| Other name matches: reordered ("Chan Eddie" / "Eddie Chan"), initials ("E H Lim"), fuzzy (typos) | `Review` |
+| Other name matches: reordered ("Chan Eddie" / "Eddie Chan"), initials ("E H Lim"), fused initials ("WH Goh"), joined given names ("Weehong Goh"), an extra word, fuzzy (typos) | `Review` |
 | Single-token name ("Joanne"), only when company or a non-free email domain also matches | `Review` |
 | Nothing matched | `OK` |
 | Row has no name, email or LinkedIn | blank, so a row that could not be checked is never shown as OK |

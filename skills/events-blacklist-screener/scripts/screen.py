@@ -178,7 +178,7 @@ def row_record(row, m):
 
 
 # ---------------------------------------------------------------- matching
-def name_match(gt, bt):
+def name_match_base(gt, bt):
     """Token lists -> match kind or None. 'single' means one side is a lone token."""
     if not gt or not bt:
         return None
@@ -208,6 +208,28 @@ def name_match(gt, bt):
     return None
 
 
+def spelling_variants(t):
+    """Alternative tokenisations: fused initials split apart ('wh goh' -> 'w h goh'), adjacent tokens joined
+    ('wee hong goh' -> 'weehong goh')."""
+    out = []
+    split = [x for tok in t for x in (list(tok) if 2 <= len(tok) <= 3 and not re.search("[aeiouy]", tok) else [tok])]
+    if split != t:
+        out.append(split)
+    for i in range(len(t) - 1):
+        out.append(t[:i] + [t[i] + t[i + 1]] + t[i + 2:])
+    return [v for v in out if len(v) >= 2]
+
+
+def name_match(gt, bt):
+    kind = name_match_base(gt, bt)
+    if kind:
+        return kind
+    for g2, b2 in [(g, bt) for g in spelling_variants(gt)] + [(gt, b) for b in spelling_variants(bt)]:
+        if name_match_base(g2, b2) in ("exact", "reordered", "initials", "extra-word"):
+            return "variant"
+    return None
+
+
 def corroborated(g, b):
     gk, bk = company_key(g["company"]), company_key(b["company"])
     if gk and bk and len(min(gk, bk, key=len)) >= 4 and (gk in bk or bk in gk):
@@ -227,7 +249,7 @@ def screen_record(g, blacklist, email_idx, slug_idx):
         if s in slug_idx:
             return BLACKLISTED, f"LinkedIn /{s} = blacklist '{slug_idx[s]['display']}'"
     best = None
-    rank = {"exact": 0, "reordered": 1, "initials": 2, "extra-word": 3, "fuzzy": 4, "single": 5}
+    rank = {"exact": 0, "reordered": 1, "initials": 2, "extra-word": 3, "variant": 4, "fuzzy": 5, "single": 6}
     for b in blacklist:
         for gn in g["names"]:
             for bn in b["names"]:
