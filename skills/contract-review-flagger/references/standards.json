@@ -1,5 +1,5 @@
 {
-  "source": "Start2_Asia_Contract_Standards_UP_05_Oct_v2.xlsx",
+  "source": "Start2_Asia_Contract_Standards_UP_05_Oct_v3.xlsx",
   "clauses": [
     {
       "id": "PARTIES",
@@ -109,9 +109,9 @@
       "cap_type": "n/a",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "{{FEE}}.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the \"Service Fee\"), for the Service.\n{{FEE}}.2 The Service Fee shall be paid as follows: [payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. \"Commencement\" means [defined event, completed per deal]. \"Completion\" means [defined event, completed per deal].\n{{FEE}}.3 Payment shall be made in [Currency].\n{{FEE}}.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.\n{{FEE}}.5 Payment shall be made to Start2's bank account: [Bank Details].",
-      "notes": "Payment schedule ({{FEE}}.2) depends on Decision D-01, not yet settled. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates.",
-      "open_placeholders": "[50% on signing, non-refundable on Commencement; 50% on Completion]\n[Amount]\n[Bank Details]\n[Currency]\n[applicable tax/GST/VAT]\n[defined event, completed per deal]\n[payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice]",
+      "standard_language": "{{FEE}}.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the \"Service Fee\"), for the Service.\n{{FEE}}.2 The Service Fee shall be paid as follows: [payment schedule, default 50% on signing and 50% on Completion — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. \"Commencement\" means [defined event, completed per deal]. \"Completion\" means [defined event, completed per deal].\n{{FEE}}.3 Payment shall be made in [Currency].\n{{FEE}}.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.\n{{FEE}}.5 Payment shall be made to Start2's bank account: [Bank Details].",
+      "notes": "Payment split: default is 50% on signing and 50% on completion of the Service (both recommendations). Completion of Service is to be defined per deal. Alternatives considered: 100% upfront as default; staged upfront tied to program phases. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates.",
+      "open_placeholders": "[50% on signing, non-refundable on Commencement; 50% on Completion]\n[Amount]\n[Bank Details]\n[Currency]\n[applicable tax/GST/VAT]\n[defined event, completed per deal]\n[payment schedule, default 50% on signing and 50% on Completion — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice]",
       "survives": "N",
       "reference_clause": null,
       "refs": [
@@ -177,7 +177,7 @@
       "mutuality": "Mutual, except the carve-out letting Start2's startups share information with potential clients, experts, and mentors, which is one-directional in substance, functionally necessary for the program to work, not a concession.",
       "cap_position": "See Cap measure (higher multiple recommended)",
       "cap_type": "higher",
-      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see D-02. The confidentiality duty itself is not capped and survives termination indefinitely ({{CONF}}.4, {{SURV}}).",
+      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see Notes on LOL. The confidentiality duty itself is not capped and survives termination indefinitely ({{CONF}}.4, {{SURV}}).",
       "negotiation_stance": null,
       "standard_language": "{{CONF}}.1 Start2 shall not disclose any business information or materials of Company (\"Company Confidential Information\") obtained under this Agreement to any third party without Company's prior written consent, and shall protect it with at least the same degree of care it uses for its own confidential information.\n\n{{CONF}}.2 Company shall not disclose any lecture materials, business information, business know-how, methodology, processes, techniques, records, or other business, technical, or financial information of Start2 (\"Start2 Confidential Information\", together with Company Confidential Information, \"Confidential Information\") obtained under this Agreement to any third party without Start2's prior written consent, and shall protect it with the same degree of care.\n\n{{CONF}}.3 This obligation does not apply to Confidential Information that:\n(a) is provided by Company's startups for evaluation by potential clients, experts, or mentors, or for any other purpose necessary in connection with the Service;\n(b) is or becomes publicly available other than by breach of this Agreement;\n(c) was already known to the receiving Party before disclosure;\n(d) is independently developed without reference to the disclosing Party's Confidential Information;\n(e) the disclosing Party has consented in writing to disclose; or\n(f) is received from a third party not known to be under a confidentiality obligation to the disclosing Party.\n\n{{CONF}}.4 This Clause survives termination or expiry of this Agreement.",
       "notes": null,
@@ -345,7 +345,7 @@
       "cap_measure": "Not a liability cap: cost-reimbursement mechanism, equal to the actual cost incurred.",
       "negotiation_stance": null,
       "standard_language": "Where this Agreement is cancelled or terminated for any reason, including under Clause {{FM}}, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause {{TERM-CAUSE}}.",
-      "notes": null,
+      "notes": "Fee treatment on force majeure cancellation: Start2 recovers only costs actually committed or paid to third parties (both recommendations). It only recoups what was genuinely spent and is easier to defend as fair if challenged. Alternative considered: retain the entire Service Fee already paid, credited toward a future or rescheduled program, regardless of costs incurred. Interacts with the payment split (FEE).",
       "open_placeholders": null,
       "survives": "N",
       "reference_clause": null,
@@ -417,11 +417,11 @@
       "mutuality": "Mutual",
       "cap_position": "Total fees paid or payable, named carve-outs",
       "cap_type": "general",
-      "cap_measure": "General cap: total Service Fee paid or payable ({{LOL}}.2). Higher cap for confidentiality, data protection and IP breaches: [multiple] x Service Fee ({{LOL}}.3), see D-02. Uncapped: gross negligence, wilful misconduct, fraud ({{LOL}}.4).",
+      "cap_measure": "General cap: total Service Fee paid or payable ({{LOL}}.2). Higher cap for confidentiality, data protection and IP breaches: [multiple] x Service Fee ({{LOL}}.3), see Notes on LOL. Uncapped: gross negligence, wilful misconduct, fraud ({{LOL}}.4).",
       "negotiation_stance": null,
-      "standard_language": "{{LOL}}.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n{{LOL}}.2 Except as set out in Clause {{LOL}}.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.3 For claims arising from breach of Clause {{CONF}}, Clause {{DP}}, or Clause {{IP}}, each Party's total liability to the other is capped instead at [a multiple, see Decision D-02] times the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.4 Neither cap in Clause {{LOL}}.2 or {{LOL}}.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
-      "notes": "The higher multiple for confidentiality/data/IP breaches (Decision D-02) is not yet settled.",
-      "open_placeholders": "[a multiple, see Decision D-02]",
+      "standard_language": "{{LOL}}.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n{{LOL}}.2 Except as set out in Clause {{LOL}}.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.3 For claims arising from breach of Clause {{CONF}}, Clause {{DP}}, or Clause {{IP}}, each Party's total liability to the other is capped instead at [multiple] times the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.4 Neither cap in Clause {{LOL}}.2 or {{LOL}}.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
+      "notes": "Multiple for confidentiality/data/IP breaches is not yet settled. Claude recommendation: 2x total fees as a starting ask, because these breach types carry third-party exposure the general cap was not built for. U-sa: not sure. Options: same cap as general liability (total fees), or a stated multiple of total fees (2x, 3x).",
+      "open_placeholders": "[multiple]",
       "survives": "Y",
       "reference_clause": null,
       "refs": [
@@ -447,7 +447,7 @@
       "cap_measure": null,
       "negotiation_stance": null,
       "standard_language": "{{FM}}.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. \n{{FM}}.2 If a Force Majeure Event under Clause {{FM}} continues for more than sixty (60) days, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.\n{{FM}}.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause {{COSTREC}}.",
-      "notes": null,
+      "notes": "Long-stop is 60 days (both recommendations): long enough that ordinary short disruptions do not trigger an exit right either side did not want, short enough that a program stuck for two months has a way out. Alternatives considered: 30 days; a fraction of the remaining term. Fee treatment on force majeure cancellation: see COSTREC.",
       "open_placeholders": "[14]",
       "survives": "N",
       "reference_clause": "If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented PROVIDED that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. Notwithstanding the foregoing, if the Force Majeure Event exceeds sixty (60) days in duration, either party shall have the right at any time thereafter during the continuance of such failure or delay, to terminate this Agreement by giving written notice to the other party.",
@@ -494,7 +494,7 @@
       "mutuality": "Mutual for each party's own creations. Asymmetric in that Start2's core methodology is never transferred, regardless of who commissioned the work.",
       "cap_position": "Infringement liability capped at the higher multiple, see Cap measure",
       "cap_type": "higher",
-      "cap_measure": "Higher cap for IP infringement claims Start2 causes: same defined multiple, not the general cap ({{LOL}}.3), see D-02. Client is exposed to real third-party claims if Start2 materials infringe someone else's IP.",
+      "cap_measure": "Higher cap for IP infringement claims Start2 causes: same defined multiple, not the general cap ({{LOL}}.3), see Notes on LOL. Client is exposed to real third-party claims if Start2 materials infringe someone else's IP.",
       "negotiation_stance": null,
       "standard_language": "{{IP}}.1 Start2 retains sole and exclusive ownership of all intellectual property rights, whether registered or not, in its pre-existing and independently developed materials, including its methodology, curriculum, frameworks, training materials, evaluation tools, software, platforms, databases, trademarks, trade names, logos, business plans, know-how, and processes, and any improvement, enhancement, or derivative work of the foregoing, however and whenever created, including during the course of delivering the Service. None of the foregoing is assigned or transferred to Company under this Agreement.\n{{IP}}.2 Company retains ownership of its own pre-existing intellectual property and confidential business information.\n{{IP}}.3 Program-specific deliverables prepared for Company's own cohort (such as mentor evaluation reports, session schedules, or feedback scores) are licensed to Company for its own internal use. This licence does not extend to the underlying methodology, tools, or materials used to produce them, which remain Start2's under Clause {{IP}}.1.\n{{IP}}.4 Each Party grants the other a limited, non-exclusive licence to use its name and logo for purposes connected with this Agreement, with no transfer of ownership.\n{{IP}}.5 For the avoidance of doubt, no rights other than those expressly set out in this Clause are granted.",
       "notes": null,
@@ -519,7 +519,7 @@
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "higher",
-      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see D-02.",
+      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see Notes on LOL.",
       "negotiation_stance": null,
       "standard_language": "Each Party shall comply with applicable data protection law in respect of any personal data processed in connection with this Agreement, including [PDPA (Singapore) / PIPA (Korea) / APPI (Japan) / PIPL (China), as applicable to the contracting entity], and shall only use such data for purposes connected with the Service.",
       "notes": "Bracket the correct law per contracting entity when drafting the country-specific version.",
@@ -805,71 +805,6 @@
       "refs": []
     }
   ],
-  "decisions": [
-    {
-      "ref": "D-01",
-      "decision": "Payment split",
-      "options": "(a) Keep 50/50 default\n(b) Move to 100% upfront as default\n(c) Staged upfront tied to program phases",
-      "recommendation_claude": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
-      "recommendation_usa": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
-      "affects": "Cash exposure. Clauses sheet: FEE, in all five templates.",
-      "settled": false
-    },
-    {
-      "ref": "D-02",
-      "decision": "Liability cap multiple for confidentiality/data/IP breaches",
-      "options": "(a) Same cap as general liability (total fees)\n(b) A stated multiple of total fees (2x, 3x)",
-      "recommendation_claude": "(b), 2x total fees as a starting ask. These breach types carry third-party exposure the general cap was not built for.",
-      "recommendation_usa": "Not sure",
-      "affects": "Clauses sheet: LOL (Cap measure).",
-      "settled": false
-    },
-    {
-      "ref": "D-03",
-      "decision": "Review lead time, standard deal",
-      "options": "(a) 1 day\n(b) 3 business days\n(c) 5 business days",
-      "recommendation_claude": "3 business days if using the unmodified Start2 template. 5 business days if clauses are updated from the template or the client's own template is used.",
-      "recommendation_usa": "3 business days if using the unmodified Start2 template. 5 business days if clauses are updated from the template or the client's own template is used.",
-      "affects": "Process & Authority sheet. Sales team expectations.",
-      "settled": false
-    },
-    {
-      "ref": "D-04",
-      "decision": "Sign-off chain before signature",
-      "options": null,
-      "recommendation_claude": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO.",
-      "recommendation_usa": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO.",
-      "affects": "Process & Authority sheet: Sign-off chain.",
-      "settled": false
-    },
-    {
-      "ref": "D-05",
-      "decision": "Approval required by CEO (superseded by D-04)",
-      "options": null,
-      "recommendation_claude": "Superseded by D-04: CEO is the third and final approver on every contract.",
-      "recommendation_usa": "Superseded by D-04: CEO is the third and final approver on every contract.",
-      "affects": "Process & Authority sheet: Sign-off chain.",
-      "settled": false
-    },
-    {
-      "ref": "D-06",
-      "decision": "Long-stop period for prolonged force majeure termination",
-      "options": "(a) 30 days\n(b) 60 days\n(c) Tie it to a fraction of the remaining term (e.g. force majeure exceeding half the remaining term)",
-      "recommendation_claude": "(b), 60 days as a default. Long enough that ordinary short disruptions don't trigger an exit right either side didn't want, short enough that a program stuck for two months has a way out.",
-      "recommendation_usa": "(b), 60 days as a default.",
-      "affects": "Clauses sheet: FM. Force Majeure clause across all five templates.",
-      "settled": false
-    },
-    {
-      "ref": "D-07",
-      "decision": "Fee treatment on force majeure cancellation: recover costs only, or retain the whole fee",
-      "options": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)\n(b) Start2 retains the entire Service Fee already paid, credited toward a future or rescheduled program, regardless of costs actually incurred",
-      "recommendation_claude": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)",
-      "recommendation_usa": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)",
-      "affects": "Must Have: Cost recovery on cancellation. Interacts with D-01 (payment terms).",
-      "settled": false
-    }
-  ],
   "client_inserted_clauses": [
     {
       "clause": "Exclusivity",
@@ -1020,58 +955,48 @@
   "process_and_authority": [
     {
       "topic": "Never without review",
-      "rule": "Signing, initialling, portal click-through acceptance, email confirmation of terms, and verbal agreement to terms. A portal click-through or an email saying \"we agree to the attached\" is a signature for these purposes.",
-      "decision_ref": null
+      "rule": "Signing, initialling, portal click-through acceptance, email confirmation of terms, and verbal agreement to terms. A portal click-through or an email saying \"we agree to the attached\" is a signature for these purposes."
     },
     {
       "topic": "Lead time, standard deal",
-      "rule": "Recommended minimum 3 business days between a complete draft reaching the reviewer and the earliest possible signature date, for a deal using the unmodified base template.",
-      "decision_ref": "D-03"
+      "rule": "Recommended minimum 3 business days between a complete draft reaching the reviewer and the earliest possible signature date, for a deal using the unmodified base template."
     },
     {
       "topic": "Lead time, deal with client-inserted clause",
-      "rule": "Recommended minimum 5 business days, to allow checking the client clause against a rejection threshold, sometimes needing a second opinion.",
-      "decision_ref": "D-03"
+      "rule": "Recommended minimum 5 business days, to allow checking the client clause against a rejection threshold, sometimes needing a second opinion. The same minimum applies if standard clauses are updated from the template or the client's own template is used."
     },
     {
       "topic": "Sign-off chain",
-      "rule": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO. Nothing is signed, initialled, or accepted before all three have approved.",
-      "decision_ref": "D-04"
+      "rule": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO. Nothing is signed, initialled, or accepted before all three have approved."
     },
     {
       "topic": "Client says the contract cannot be changed: first response",
-      "rule": "Ask what specifically cannot move: term sheet or actual signed document. \"Cannot be changed\" often means \"cannot be changed after our internal sign-off,\" which a side letter solves without reopening their master document.",
-      "decision_ref": null
+      "rule": "Ask what specifically cannot move: term sheet or actual signed document. \"Cannot be changed\" often means \"cannot be changed after our internal sign-off,\" which a side letter solves without reopening their master document."
     },
     {
       "topic": "Side letter",
-      "rule": "Use when the client's own paper is the vehicle (they issued the contract) and only one or two terms need to move. Amends specific numbered clauses of their document without touching their template.",
-      "decision_ref": null
+      "rule": "Use when the client's own paper is the vehicle (they issued the contract) and only one or two terms need to move. Amends specific numbered clauses of their document without touching their template."
     },
     {
       "topic": "Addendum",
-      "rule": "Use when Start2's own template is the vehicle and the client wants something added rather than changed.",
-      "decision_ref": null
+      "rule": "Use when Start2's own template is the vehicle and the client wants something added rather than changed."
     },
     {
       "topic": "Tender clarification wording",
-      "rule": "For public tenders, clarification questions submitted before bid submission become part of the contract once awarded. This is the point of maximum leverage, before the bid is submitted.",
-      "decision_ref": null
+      "rule": "For public tenders, clarification questions submitted before bid submission become part of the contract once awarded. This is the point of maximum leverage, before the bid is submitted."
     },
     {
       "topic": "Point after which leverage is gone",
-      "rule": "Once the client has announced the partnership publicly, committed program dates to their own stakeholders, or (public sector) the tender is awarded. A firm line on a Critical item is still worth holding past this point. A firm line on a Good-to-have item is not, drop it.",
-      "decision_ref": null
+      "rule": "Once the client has announced the partnership publicly, committed program dates to their own stakeholders, or (public sector) the tender is awarded. A firm line on a Critical item is still worth holding past this point. A firm line on a Good-to-have item is not, drop it."
     },
     {
       "topic": "No external cost before payment received",
-      "rule": "No mentor fee, venue booking, travel booking, or subcontractor engagement is committed against a client deal until the payment tranche that funds it has actually landed in Start2's account. Not invoiced. Landed.",
-      "decision_ref": null
+      "rule": "No mentor fee, venue booking, travel booking, or subcontractor engagement is committed against a client deal until the payment tranche that funds it has actually landed in Start2's account. Not invoiced. Landed."
     }
   ],
   "_audit": {
     "duplicate_ids": [],
     "tokens_naming_no_clause": [],
-    "decision_refs_undefined": []
+    "leftover_decision_refs": []
   }
 }

@@ -27,7 +27,7 @@ D. Start2 will provide [Service Description] to Company (the "Service").
 ## 5. Fee, currency, and payment
 
 5.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the "Service Fee"), for the Service.
-5.2 The Service Fee shall be paid as follows: [payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. "Commencement" means [defined event, completed per deal]. "Completion" means [defined event, completed per deal].
+5.2 The Service Fee shall be paid as follows: [payment schedule, default 50% on signing and 50% on Completion — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. "Commencement" means [defined event, completed per deal]. "Completion" means [defined event, completed per deal].
 5.3 Payment shall be made in [Currency].
 5.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.
 5.5 Payment shall be made to Start2's bank account: [Bank Details].
@@ -114,7 +114,7 @@ Where this Agreement is cancelled or terminated for any reason, including under 
 
 17.2 Except as set out in Clause 17.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.
 
-17.3 For claims arising from breach of Clause 8, Clause 21, or Clause 20, each Party's total liability to the other is capped instead at [a multiple, see Decision D-02] times the total Service Fee paid or payable under this Agreement.
+17.3 For claims arising from breach of Clause 8, Clause 21, or Clause 20, each Party's total liability to the other is capped instead at [multiple] times the total Service Fee paid or payable under this Agreement.
 
 17.4 Neither cap in Clause 17.2 or 17.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.
 
