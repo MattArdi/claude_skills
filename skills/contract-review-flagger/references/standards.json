@@ -1,644 +1,810 @@
 {
-  "source": "Start2_Asia_Contract_Standards_UP_05_Oct.xlsx",
-  "must_have": [
+  "source": "Start2_Asia_Contract_Standards_UP_05_Oct_v2.xlsx",
+  "clauses": [
     {
-      "id": 1,
+      "id": "PARTIES",
+      "order": 1,
+      "number": 1,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Contracting entity & jurisdiction",
+      "draft_heading": "Parties",
       "required_content": "Correct Start2 entity performing the service, matched to client jurisdiction, real registered address.",
       "rationale": "Wrong entity means wrong tax treatment, wrong court, wrong company on the hook.",
       "mutuality": "N/A (fact, not obligation)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "This Agreement is made between [Start2 Entity Legal Name] (\"Start2\"), a company with its registered address at [Registered Address], and \n\n[Company Full Name] (\"Company\"), a company with its registered address at [Company Address]. \n\nStart2 and Company are hereinafter individually referred to as a \"Party\" and collectively as the \"Parties\".",
+      "notes": null,
+      "open_placeholders": "[Company Address]\n[Company Full Name]\n[Registered Address]\n[Start2 Entity Legal Name]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 1,
-        "clause": "Parties",
-        "language": "This Agreement is made between [Start2 Entity Legal Name] (\"Start2\"), a company with its registered address at [Registered Address], and \n\n[Company Full Name] (\"Company\"), a company with its registered address at [Company Address]. \n\nStart2 and Company are hereinafter individually referred to as a \"Party\" and collectively as the \"Parties\".",
-        "notes": null,
-        "placeholders": [
-          "[Company Address]",
-          "[Company Full Name]",
-          "[Registered Address]",
-          "[Start2 Entity Legal Name]"
-        ]
-      }
+      "refs": []
     },
     {
-      "id": 2,
+      "id": "RECITALS",
+      "order": 2,
+      "number": 2,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Recitals",
+      "draft_heading": "Recitals",
       "required_content": "Short statement of what the client is and what Start2 is delivering, no marketing copy beyond standard boilerplate.",
       "rationale": "Recitals get pulled into scope disputes when operative clauses are vague.",
       "mutuality": "N/A",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "WHEREAS:\nA. Start2 and Company wish to enter into this service agreement (\"Agreement\") to set out the terms on which Start2 will provide the Service (as defined below) to Company.\nB. Start2 is a global innovation platform that helps growth-oriented startups, corporations, investors, and governments shape and scale ventures with growth potential.\nC. Company is [Company Description].\nD. Start2 will provide [Service Description] to Company (the \"Service\").",
+      "notes": "C and D must be completed for every deal before the draft goes to the client. Never leave as a placeholder.",
+      "open_placeholders": "[Company Description]\n[Service Description]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 2,
-        "clause": "Recitals",
-        "language": "WHEREAS:\nA. Start2 and Company wish to enter into this service agreement (\"Agreement\") to set out the terms on which Start2 will provide the Service (as defined below) to Company.\nB. Start2 is a global innovation platform that helps growth-oriented startups, corporations, investors, and governments shape and scale ventures with growth potential.\nC. Company is [Company Description].\nD. Start2 will provide [Service Description] to Company (the \"Service\").",
-        "notes": "C and D must be completed for every deal before the draft goes to the client. Never leave as a placeholder.",
-        "placeholders": [
-          "[Company Description]",
-          "[Service Description]"
-        ]
-      }
+      "refs": []
     },
     {
-      "id": 3,
+      "id": "SCOPE",
+      "order": 3,
+      "number": 3,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Defined scope of service (Appendix)",
+      "draft_heading": "Details and scope of Service",
       "required_content": "What Start2 does, what it does not do, deliverables list, exclusions.",
       "rationale": "Without a completed appendix, scope is whatever the client later says it was.",
       "mutuality": "One-sided (Start2 defines its own scope)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{SCOPE}}.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1 (the \"Scope\"), which the Parties shall agree and attach before execution of this Agreement.\n{{SCOPE}}.2 Appendix 1 shall specify, at minimum: the deliverables Start2 will provide, any exclusions, and the number of participants or startups covered (if applicable).",
+      "notes": "Appendix 1 must be a completed, deal-specific scope before signature, never left blank and never carried over unedited from a different client's deal.",
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 3,
-        "clause": "Details and scope of Service",
-        "language": "3.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1 (the \"Scope\"), which the Parties shall agree and attach before execution of this Agreement.\n3.2 Appendix 1 shall specify, at minimum: the deliverables Start2 will provide, any exclusions, and the number of participants or startups covered (if applicable).",
-        "notes": "Appendix 1 must be a completed, deal-specific scope before signature, never left blank and never carried over unedited from a different client's deal.",
-        "placeholders": []
-      }
+      "refs": [
+        "SCOPE"
+      ]
     },
     {
-      "id": 4,
+      "id": "TERM",
+      "order": 4,
+      "number": 4,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Term",
+      "draft_heading": "Term",
       "required_content": "Fixed start and end date, mechanism for what happens if the program cannot start on time.",
       "rationale": "Fixes the window Start2 is obliged to deliver in.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{TERM}}.1 This Agreement shall run from [Start Date] to [End Date] (the \"Term\"), subject to any extension mutually agreed by the Parties in writing.\n{{TERM}}.2 Start2 shall complete the Service within the Term, subject to Clause {{FM}}.",
+      "notes": null,
+      "open_placeholders": "[End Date]\n[Start Date]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 4,
-        "clause": "Term",
-        "language": "4.1 This Agreement shall run from [Start Date] to [End Date] (the \"Term\"), subject to any extension mutually agreed by the Parties in writing.\n4.2 Start2 shall complete the Service within the Term, subject to Clause [Force Majeure].",
-        "notes": null,
-        "placeholders": [
-          "[End Date]",
-          "[Force Majeure]",
-          "[Start Date]"
-        ]
-      }
+      "refs": [
+        "FM",
+        "TERM"
+      ]
     },
     {
-      "id": 5,
+      "id": "FEE",
+      "order": 5,
+      "number": 5,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Fee, currency, payment trigger",
+      "draft_heading": "Fee, currency, and payment",
       "required_content": "Fee amount, currency, tax treatment, plain-language trigger for each payment tranche.",
       "rationale": "This is the clause most exposed to ambiguity in the current templates.",
       "mutuality": "One-sided (client pays, Start2 delivers)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{FEE}}.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the \"Service Fee\"), for the Service.\n{{FEE}}.2 The Service Fee shall be paid as follows: [payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. \"Commencement\" means [defined event, completed per deal]. \"Completion\" means [defined event, completed per deal].\n{{FEE}}.3 Payment shall be made in [Currency].\n{{FEE}}.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.\n{{FEE}}.5 Payment shall be made to Start2's bank account: [Bank Details].",
+      "notes": "Payment schedule ({{FEE}}.2) depends on Decision D-01, not yet settled. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates.",
+      "open_placeholders": "[50% on signing, non-refundable on Commencement; 50% on Completion]\n[Amount]\n[Bank Details]\n[Currency]\n[applicable tax/GST/VAT]\n[defined event, completed per deal]\n[payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 5,
-        "clause": "Fee, currency, and payment",
-        "language": "5.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the \"Service Fee\"), for the Service.\n5.2 The Service Fee shall be paid as follows: [payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. \"Commencement\" means [defined event, completed per deal]. \"Completion\" means [defined event, completed per deal].\n5.3 Payment shall be made in [Currency].\n5.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.\n5.5 Payment shall be made to Start2's bank account: [Bank Details].",
-        "notes": "Payment schedule (5.2) depends on Decision D-01, not yet settled. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates.",
-        "placeholders": [
-          "[50% on signing, non-refundable on Commencement; 50% on Completion]",
-          "[Amount]",
-          "[Bank Details]",
-          "[Currency]",
-          "[applicable tax/GST/VAT]",
-          "[defined event, completed per deal]",
-          "[payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice]"
-        ]
-      }
+      "refs": [
+        "FEE"
+      ]
     },
     {
-      "id": 6,
+      "id": "SETOFF",
+      "order": 6,
+      "number": 6,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "No set-off",
+      "draft_heading": "No set-off",
       "required_content": "Client may not withhold or deduct any amount from the Service Fee against an alleged claim, counterclaim, or dispute, whether or not related to this agreement.",
       "rationale": "Without this, a client with a service complaint can unilaterally withhold payment rather than raise the dispute through the agreed process, effectively self-authorising a discount.",
       "mutuality": "One-sided in practice, this protects Start2's cash position specifically",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "Company shall not withhold, deduct, or set off any amount from the Service Fee against any alleged claim, counterclaim, or dispute, whether or not related to this Agreement, except as otherwise expressly agreed by Start2 in writing.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 6,
-        "clause": "No set-off",
-        "language": "Company shall not withhold, deduct, or set off any amount from the Service Fee against any alleged claim, counterclaim, or dispute, whether or not related to this Agreement, except as otherwise expressly agreed by Start2 in writing.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": []
     },
     {
-      "id": 7,
+      "id": "LATEPAY",
+      "order": 7,
+      "number": 7,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Late payment: interest and right to suspend",
+      "draft_heading": "Late payment",
       "required_content": "A stated interest rate on any amount overdue, and an express right for Start2 to suspend delivery of the Service on written notice if payment is overdue by a stated number of days.",
       "rationale": "Currently, simple late payment (short of insolvency) only reaches the general \"material breach, 14-day cure\" catch-all. No interest applies, and Start2 has no clean right to pause delivery while chasing an overdue invoice without being accused of breaching the agreement itself.",
       "mutuality": "One-sided, this is a remedy that only makes sense running from client to Start2",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{LATEPAY}}.1 Any amount not paid by its due date shall accrue interest at [X]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.\n{{LATEPAY}}.2 If any payment is overdue by more than [X] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.",
+      "notes": "Interest rate and suspension trigger (days) are open figures, not yet set.",
+      "open_placeholders": "[X]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 7,
-        "clause": "Late payment",
-        "language": "7.1 Any amount not paid by its due date shall accrue interest at [X]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.\n7.2 If any payment is overdue by more than [X] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.",
-        "notes": "Interest rate and suspension trigger (days) are open figures, not yet set.",
-        "placeholders": [
-          "[X]"
-        ]
-      }
+      "refs": [
+        "LATEPAY"
+      ]
     },
     {
-      "id": 8,
+      "id": "CONF",
+      "order": 8,
+      "number": 8,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Confidentiality",
+      "draft_heading": "Confidentiality",
       "required_content": "What each side must not disclose, standard carve-outs, survives termination.",
       "rationale": "Protects Start2 methodology and client business information equally.",
       "mutuality": "Mutual, except the carve-out letting Start2's startups share information with potential clients, experts, and mentors, which is one-directional in substance, functionally necessary for the program to work, not a concession.",
-      "cap_position": "See caps sheet (higher multiple recommended)",
+      "cap_position": "See Cap measure (higher multiple recommended)",
+      "cap_type": "higher",
+      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see D-02. The confidentiality duty itself is not capped and survives termination indefinitely ({{CONF}}.4, {{SURV}}).",
+      "negotiation_stance": null,
+      "standard_language": "{{CONF}}.1 Start2 shall not disclose any business information or materials of Company (\"Company Confidential Information\") obtained under this Agreement to any third party without Company's prior written consent, and shall protect it with at least the same degree of care it uses for its own confidential information.\n\n{{CONF}}.2 Company shall not disclose any lecture materials, business information, business know-how, methodology, processes, techniques, records, or other business, technical, or financial information of Start2 (\"Start2 Confidential Information\", together with Company Confidential Information, \"Confidential Information\") obtained under this Agreement to any third party without Start2's prior written consent, and shall protect it with the same degree of care.\n\n{{CONF}}.3 This obligation does not apply to Confidential Information that:\n(a) is provided by Company's startups for evaluation by potential clients, experts, or mentors, or for any other purpose necessary in connection with the Service;\n(b) is or becomes publicly available other than by breach of this Agreement;\n(c) was already known to the receiving Party before disclosure;\n(d) is independently developed without reference to the disclosing Party's Confidential Information;\n(e) the disclosing Party has consented in writing to disclose; or\n(f) is received from a third party not known to be under a confidentiality obligation to the disclosing Party.\n\n{{CONF}}.4 This Clause survives termination or expiry of this Agreement.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "Y",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 8,
-        "clause": "Confidentiality",
-        "language": "8.1 Start2 shall not disclose any business information or materials of Company (\"Company Confidential Information\") obtained under this Agreement to any third party without Company's prior written consent, and shall protect it with at least the same degree of care it uses for its own confidential information.\n\n8.2 Company shall not disclose any lecture materials, business information, business know-how, methodology, processes, techniques, records, or other business, technical, or financial information of Start2 (\"Start2 Confidential Information\", together with Company Confidential Information, \"Confidential Information\") obtained under this Agreement to any third party without Start2's prior written consent, and shall protect it with the same degree of care.\n\n8.3 This obligation does not apply to Confidential Information that:\n(a) is provided by Company's startups for evaluation by potential clients, experts, or mentors, or for any other purpose necessary in connection with the Service;\n(b) is or becomes publicly available other than by breach of this Agreement;\n(c) was already known to the receiving Party before disclosure;\n(d) is independently developed without reference to the disclosing Party's Confidential Information;\n(e) the disclosing Party has consented in writing to disclose; or\n(f) is received from a third party not known to be under a confidentiality obligation to the disclosing Party.\n\n8.4 This Clause survives termination or expiry of this Agreement.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": [
+        "CONF",
+        "LOL",
+        "SURV"
+      ]
     },
     {
-      "id": 9,
+      "id": "ASSIGN",
+      "order": 9,
+      "number": 9,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Assignment restriction",
+      "draft_heading": "Assignment",
       "required_content": "Neither party may assign, delegate, novate, or subcontract the agreement as a whole, or a material part of it, to a third party without the other's prior written consent. Carve-out: Start2 may engage mentors, experts, consultants, and other personnel to carry out the Service in the ordinary course of delivering the program, without this being treated as an assignment or subcontracting requiring the Company's consent, provided Start2 remains responsible for their performance.",
       "rationale": "Start2's delivery model depends on engaging external mentors and experts for every program. Without the carve-out, a literal reading of the assignment restriction treats every mentor engagement as unauthorised subcontracting, a technical breach on nearly every deal, and gives the client an argument to dispute delivery. Start2 remaining responsible for engaged personnel's performance keeps this consistent with the Warranties clause and the general Indemnity clause.",
       "mutuality": "Mutual on the restriction itself, one-sided on the carve-out (only Start2 engages third parties to deliver the Service)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{ASSIGN}}.1 Neither Party shall assign, novate, delegate, or subcontract this Agreement, or a material part of it, to a third party without the other Party's prior written consent.\n{{ASSIGN}}.2 For the avoidance of doubt, Start2 may engage mentors, experts, consultants, and other personnel to carry out the Service in the ordinary course of delivering the program, and this shall not be treated as an assignment or subcontracting requiring Company's consent under Clause {{ASSIGN}}.1, provided Start2 remains responsible for their performance under this Agreement.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 9,
-        "clause": "Assignment",
-        "language": "9.1 Neither Party shall assign, novate, delegate, or subcontract this Agreement, or a material part of it, to a third party without the other Party's prior written consent.\n9.2 For the avoidance of doubt, Start2 may engage mentors, experts, consultants, and other personnel to carry out the Service in the ordinary course of delivering the program, and this shall not be treated as an assignment or subcontracting requiring Company's consent under Clause 9.1, provided Start2 remains responsible for their performance under this Agreement.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": [
+        "ASSIGN"
+      ]
     },
     {
-      "id": 10,
+      "id": "INDCON",
+      "order": 10,
+      "number": 10,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Independent contractor / no agency or partnership",
+      "draft_heading": "Independent contractor",
       "required_content": "States that nothing in the agreement creates a partnership, joint venture, agency, or employment relationship between the parties, and neither party has authority to bind the other.",
       "rationale": "Start2 sits between a corporate client and third-party startups it introduces in matching and delegation programs. Without this clause, a client or a startup could argue Start2 acted as the client's agent, exposing Start2 to liability for decisions it did not make.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "Nothing in this Agreement constitutes either Party as the agent, employee, partner, or representative of the other. Neither Party has authority to bind, represent, or assume any obligation on behalf of the other without that Party's prior written consent.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 10,
-        "clause": "Independent contractor",
-        "language": "Nothing in this Agreement constitutes either Party as the agent, employee, partner, or representative of the other. Neither Party has authority to bind, represent, or assume any obligation on behalf of the other without that Party's prior written consent.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": []
     },
     {
-      "id": 11,
+      "id": "NOTICES",
+      "order": 11,
+      "number": 11,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Notices",
+      "draft_heading": "Notices",
       "required_content": "How formal notice (breach, termination, proposed amendment) must be given: in writing, to a named address, attention person, and email per party, with a deemed-receipt rule stated separately for each delivery method (personal delivery, registered mail domestic vs. international, fax, email).",
       "rationale": "Amendment and Termination both already require \"written notice.\" Without this clause, nothing says what counts as written notice, where it must be sent, or when it is deemed received, so a client can dispute that notice was ever validly given. The per-method deemed-receipt structure (under Refence column) removes ambiguity about exactly when a notice takes effect.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{NOTICES}}.1 All notices under this Agreement must be in writing and sent to the addresses and contacts named below, or as later updated by written notice:\nTo Start2: [Address] / Attention: [Name, Position] / Email: [Email]\nTo Company: [Address] / Attention: [Name, Position] / Email: [Email]\n{{NOTICES}}.2 Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n{{NOTICES}}.2.1 if personally delivered, on the day of delivery;\n{{NOTICES}}.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n{{NOTICES}}.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n{{NOTICES}}.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n{{NOTICES}}.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\n{{NOTICES}}.3 Either party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
+      "notes": null,
+      "open_placeholders": "[Address]\n[Email]\n[Name, Position]",
+      "survives": "N",
       "reference_clause": "Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n11.2.1 if personally delivered, on the day of delivery;\n11.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n11.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n11.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\nEither party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
-      "client_facing": true,
-      "draft": {
-        "id": 11,
-        "clause": "Notices",
-        "language": "11.1 All notices under this Agreement must be in writing and sent to the addresses and contacts named below, or as later updated by written notice:\nTo Start2: [Address] / Attention: [Name, Position] / Email: [Email]\nTo Company: [Address] / Attention: [Name, Position] / Email: [Email]\n11.2 Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n11.2.1 if personally delivered, on the day of delivery;\n11.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n11.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n11.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\n11.3 Either party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
-        "notes": null,
-        "placeholders": [
-          "[Address]",
-          "[Email]",
-          "[Name, Position]"
-        ]
-      }
+      "refs": [
+        "NOTICES"
+      ]
     },
     {
-      "id": 12,
+      "id": "AMEND",
+      "order": 12,
+      "number": 12,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Amendment",
+      "draft_heading": "Amendment",
       "required_content": "Agreement may only be revised or amended by a written amendment signed by both parties after mutual discussion. No change by conduct, email, or verbal agreement.",
       "rationale": "Stops a client claiming a scope or fee change was agreed by email or in a call with a program manager. Forces every change through the same review path as the original signature.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "This Agreement may only be amended by a written instrument signed by both Parties. No amendment by conduct, email exchange, or verbal agreement shall be effective.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 12,
-        "clause": "Amendment",
-        "language": "This Agreement may only be amended by a written instrument signed by both Parties. No amendment by conduct, email exchange, or verbal agreement shall be effective.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": []
     },
     {
-      "id": 13,
+      "id": "TERM-CAUSE",
+      "order": 13,
+      "number": 13,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Termination",
+      "draft_heading": "Termination for cause",
       "required_content": "Defined default events, written notice and cure mechanism, payment preserved for work done to date of termination.",
       "rationale": "Without the \"paid for work done to date\" line, early termination could be argued to release the client from paying for delivered work.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{TERM-CAUSE}}.1 Either Party (\"Non-Defaulting Party\") may terminate this Agreement immediately on written notice to the other Party (\"Defaulting Party\") if:\n(a) the Defaulting Party commits a material breach of this Agreement and fails to remedy it within 14 days of written notice requiring remedy;\n(b) the Defaulting Party becomes insolvent, has a receiver or liquidator appointed, or is unable to pay its debts;\n(c) the Defaulting Party assigns its rights under this Agreement without consent; or\n(d) the Defaulting Party acts in a manner that seriously damages the Non-Defaulting Party's reputation or business.\n{{TERM-CAUSE}}.2 On early termination, Start2 is entitled to payment for the Service Fee for work performed up to the date of termination, in addition to its rights under Clause {{COSTREC}}.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 13,
-        "clause": "Termination for cause",
-        "language": "13.1 Either Party (\"Non-Defaulting Party\") may terminate this Agreement immediately on written notice to the other Party (\"Defaulting Party\") if:\n(a) the Defaulting Party commits a material breach of this Agreement and fails to remedy it within 14 days of written notice requiring remedy;\n(b) the Defaulting Party becomes insolvent, has a receiver or liquidator appointed, or is unable to pay its debts;\n(c) the Defaulting Party assigns its rights under this Agreement without consent; or\n(d) the Defaulting Party acts in a manner that seriously damages the Non-Defaulting Party's reputation or business.\n13.2 On early termination, Start2 is entitled to payment for the Service Fee for work performed up to the date of termination, in addition to its rights under Clause [Cost Recovery on Cancellation].",
-        "notes": null,
-        "placeholders": [
-          "[Cost Recovery on Cancellation]"
-        ]
-      }
+      "refs": [
+        "COSTREC",
+        "TERM-CAUSE"
+      ]
     },
     {
-      "id": 14,
+      "id": "NOCOST",
+      "order": null,
+      "number": 14,
+      "tier": "Must Have",
+      "client_facing": "N",
       "clause": "No cost committed before payment received",
+      "draft_heading": null,
       "required_content": "Internal control, referenced in the payment clause commentary, not a client-facing clause.",
       "rationale": "Cash exposure control.",
       "mutuality": "N/A (internal rule)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": null,
+      "notes": null,
+      "open_placeholders": null,
+      "survives": null,
       "reference_clause": null,
-      "client_facing": false,
-      "draft": null
+      "refs": []
     },
     {
-      "id": 15,
+      "id": "COSTREC",
+      "order": 14,
+      "number": 15,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Cost recovery on cancellation",
+      "draft_heading": "Cost recovery on cancellation",
       "required_content": "Any cost Start2 has committed, incurred, or paid to a third party (mentors, venue, travel, logistics, subcontractors) in connection with delivering the program, before the date of cancellation or termination, is for the Company's account and is due and payable to Start2. This applies regardless of which party caused the cancellation or the reason for it, including force majeure. This is separate from, and in addition to, settlement of the Service Fee for work performed to date.",
       "rationale": "Start2 fronts real third-party cash costs to run these programs once a tranche is received. A cancelled venue booking or a committed mentor fee is rarely refundable to Start2 in full. Without this clause, Start2 can be left holding costs it can no longer recover from the third party, while the client argues those costs should come out of Start2's own pocket rather than being reimbursed. This is the other half of the no-cost-before-payment rule: that internal rule stops Start2 committing unfunded cost in the first place, this clause stops the client clawing back cost Start2 already funded and spent properly once a tranche is received.",
       "mutuality": "One-sided. This is Start2 recovering its own committed costs, the client does not commit equivalent third-party costs.",
       "cap_position": "No cap, this is a cost-reimbursement mechanism, not a liability cap, it should equal the actual cost incurred",
+      "cap_type": "none",
+      "cap_measure": "Not a liability cap: cost-reimbursement mechanism, equal to the actual cost incurred.",
+      "negotiation_stance": null,
+      "standard_language": "Where this Agreement is cancelled or terminated for any reason, including under Clause {{FM}}, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause {{TERM-CAUSE}}.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 14,
-        "clause": "Cost recovery on cancellation",
-        "language": "Where this Agreement is cancelled or terminated for any reason, including under Clause [Force Majeure], any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause [Termination for Cause].",
-        "notes": null,
-        "placeholders": [
-          "[Force Majeure]",
-          "[Termination for Cause]"
-        ]
-      }
+      "refs": [
+        "FM",
+        "TERM-CAUSE"
+      ]
     },
     {
-      "id": 16,
+      "id": "WARR",
+      "order": 15,
+      "number": 16,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Warranties",
+      "draft_heading": "Warranties",
       "required_content": "Start2 warrants it will perform the Service with reasonable skill and care using suitably qualified personnel. Company warrants that information and materials it supplies are accurate and that its signatory has authority to bind it.",
       "rationale": "Sets the performance standard as reasonable skill and care rather than a guaranteed outcome, and puts responsibility for inaccurate client-supplied information back on the client, not on Start2.",
       "mutuality": "Mutual",
       "cap_position": "Breach of warranty falls under the general liability cap unless separately carved out",
+      "cap_type": "general",
+      "cap_measure": "Falls under the general cap ({{LOL}}.2) unless separately carved out.",
+      "negotiation_stance": null,
+      "standard_language": "{{WARR}}.1 Start2 warrants that it will perform the Service with reasonable skill and care, using personnel with suitable qualifications and experience.\n{{WARR}}.2 Company warrants that: (a) all information and materials it provides to Start2 in connection with the Service are accurate and complete; and (b) its signatory to this Agreement has authority to bind Company.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 15,
-        "clause": "Warranties",
-        "language": "15.1 Start2 warrants that it will perform the Service with reasonable skill and care, using personnel with suitable qualifications and experience.\n15.2 Company warrants that: (a) all information and materials it provides to Start2 in connection with the Service are accurate and complete; and (b) its signatory to this Agreement has authority to bind Company.",
-        "notes": null,
-        "placeholders": []
-      }
+      "refs": [
+        "LOL",
+        "WARR"
+      ]
     },
     {
-      "id": 17,
+      "id": "INDEM",
+      "order": 16,
+      "number": 17,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Indemnity",
+      "draft_heading": "Indemnity",
       "required_content": "Each party indemnifies the other for actual loss or damage caused by its breach or negligence, subject to the liability cap. This is the obligation to make good, distinct from the cap that limits how much.",
       "rationale": "Ensures the client bears responsibility for third-party claims caused by the client's own conduct, for example an IP dispute or injury arising from the client's own startups or staff during a program.",
       "mutuality": "Mutual",
       "cap_position": "Capped at total Service Fee, same pool as Limitation of Liability",
+      "cap_type": "general",
+      "cap_measure": "Same pool as {{LOL}}.2. Gross negligence, wilful misconduct and fraud are outside the cap ({{INDEM}}.3, {{LOL}}.4).",
+      "negotiation_stance": null,
+      "standard_language": "{{INDEM}}.1 Each Party (the \"Indemnifying Party\") shall indemnify and hold harmless the other Party, its affiliates, sub-contractors, licensors, licensees, and each of their respective officers, directors, agents, consultants, and employees (collectively, the \"Indemnified Parties\") from and against any and all loss, damage, expense (including legal costs on a solicitor and client basis), and liability (whether criminal or civil), except any indirect, special, or consequential loss or damage, suffered or incurred by the Indemnified Parties arising out of or in connection with the Indemnifying Party's breach of this Agreement, negligence, or wilful default, or that of its sub-contractors, licensees, or their respective officers, directors, agents, consultants, or employees.\n{{INDEM}}.2 Company shall indemnify Start2 against any third-party claim arising from the conduct, intellectual property, or materials of any startup or participant that Company puts forward for the Service.\n{{INDEM}}.3 The indemnity in this Clause is subject to the cap set out in Clause {{LOL}}, except for claims arising from a Party's gross negligence, wilful misconduct, or fraud.",
+      "notes": "{{INDEM}}.2 closes a gap not present in the current templates: no client indemnity currently exists for claims caused by the client's own startups.",
+      "open_placeholders": null,
+      "survives": "Y",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 16,
-        "clause": "Indemnity",
-        "language": "16.1 Each Party (the \"Indemnifying Party\") shall indemnify and hold harmless the other Party, its affiliates, sub-contractors, licensors, licensees, and each of their respective officers, directors, agents, consultants, and employees (collectively, the \"Indemnified Parties\") from and against any and all loss, damage, expense (including legal costs on a solicitor and client basis), and liability (whether criminal or civil), except any indirect, special, or consequential loss or damage, suffered or incurred by the Indemnified Parties arising out of or in connection with the Indemnifying Party's breach of this Agreement, negligence, or wilful default, or that of its sub-contractors, licensees, or their respective officers, directors, agents, consultants, or employees.\n16.2 Company shall indemnify Start2 against any third-party claim arising from the conduct, intellectual property, or materials of any startup or participant that Company puts forward for the Service.\n16.3 The indemnity in this Clause is subject to the cap set out in Clause [Limitation of Liability], except for claims arising from a Party's gross negligence, wilful misconduct, or fraud.",
-        "notes": "16.2 closes a gap not present in the current templates: no client indemnity currently exists for claims caused by the client's own startups.",
-        "placeholders": [
-          "[Limitation of Liability]"
-        ]
-      }
+      "refs": [
+        "INDEM",
+        "LOL"
+      ]
     },
     {
-      "id": 18,
+      "id": "LOL",
+      "order": 17,
+      "number": 18,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Limitation of liability",
+      "draft_heading": "Limitation of liability",
       "required_content": "Exclusion of indirect/consequential loss, cap on direct loss tied to a defined measure.",
       "rationale": "Caps Start2's total exposure to a known number before signature.",
       "mutuality": "Mutual",
       "cap_position": "Total fees paid or payable, named carve-outs",
+      "cap_type": "general",
+      "cap_measure": "General cap: total Service Fee paid or payable ({{LOL}}.2). Higher cap for confidentiality, data protection and IP breaches: [multiple] x Service Fee ({{LOL}}.3), see D-02. Uncapped: gross negligence, wilful misconduct, fraud ({{LOL}}.4).",
+      "negotiation_stance": null,
+      "standard_language": "{{LOL}}.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n{{LOL}}.2 Except as set out in Clause {{LOL}}.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.3 For claims arising from breach of Clause {{CONF}}, Clause {{DP}}, or Clause {{IP}}, each Party's total liability to the other is capped instead at [a multiple, see Decision D-02] times the total Service Fee paid or payable under this Agreement.\n\n{{LOL}}.4 Neither cap in Clause {{LOL}}.2 or {{LOL}}.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
+      "notes": "The higher multiple for confidentiality/data/IP breaches (Decision D-02) is not yet settled.",
+      "open_placeholders": "[a multiple, see Decision D-02]",
+      "survives": "Y",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 17,
-        "clause": "Limitation of liability",
-        "language": "17.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n17.2 Except as set out in Clause 17.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n17.3 For claims arising from breach of Clause [Confidentiality], Clause [Data Protection], or Clause [Intellectual Property], each Party's total liability to the other is capped instead at [a multiple, see Decision D-02] times the total Service Fee paid or payable under this Agreement.\n\n17.4 Neither cap in Clause 17.2 or 17.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
-        "notes": "The higher multiple for confidentiality/data/IP breaches (Decision D-02) is not yet settled.",
-        "placeholders": [
-          "[Confidentiality]",
-          "[Data Protection]",
-          "[Intellectual Property]",
-          "[a multiple, see Decision D-02]"
-        ]
-      }
+      "refs": [
+        "CONF",
+        "DP",
+        "IP",
+        "LOL"
+      ]
     },
     {
-      "id": 19,
+      "id": "FM",
+      "order": 18,
+      "number": 19,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Force majeure",
+      "draft_heading": "Force majeure",
       "required_content": "Standard carve-out excusing non-performance caused by events outside a party's control, with an explicit line excluding inability to meet financial obligations from qualifying as a force majeure event. Includes a long-stop: if the event continues beyond a stated period, the parties first discuss in good faith, for a capped window, whether to postpone or reschedule instead. If no agreement is reached within that window, either party may terminate on written notice, without liability beyond amounts already due under Cost Recovery on Cancellation.",
       "rationale": "Relieves Start2 of liability for delay from events like export-control suspensions or travel restriction. The explicit financial-obligations exclusion (under Refence column) stops a client ever arguing that a cash-flow problem is itself a force majeure event excusing non-payment.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{FM}}.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. \n{{FM}}.2 If a Force Majeure Event under Clause {{FM}} continues for more than sixty (60) days, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.\n{{FM}}.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause {{COSTREC}}.",
+      "notes": null,
+      "open_placeholders": "[14]",
+      "survives": "N",
       "reference_clause": "If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented PROVIDED that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. Notwithstanding the foregoing, if the Force Majeure Event exceeds sixty (60) days in duration, either party shall have the right at any time thereafter during the continuance of such failure or delay, to terminate this Agreement by giving written notice to the other party.",
-      "client_facing": true,
-      "draft": {
-        "id": 18,
-        "clause": "Force majeure",
-        "language": "18.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. \n18.2 If a Force Majeure Event under Clause [Force Majeure] continues for more than sixty (60) days, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.\n18.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause [Cost Recovery on Cancellation].",
-        "notes": null,
-        "placeholders": [
-          "[14]",
-          "[Cost Recovery on Cancellation]",
-          "[Force Majeure]"
-        ]
-      }
+      "refs": [
+        "COSTREC",
+        "FM"
+      ]
     },
     {
-      "id": 20,
+      "id": "SANCT",
+      "order": 19,
+      "number": 20,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Compliance with laws / sanctions",
+      "draft_heading": "Compliance with laws and sanctions",
       "required_content": "Each party warrants it is not, and is not owned or controlled by, a sanctioned person or entity. Either party may suspend or terminate without the standard cure period if performance becomes restricted by export control, sanctions, or other government action, or if the other party becomes a sanctioned entity.",
       "rationale": "Start2 delivers cross-border programs to government-linked bodies (Ulsan Technopark, KIDP) across jurisdictions with active and changing export control regimes. Without this clause, Start2 has no clean exit if a government action makes continued performance illegal or commercially unsafe, and would have to rely on the general force majeure clause, which is not written with sanctions or export control in mind.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{SANCT}}.1 Each Party warrants that it is not, and is not owned or controlled by, a person or entity subject to sanctions under applicable law.\n{{SANCT}}.2 Either Party may suspend or terminate this Agreement on written notice, without the cure period in Clause {{TERM-CAUSE}}, if performance becomes restricted by export control, sanctions, or other government action, or if the other Party becomes subject to sanctions.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 19,
-        "clause": "Compliance with laws and sanctions",
-        "language": "19.1 Each Party warrants that it is not, and is not owned or controlled by, a person or entity subject to sanctions under applicable law.\n19.2 Either Party may suspend or terminate this Agreement on written notice, without the cure period in Clause [Termination for Cause], if performance becomes restricted by export control, sanctions, or other government action, or if the other Party becomes subject to sanctions.",
-        "notes": null,
-        "placeholders": [
-          "[Termination for Cause]"
-        ]
-      }
+      "refs": [
+        "SANCT",
+        "TERM-CAUSE"
+      ]
     },
     {
-      "id": 21,
+      "id": "IP",
+      "order": 20,
+      "number": 21,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Intellectual property (standalone clause)",
+      "draft_heading": "Intellectual property",
       "required_content": "Each party's pre-existing IP stays with that party. Start2 retains ownership of its own methodology, curriculum, frameworks and materials absolutely, licensed for use during the program only. Limited licence to use each other's name and logo, no transfer of ownership. A closing catch-all stating no rights other than those expressly set out in the clause are granted.",
       "rationale": "Start2's core asset is its methodology. Must not be assignable to the client through vague \"developed by each other\" language that does not distinguish pre-existing IP from program deliverables. The closing catch-all (under Refence column) removes any argument that a right was granted by implication.",
       "mutuality": "Mutual for each party's own creations. Asymmetric in that Start2's core methodology is never transferred, regardless of who commissioned the work.",
-      "cap_position": "Infringement liability capped at the higher multiple, see Caps sheet",
-      "reference_clause": "For the avoidance of doubt, no rights other than those set out in this clause 20 are granted. Save as provided in this clause, neither party shall use the other party’s intellectual property without the prior approval of the other party.",
-      "client_facing": true,
-      "draft": {
-        "id": 20,
-        "clause": "Intellectual property",
-        "language": "20.1 Start2 retains sole and exclusive ownership of all intellectual property rights, whether registered or not, in its pre-existing and independently developed materials, including its methodology, curriculum, frameworks, training materials, evaluation tools, software, platforms, databases, trademarks, trade names, logos, business plans, know-how, and processes, and any improvement, enhancement, or derivative work of the foregoing, however and whenever created, including during the course of delivering the Service. None of the foregoing is assigned or transferred to Company under this Agreement.\n20.2 Company retains ownership of its own pre-existing intellectual property and confidential business information.\n20.3 Program-specific deliverables prepared for Company's own cohort (such as mentor evaluation reports, session schedules, or feedback scores) are licensed to Company for its own internal use. This licence does not extend to the underlying methodology, tools, or materials used to produce them, which remain Start2's under Clause 20.1.\n20.4 Each Party grants the other a limited, non-exclusive licence to use its name and logo for purposes connected with this Agreement, with no transfer of ownership.\n20.5 For the avoidance of doubt, no rights other than those expressly set out in this Clause are granted.",
-        "notes": null,
-        "placeholders": []
-      }
+      "cap_position": "Infringement liability capped at the higher multiple, see Cap measure",
+      "cap_type": "higher",
+      "cap_measure": "Higher cap for IP infringement claims Start2 causes: same defined multiple, not the general cap ({{LOL}}.3), see D-02. Client is exposed to real third-party claims if Start2 materials infringe someone else's IP.",
+      "negotiation_stance": null,
+      "standard_language": "{{IP}}.1 Start2 retains sole and exclusive ownership of all intellectual property rights, whether registered or not, in its pre-existing and independently developed materials, including its methodology, curriculum, frameworks, training materials, evaluation tools, software, platforms, databases, trademarks, trade names, logos, business plans, know-how, and processes, and any improvement, enhancement, or derivative work of the foregoing, however and whenever created, including during the course of delivering the Service. None of the foregoing is assigned or transferred to Company under this Agreement.\n{{IP}}.2 Company retains ownership of its own pre-existing intellectual property and confidential business information.\n{{IP}}.3 Program-specific deliverables prepared for Company's own cohort (such as mentor evaluation reports, session schedules, or feedback scores) are licensed to Company for its own internal use. This licence does not extend to the underlying methodology, tools, or materials used to produce them, which remain Start2's under Clause {{IP}}.1.\n{{IP}}.4 Each Party grants the other a limited, non-exclusive licence to use its name and logo for purposes connected with this Agreement, with no transfer of ownership.\n{{IP}}.5 For the avoidance of doubt, no rights other than those expressly set out in this Clause are granted.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
+      "reference_clause": "For the avoidance of doubt, no rights other than those set out in this clause {{IP}} are granted. Save as provided in this clause, neither party shall use the other party’s intellectual property without the prior approval of the other party.",
+      "refs": [
+        "IP",
+        "LOL"
+      ]
     },
     {
-      "id": 22,
+      "id": "DP",
+      "order": 21,
+      "number": 22,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Data protection",
+      "draft_heading": "Data protection",
       "required_content": "Short clause on handling personal data of participants, mentors, client staff, referencing applicable law (PDPA Singapore, PIPA Korea, APPI Japan, PIPL China).",
       "rationale": "Start2 routinely processes participant and mentor personal data across four jurisdictions with active data protection regimes.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "higher",
+      "cap_measure": "Higher cap: defined multiple of the Service Fee ({{LOL}}.3), see D-02.",
+      "negotiation_stance": null,
+      "standard_language": "Each Party shall comply with applicable data protection law in respect of any personal data processed in connection with this Agreement, including [PDPA (Singapore) / PIPA (Korea) / APPI (Japan) / PIPL (China), as applicable to the contracting entity], and shall only use such data for purposes connected with the Service.",
+      "notes": "Bracket the correct law per contracting entity when drafting the country-specific version.",
+      "open_placeholders": "[PDPA (Singapore) / PIPA (Korea) / APPI (Japan) / PIPL (China), as applicable to the contracting entity]",
+      "survives": "Y",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 21,
-        "clause": "Data protection",
-        "language": "Each Party shall comply with applicable data protection law in respect of any personal data processed in connection with this Agreement, including [PDPA (Singapore) / PIPA (Korea) / APPI (Japan) / PIPL (China), as applicable to the contracting entity], and shall only use such data for purposes connected with the Service.",
-        "notes": "Bracket the correct law per contracting entity when drafting the country-specific version.",
-        "placeholders": [
-          "[PDPA (Singapore) / PIPA (Korea) / APPI (Japan) / PIPL (China), as applicable to the contracting entity]"
-        ]
-      }
+      "refs": [
+        "LOL"
+      ]
     },
     {
-      "id": 23,
+      "id": "LANG",
+      "order": 22,
+      "number": 23,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Governing language of the agreement",
+      "draft_heading": "Governing language",
       "required_content": "For bilingual agreements (China, Korea), a clause stating which language version prevails in the event the two texts disagree.",
       "rationale": "The Execution Check already flags that bilingual versions must be checked against each other before signature. Without a precedence clause, a genuine translation discrepancy discovered after signature has no answer, both versions are equally binding, and a court or arbitrator has to guess at intent.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "This Agreement is executed in English [and Chinese / and Korean]. In the event of any discrepancy between the language versions, the English version shall prevail.",
+      "notes": "Only needed for bilingual agreements (China, Korea). Confirm English-prevails is the intended position before finalising, some government counterparties may push for the local-language version to prevail instead.",
+      "open_placeholders": "[and Chinese / and Korean]",
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 22,
-        "clause": "Governing language",
-        "language": "This Agreement is executed in English [and Chinese / and Korean]. In the event of any discrepancy between the language versions, the English version shall prevail.",
-        "notes": "Only needed for bilingual agreements (China, Korea). Confirm English-prevails is the intended position before finalising, some government counterparties may push for the local-language version to prevail instead.",
-        "placeholders": [
-          "[and Chinese / and Korean]"
-        ]
-      }
+      "refs": []
     },
     {
-      "id": 24,
+      "id": "DISPUTE",
+      "order": 23,
+      "number": 24,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Governing law & dispute resolution",
+      "draft_heading": "Governing law and dispute resolution",
       "required_content": "Law of the contracting entity's jurisdiction, arbitration seat matched to it, single arbitrator, English language.",
       "rationale": "Keeps disputes in a forum Start2's counsel can operate in, out of the client's home court by default.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "{{DISPUTE}}.1 This Agreement is governed by the laws of [Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity].\n{{DISPUTE}}.2 In case of dispute between the parties arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, Parties shall in good faith endeavor to amicably resolve such dispute.\n{{DISPUTE}}.3 Failing which, such dispute shall be referred to and finally resolved by arbitration administered by the Singapore International Arbitration Centre (“SIAC”) in accordance with the Arbitration Rules of the Singapore International Arbitration Centre (“SIAC Rules”) for the time being in force, which rules are deemed to be incorporated by reference in this Clause. The Tribunal shall consist of a single arbitrator to be appointed by the Chairman of the SIAC. The seat of the arbitration shall be in Singapore. The language of the arbitration shall be in English. The award of the arbitrator shall be final and binding upon the Parties. The costs and expenses of arbitration, including the compensation and expenses of the Arbitrator, shall be borne by the Parties as the Arbitrator may determine.",
+      "notes": "Already correct per entity in the current templates, carried forward.",
+      "open_placeholders": "[Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity]",
+      "survives": "Y",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 23,
-        "clause": "Governing law and dispute resolution",
-        "language": "23.1 This Agreement is governed by the laws of [Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity].\n23.2 In case of dispute between the parties arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, Parties shall in good faith endeavor to amicably resolve such dispute.\n23.3 Failing which, such dispute shall be referred to and finally resolved by arbitration administered by the Singapore International Arbitration Centre (“SIAC”) in accordance with the Arbitration Rules of the Singapore International Arbitration Centre (“SIAC Rules”) for the time being in force, which rules are deemed to be incorporated by reference in this Clause. The Tribunal shall consist of a single arbitrator to be appointed by the Chairman of the SIAC. The seat of the arbitration shall be in Singapore. The language of the arbitration shall be in English. The award of the arbitrator shall be final and binding upon the Parties. The costs and expenses of arbitration, including the compensation and expenses of the Arbitrator, shall be borne by the Parties as the Arbitrator may determine.",
-        "notes": "Already correct per entity in the current templates, carried forward.",
-        "placeholders": [
-          "[Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity]"
-        ]
-      }
+      "refs": [
+        "DISPUTE"
+      ]
     },
     {
-      "id": 25,
+      "id": "ENTIRE",
+      "order": 24,
+      "number": 25,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Entire agreement",
+      "draft_heading": "Entire agreement",
       "required_content": "This agreement and its appendices are the entire agreement between the parties on this subject, superseding all prior discussions, drafts, side emails and verbal representations not incorporated into it. Includes a non-reliance line: neither party has a remedy for any statement made to it that it relied on in entering the agreement, unless that statement is written into the agreement itself.",
       "rationale": "Without it, a client can point to pre-signature emails, decks, or verbal assurances from a sales conversation as additional terms. This is what makes the Amendment clause (already Must Have) actually hold: change only happens in writing, signed by both, because nothing else counts as part of the deal. The non-reliance line (under Refence column) goes further, it also blocks a claim that the client relied on something a Start2 salesperson said outside the written document.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "This Agreement and its Appendices constitute the entire agreement between the Parties on this subject and supersede all prior discussions, proposals, and representations, whether written or verbal. Neither Party has a remedy for any statement it relied on in entering this Agreement unless that statement is set out in this Agreement.",
+      "notes": "Non-reliance sentence adapted from the Enterprise Singapore exhibition agreement, Clause 15.1.",
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": "This Agreement and its Schedules constitute the entire agreement between the parties with respect to its subject matter, and supersedes all prior agreements, understandings, proposals, representations, and discussions between the parties, whether verbal or written. There are no\nunderstandings, agreements, representations, or warranties, expressed or implied, not expressly specified in this Agreement. Neither party shall have any remedy in respect of any statement made to it upon which it relied in entering into this Agreement.",
-      "client_facing": true,
-      "draft": {
-        "id": 24,
-        "clause": "Entire agreement",
-        "language": "This Agreement and its Appendices constitute the entire agreement between the Parties on this subject and supersede all prior discussions, proposals, and representations, whether written or verbal. Neither Party has a remedy for any statement it relied on in entering this Agreement unless that statement is set out in this Agreement.",
-        "notes": "Non-reliance sentence adapted from the Enterprise Singapore exhibition agreement, Clause 15.1.",
-        "placeholders": []
-      }
+      "refs": []
     },
     {
-      "id": 26,
+      "id": "SURV",
+      "order": 25,
+      "number": 26,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Survival",
+      "draft_heading": "Survival",
       "required_content": "Express list of which clauses survive termination or expiry of the agreement: Confidentiality, Indemnity, Limitation of Liability, Dispute Resolution, and Data Protection.",
       "rationale": "Confidentiality already has its own explicit survival line. The other four do not. Without an express survival clause, a party could argue the liability cap or the arbitration requirement lapses the moment the contract ends, even for a claim about conduct that happened during the term.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "Clauses {{CONF}}, {{INDEM}}, {{LOL}}, {{DISPUTE}}, and {{DP}} survive termination or expiry of this Agreement.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 25,
-        "clause": "Survival",
-        "language": "Clauses [Confidentiality], [Indemnity], [Limitation of Liability], [Governing Law and Dispute Resolution], and [Data Protection] survive termination or expiry of this Agreement.",
-        "notes": null,
-        "placeholders": [
-          "[Confidentiality]",
-          "[Data Protection]",
-          "[Governing Law and Dispute Resolution]",
-          "[Indemnity]",
-          "[Limitation of Liability]"
-        ]
-      }
+      "refs": [
+        "CONF",
+        "DISPUTE",
+        "DP",
+        "INDEM",
+        "LOL"
+      ]
     },
     {
-      "id": 27,
+      "id": "ESIGN",
+      "order": 26,
+      "number": 27,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Electronic signature / counterparts",
+      "draft_heading": "Electronic signature and counterparts",
       "required_content": "Each party may execute by electronic signature (e.g. Zoho Sign), each counterpart is deemed an original, and all counterparts together form one instrument.",
       "rationale": "Actual practice already uses electronic signature, the KIDP China agreement was executed on Zoho Sign, but every template still reads \"the parties prepare and sign 2 copies...and keep 1 copy respectively,\" wet-ink language that does not describe how Start2 actually signs.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "This Agreement may be executed electronically, including by way of Zoho Sign or another electronic signature platform. Each counterpart is deemed an original, and all counterparts together form one instrument.",
+      "notes": "Replaces the current \"prepare and sign 2 copies\" wet-ink language, which does not match confirmed actual signing practice.",
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 26,
-        "clause": "Electronic signature and counterparts",
-        "language": "This Agreement may be executed electronically, including by way of Zoho Sign or another electronic signature platform. Each counterpart is deemed an original, and all counterparts together form one instrument.",
-        "notes": "Replaces the current \"prepare and sign 2 copies\" wet-ink language, which does not match confirmed actual signing practice.",
-        "placeholders": []
-      }
+      "refs": []
     },
     {
-      "id": 28,
+      "id": "SIGN",
+      "order": 27,
+      "number": 28,
+      "tier": "Must Have",
+      "client_facing": "Y",
       "clause": "Signature block",
+      "draft_heading": "Signature",
       "required_content": "Named signatories with position and email, matching however many people actually sign each side.",
       "rationale": "A mismatched block creates a later question about whether the signed version is authentic.",
       "mutuality": "N/A (structural)",
       "cap_position": "N/A",
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": null,
+      "standard_language": "IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first written above.\n\nFor and on behalf of Start2:\nName: _____ Position: _____ Email: _____ Signature: _____\nName: _____ Position: _____ Email: _____ Signature: _____\n\nFor and on behalf of Company:\nName: _____ Position: _____ Email: _____ Signature: _____\nName: _____ Position: _____ Email: _____ Signature: _____",
+      "notes": "Standardised to two lines each side across all five country templates.",
+      "open_placeholders": null,
+      "survives": "N",
       "reference_clause": null,
-      "client_facing": true,
-      "draft": {
-        "id": 27,
-        "clause": "Signature",
-        "language": "IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first written above.\n\nFor and on behalf of Start2:\nName: _____ Position: _____ Email: _____ Signature: _____\nName: _____ Position: _____ Email: _____ Signature: _____\n\nFor and on behalf of Company:\nName: _____ Position: _____ Email: _____ Signature: _____\nName: _____ Position: _____ Email: _____ Signature: _____",
-        "notes": "Standardised to two lines each side across all five country templates.",
-        "placeholders": []
-      }
-    }
-  ],
-  "good_to_have": [
+      "refs": []
+    },
     {
+      "id": "TERM-CONV",
+      "order": null,
+      "number": null,
+      "tier": "Good to Have",
+      "client_facing": "Y",
       "clause": "Termination for convenience",
-      "description": "Either party may terminate without cause on a stated notice period.",
+      "draft_heading": "Termination for convenience",
+      "required_content": "Either party may terminate without cause on a stated notice period.",
+      "rationale": null,
+      "mutuality": "Mutual",
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
       "negotiation_stance": "Push for it, mutual only. Pay for work done to date, plus retain any non-refundable tranche already paid. Drop if resisted, most Start2 programs are short enough that the exposure is limited.",
-      "draft": {
-        "id": "G1",
-        "clause": "Termination for convenience",
-        "language": "Either Party may terminate this Agreement without cause on [X] days' written notice. On such termination, Start2 is entitled to payment for work performed to date and to retain any non-refundable amount already paid.",
-        "notes": "Notice period open. Push for this mutually, drop if resisted, most programs are short enough that the exposure is limited.",
-        "placeholders": [
-          "[X]"
-        ]
-      }
+      "standard_language": "Either Party may terminate this Agreement without cause on [X] days' written notice. On such termination, Start2 is entitled to payment for work performed to date and to retain any non-refundable amount already paid.",
+      "notes": "Notice period open. Push for this mutually, drop if resisted, most programs are short enough that the exposure is limited.",
+      "open_placeholders": "[X]",
+      "survives": null,
+      "reference_clause": null,
+      "refs": []
     },
     {
-      "clause": "Non-solicitation of Start2 network. Runs client-to-Start2 only, not the reverse: Start2 is the one exposing its network, the client is not exposing an equivalent network in most engagement types.",
-      "description": "No solicitation of Start2's mentors, experts and program staff for a defined period after the program ends.",
+      "id": "NONSOL",
+      "order": null,
+      "number": null,
+      "tier": "Good to Have",
+      "client_facing": "Y",
+      "clause": "Non-solicitation of Start2 network",
+      "draft_heading": "Non-solicitation",
+      "required_content": "No solicitation of Start2's mentors, experts and program staff for a defined period after the program ends.",
+      "rationale": null,
+      "mutuality": "Runs client-to-Start2 only, not the reverse: Start2 is the one exposing its network, the client is not exposing an equivalent network in most engagement types.",
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
       "negotiation_stance": "Push for it, especially in delegation and matching programs where the client gets direct access to Start2's network.",
-      "draft": {
-        "id": "G2",
-        "clause": "Non-solicitation",
-        "language": "For [X] months after this Agreement ends, Company shall not solicit or engage any mentor, expert, or program staff member introduced to it by Start2 in connection with the Service, without Start2's prior written consent.",
-        "notes": null,
-        "placeholders": [
-          "[X]"
-        ]
-      }
+      "standard_language": "For [X] months after this Agreement ends, Company shall not solicit or engage any mentor, expert, or program staff member introduced to it by Start2 in connection with the Service, without Start2's prior written consent.",
+      "notes": null,
+      "open_placeholders": "[X]",
+      "survives": null,
+      "reference_clause": null,
+      "refs": []
     },
     {
+      "id": "ABC",
+      "order": null,
+      "number": null,
+      "tier": "Good to Have",
+      "client_facing": "Y",
       "clause": "Anti-bribery and corruption representation",
-      "description": "Each party confirms it has not made or received improper payments in connection with the agreement.",
+      "draft_heading": "Anti-bribery and corruption",
+      "required_content": "Each party confirms it has not made or received improper payments in connection with the agreement.",
+      "rationale": null,
+      "mutuality": "Mutual",
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
       "negotiation_stance": "Push for it, especially with government-linked or state-owned clients.",
-      "draft": {
-        "id": "G3",
-        "clause": "Anti-bribery and corruption",
-        "language": "Each Party warrants that it has not made or received, and shall not make or receive, any improper payment or benefit in connection with this Agreement, and shall comply with applicable anti-bribery and corruption law.",
-        "notes": null,
-        "placeholders": []
-      }
-    }
-  ],
-  "nice_to_have": [
+      "standard_language": "Each Party warrants that it has not made or received, and shall not make or receive, any improper payment or benefit in connection with this Agreement, and shall comply with applicable anti-bribery and corruption law.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": null,
+      "reference_clause": null,
+      "refs": []
+    },
     {
+      "id": "PUBLICITY",
+      "order": null,
+      "number": null,
+      "tier": "Nice to Have",
+      "client_facing": "Y",
       "clause": "Publicity / case study rights",
-      "description": "Permission to name the client as a reference client after the program."
+      "draft_heading": "Publicity",
+      "required_content": "Permission to name the client as a reference client after the program.",
+      "rationale": null,
+      "mutuality": null,
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": "Ask once. Drop immediately if resisted.",
+      "standard_language": "Start2 may name Company as a reference client in its marketing materials after the Service concludes, unless Company objects in writing.",
+      "notes": "Ask once, drop if resisted.",
+      "open_placeholders": null,
+      "survives": null,
+      "reference_clause": null,
+      "refs": []
     },
     {
+      "id": "ESCALATION",
+      "order": null,
+      "number": null,
+      "tier": "Nice to Have",
+      "client_facing": "Y",
       "clause": "Defined escalation contact",
-      "description": "A named operational contact on each side, separate from the signatory."
+      "draft_heading": "Escalation contact",
+      "required_content": "A named operational contact on each side, separate from the signatory.",
+      "rationale": null,
+      "mutuality": null,
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": "Ask once. Drop immediately if resisted.",
+      "standard_language": "Each Party shall name an operational contact for day-to-day matters under this Agreement, separate from the signatory named in Clause {{NOTICES}}.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": null,
+      "reference_clause": null,
+      "refs": [
+        "NOTICES"
+      ]
     },
     {
+      "id": "SEVERABILITY",
+      "order": null,
+      "number": null,
+      "tier": "Nice to Have",
+      "client_facing": "Y",
       "clause": "Severability clause",
-      "description": "If one clause is found unenforceable, the rest of the agreement stands."
+      "draft_heading": "Severability",
+      "required_content": "If one clause is found unenforceable, the rest of the agreement stands.",
+      "rationale": null,
+      "mutuality": null,
+      "cap_position": null,
+      "cap_type": "n/a",
+      "cap_measure": null,
+      "negotiation_stance": "Ask once. Drop immediately if resisted.",
+      "standard_language": "If any provision of this Agreement is held unenforceable, the remaining provisions continue in full force, and the Parties shall negotiate in good faith to replace the unenforceable provision with one of similar commercial effect.",
+      "notes": null,
+      "open_placeholders": null,
+      "survives": null,
+      "reference_clause": null,
+      "refs": []
     }
   ],
-  "nice_to_have_rule": "Rule for all items on this sheet: ask once. Drop immediately if resisted.",
-  "draft_language_extras": {
-    "good": {
-      "G1": {
-        "id": "G1",
-        "clause": "Termination for convenience",
-        "language": "Either Party may terminate this Agreement without cause on [X] days' written notice. On such termination, Start2 is entitled to payment for work performed to date and to retain any non-refundable amount already paid.",
-        "notes": "Notice period open. Push for this mutually, drop if resisted, most programs are short enough that the exposure is limited.",
-        "placeholders": [
-          "[X]"
-        ]
-      },
-      "G2": {
-        "id": "G2",
-        "clause": "Non-solicitation",
-        "language": "For [X] months after this Agreement ends, Company shall not solicit or engage any mentor, expert, or program staff member introduced to it by Start2 in connection with the Service, without Start2's prior written consent.",
-        "notes": null,
-        "placeholders": [
-          "[X]"
-        ]
-      },
-      "G3": {
-        "id": "G3",
-        "clause": "Anti-bribery and corruption",
-        "language": "Each Party warrants that it has not made or received, and shall not make or receive, any improper payment or benefit in connection with this Agreement, and shall comply with applicable anti-bribery and corruption law.",
-        "notes": null,
-        "placeholders": []
-      }
-    },
-    "nice": {
-      "N1": {
-        "id": "N1",
-        "clause": "Publicity",
-        "language": "Start2 may name Company as a reference client in its marketing materials after the Service concludes, unless Company objects in writing.",
-        "notes": "Ask once, drop if resisted.",
-        "placeholders": []
-      },
-      "N2": {
-        "id": "N2",
-        "clause": "Escalation contact",
-        "language": "Each Party shall name an operational contact for day-to-day matters under this Agreement, separate from the signatory named in Clause [Notices].",
-        "notes": null,
-        "placeholders": [
-          "[Notices]"
-        ]
-      },
-      "N3": {
-        "id": "N3",
-        "clause": "Severability",
-        "language": "If any provision of this Agreement is held unenforceable, the remaining provisions continue in full force, and the Parties shall negotiate in good faith to replace the unenforceable provision with one of similar commercial effect.",
-        "notes": null,
-        "placeholders": []
-      }
-    }
-  },
   "decisions": [
     {
       "ref": "D-01",
@@ -646,7 +812,7 @@
       "options": "(a) Keep 50/50 default\n(b) Move to 100% upfront as default\n(c) Staged upfront tied to program phases",
       "recommendation_claude": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
       "recommendation_usa": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
-      "affects": "Cash exposure. Fee, currency, and payment clause (draft clause 5) in all five templates.",
+      "affects": "Cash exposure. Clauses sheet: FEE, in all five templates.",
       "settled": false
     },
     {
@@ -655,7 +821,7 @@
       "options": "(a) Same cap as general liability (total fees)\n(b) A stated multiple of total fees (2x, 3x)",
       "recommendation_claude": "(b), 2x total fees as a starting ask. These breach types carry third-party exposure the general cap was not built for.",
       "recommendation_usa": "Not sure",
-      "affects": "Caps sheet. Limitation of liability clause (draft clause 17).",
+      "affects": "Clauses sheet: LOL (Cap measure).",
       "settled": false
     },
     {
@@ -691,7 +857,7 @@
       "options": "(a) 30 days\n(b) 60 days\n(c) Tie it to a fraction of the remaining term (e.g. force majeure exceeding half the remaining term)",
       "recommendation_claude": "(b), 60 days as a default. Long enough that ordinary short disruptions don't trigger an exit right either side didn't want, short enough that a program stuck for two months has a way out.",
       "recommendation_usa": "(b), 60 days as a default.",
-      "affects": "Must Have: Force majeure (draft clauses 18.2 and 18.3). Force Majeure clause across all five templates.",
+      "affects": "Clauses sheet: FM. Force Majeure clause across all five templates.",
       "settled": false
     },
     {
@@ -722,7 +888,7 @@
     },
     {
       "clause": "Unlimited liability, or liability tied to client's total spend across all engagements",
-      "start2_position": "Counter with the fee-based cap in the Caps sheet.",
+      "start2_position": "Counter with the fee-based cap in the Clauses sheet (LOL, Cap measure).",
       "rejection_threshold": "Hard stop. Escalate before conceding any movement here."
     },
     {
@@ -752,7 +918,7 @@
     },
     {
       "clause": "Audit rights (client or government auditor access to Start2's records)",
-      "start2_position": "Acceptable, limited to records and documentation directly relating to Service delivery and fee calculation under this specific Agreement, requested within a defined period after the Service ends (12 months), with at least 15 business days' prior written notice, no more than once in that period, and only where the auditor is bound by confidentiality at least as strict as Clause [Confidentiality]. Start2 may charge a reasonable fee to cover the cost of facilitating the inspection.",
+      "start2_position": "Acceptable, limited to records and documentation directly relating to Service delivery and fee calculation under this specific Agreement, requested within a defined period after the Service ends (12 months), with at least 15 business days' prior written notice, no more than once in that period, and only where the auditor is bound by confidentiality at least as strict as the CONF clause on the Clauses sheet. Start2 may charge a reasonable fee to cover the cost of facilitating the inspection.",
       "rejection_threshold": "Reject if the right has no time limit, extends to Start2's general financial records or other clients' engagements, reaches Start2's own IP or methodology beyond what's needed to confirm delivery, allows unannounced or unlimited-frequency access, is not subject to auditor confidentiality, or the client refuses to pay a reasonable facilitation fee."
     },
     {
@@ -776,50 +942,6 @@
       "rejection_threshold": "Reject an uncapped per-offense penalty with no aggregate ceiling, repeated technical breaches could otherwise produce a penalty disproportionate to the total contract value."
     }
   ],
-  "caps": [
-    {
-      "status": "Capped",
-      "item": "Direct loss under limitation of liability",
-      "measure": "Total Service Fee paid or payable under the agreement",
-      "notes": "Already the effect of the current indemnity clause. Needs to be visible as its own clause (see Must Have: Limitation of liability).",
-      "drafted_in": "Limitation of Liability, 17.2"
-    },
-    {
-      "status": "Capped (higher)",
-      "item": "Confidentiality and data protection breach",
-      "measure": "Defined multiple of the Service Fee (figure is yours to set, see Decision D-02)",
-      "notes": "Should carry a higher cap than the general liability cap.",
-      "drafted_in": "Limitation of Liability, 17.3"
-    },
-    {
-      "status": "Capped (higher)",
-      "item": "IP infringement claims Start2 causes",
-      "measure": "Same higher, defined multiple, not the general cap",
-      "notes": "Client is exposed to real third-party claims if Start2's materials infringe someone else's IP.",
-      "drafted_in": "Limitation of Liability, 17.3"
-    },
-    {
-      "status": "Uncapped",
-      "item": "Gross negligence and wilful misconduct",
-      "measure": "N/A",
-      "notes": "Already carved out of the cap in the current indemnity clause. Correct, keep uncapped.",
-      "drafted_in": "Limitation of Liability, 17.4"
-    },
-    {
-      "status": "Uncapped (add)",
-      "item": "Fraud",
-      "measure": "N/A",
-      "notes": "Should be added and kept uncapped.",
-      "drafted_in": "Limitation of Liability, 17.4"
-    },
-    {
-      "status": "Not capped, correctly",
-      "item": "Confidentiality duty itself (not the damages cap)",
-      "measure": "N/A",
-      "notes": "Survives termination indefinitely.",
-      "drafted_in": "Confidentiality's own clause 8.4, and Survival, which lists Clause [Confidentiality] among the surviving clauses"
-    }
-  ],
   "execution_checks": [
     {
       "id": 1,
@@ -827,7 +949,7 @@
     },
     {
       "id": 2,
-      "check": "Clause numbering is sequential and matches any cross-references elsewhere in the document."
+      "check": "Clause numbering is sequential and matches any cross-references elsewhere in the document. Checked automatically by the assemble step for clauses built from the Clauses sheet."
     },
     {
       "id": 3,
@@ -863,7 +985,7 @@
     },
     {
       "id": 11,
-      "check": "Every bracketed clause cross-reference (e.g. \"Clause [Cost Recovery on Cancellation]\") has been replaced with the actual clause number before signature, none left as literal brackets."
+      "check": "Every clause cross-reference ({{ID}} token, e.g. {{COSTREC}}) resolves to an actual clause number before signature; none left as a literal token or bracketed clause name. Checked automatically by the assemble step."
     },
     {
       "id": 12,
@@ -893,7 +1015,7 @@
         "what_to_check": "Run the Execution Check sheet as a final pass once content is settled, since formatting and cross-reference errors are often introduced during earlier edit rounds."
       }
     ],
-    "reviewer_output_spec": "One marked-up copy of the draft with tracked changes, plus a short cover note listing: \n(a) any Must Have clause that is missing or drafted differently from the standard set out in Draft Clause Language; \n(b) any client-inserted clause and where it sits against the rejection threshold on the Client-Inserted Clauses tab; \n(c) any Execution Check item that failed; \n(d) a one-line recommendation: proceed, proceed with named conditions, or escalate"
+    "reviewer_output_spec": "One marked-up copy of the draft with tracked changes, plus a short cover note listing: \n(a) any Must Have clause that is missing or drafted differently from the standard set out in Standard language on the Clauses sheet; \n(b) any client-inserted clause and where it sits against the rejection threshold on the Client-Inserted Clauses tab; \n(c) any Execution Check item that failed; \n(d) a one-line recommendation: proceed, proceed with named conditions, or escalate"
   },
   "process_and_authority": [
     {
@@ -948,17 +1070,8 @@
     }
   ],
   "_audit": {
-    "decision_refs_cited_but_undefined": {},
-    "decision_refs_cited": {
-      "D-01": [
-        "draft:Fee, currency, payment trigger",
-        "draft:Fee, currency, payment trigger"
-      ],
-      "D-02": [
-        "draft:Limitation of liability",
-        "draft:Limitation of liability",
-        "caps:Confidentiality and data protection breach"
-      ]
-    }
+    "duplicate_ids": [],
+    "tokens_naming_no_clause": [],
+    "decision_refs_undefined": []
   }
 }
