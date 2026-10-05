@@ -189,18 +189,20 @@ def name_match(gt, bt):
         return "exact" if gt == bt else "reordered"
     short, long_ = (gt, bt) if len(gt) <= len(bt) else (bt, gt)
     pool, full_hits = list(long_), 0
+    initial_used = False
     for t in sorted(short, key=lambda x: -len(x)):
         hit = next((p for p in pool if p == t), None)
         if hit:
             full_hits += 1
         else:
             hit = next((p for p in pool if (len(t) == 1 and p.startswith(t)) or (len(p) == 1 and t.startswith(p))), None)
+            initial_used = initial_used or bool(hit)
         if not hit:
             break
         pool.remove(hit)
     else:
         if full_hits >= 1:
-            return "initials"
+            return "initials" if initial_used else "extra-word"
     if SequenceMatcher(None, " ".join(sorted(gt)), " ".join(sorted(bt))).ratio() >= FUZZY_THRESHOLD:
         return "fuzzy"
     return None
@@ -225,7 +227,7 @@ def screen_record(g, blacklist, email_idx, slug_idx):
         if s in slug_idx:
             return BLACKLISTED, f"LinkedIn /{s} = blacklist '{slug_idx[s]['display']}'"
     best = None
-    rank = {"exact": 0, "reordered": 1, "initials": 2, "fuzzy": 3, "single": 4}
+    rank = {"exact": 0, "reordered": 1, "initials": 2, "extra-word": 3, "fuzzy": 4, "single": 5}
     for b in blacklist:
         for gn in g["names"]:
             for bn in b["names"]:
@@ -331,7 +333,8 @@ def main():
         hdr = m["header_row"]
         status_col = next((c.column for c in ws[hdr] if clean(c.value).lower() == STATUS_HEADER.lower()), None)
         if status_col is None:
-            status_col = ws.max_column + 1
+            # first free column after the last one holding any value (sheets often carry empty formatted columns)
+            status_col = max((j + 1 for row in rows for j, c in enumerate(row) if c not in (None, "")), default=0) + 1
         hc = ws.cell(hdr, status_col, STATUS_HEADER)
         left = ws.cell(hdr, max(status_col - 1, 1))
         copy_style(left, hc)
