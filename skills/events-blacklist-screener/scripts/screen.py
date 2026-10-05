@@ -8,8 +8,8 @@ holding OK / Review / Blacklisted. Everything else in the workbook is left as is
                      --out screened/guests.xlsx [--map map.json] [--dry-run]
 
 Decision rules (see SKILL.md for the reasoning):
-    Blacklisted  exact email match, or exact LinkedIn profile match
-    Review       any name-only match (exact, reordered, initials, fuzzy, or a
+    Blacklisted  exact email match, exact LinkedIn profile match, or exact full name
+    Review       any other name match (reordered, initials, fuzzy, or a
                  single-token name that is corroborated by company / email domain)
     OK           nothing matched
     (blank)      the row has no name, email or LinkedIn to check
@@ -232,6 +232,8 @@ def screen_record(g, blacklist, email_idx, slug_idx):
                 kind = name_match(name_tokens(gn), name_tokens(bn))
                 if kind is None:
                     continue
+                if kind == "exact":
+                    return BLACKLISTED, f"name '{gn}' = blacklist '{b['display']}' (exact name)"
                 if kind == "single":
                     why = corroborated(g, b)
                     if not why:

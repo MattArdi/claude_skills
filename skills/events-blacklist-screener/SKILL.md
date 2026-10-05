@@ -47,16 +47,17 @@ Takes a guest list in any reasonable spreadsheet layout, checks every person aga
 |---|---|
 | Exact email match, against any of the blacklisted person's addresses | `Blacklisted` |
 | Exact LinkedIn profile match (`/in/<slug>`) | `Blacklisted` |
-| Name only: exact, reordered ("Chan Eddie" / "Eddie Chan"), initials ("E H Lim"), fuzzy (typos) | `Review` |
+| Exact full name (same words in the same order, ignoring case, accents and punctuation; blacklist aliases count) | `Blacklisted` |
+| Other name matches: reordered ("Chan Eddie" / "Eddie Chan"), initials ("E H Lim"), fuzzy (typos) | `Review` |
 | Single-token name ("Joanne"), only when company or a non-free email domain also matches | `Review` |
 | Nothing matched | `OK` |
 | Row has no name, email or LinkedIn | blank, so a row that could not be checked is never shown as OK |
 
 Why these rules:
-- Emails and LinkedIn URLs identify one person. Names do not: common names (Peter Tan, Linda Lim) collide, and wrongly excluding a real guest is costly. So name matches never reach `Blacklisted`; a human decides.
+- Emails and LinkedIn URLs identify one person, and the owner has decided an exact full name is enough to treat as blacklisted too. Looser name matches (reordered, initials, typos) are weaker evidence, so a human decides. Common names (Peter Tan, Linda Lim) will be flagged as `Blacklisted` on an exact match; the chat report lists the reason so the owner can overrule it.
 - A lone first name with no corroboration is too weak to flag, so it stays `OK`.
 - Free-mail domains (gmail, yahoo, ...) never count as corroboration.
-- Email beats name: if both fire, the status is `Blacklisted`.
+- A single lone first name is never an exact-name match; it needs corroboration and only reaches `Review`.
 
 ## Output contract
 
