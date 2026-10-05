@@ -1,5 +1,5 @@
 {
-  "source": "862c3014-Start2_Asia_Contract_Standards_UP_24_Sep.xlsx",
+  "source": "Start2_Asia_Contract_Standards_UP_05_Oct.xlsx",
   "must_have": [
     {
       "id": 1,
@@ -72,13 +72,12 @@
       "draft": {
         "id": 4,
         "clause": "Term",
-        "language": "4.1 This Agreement shall run from [Start Date] to [End Date] (the \"Term\"), subject to any extension mutually agreed by the Parties in writing.\n4.2 Start2 shall complete the Service within the Term, subject to Clause [Force Majeure] and Clause [Termination for Prolonged Force Majeure].",
+        "language": "4.1 This Agreement shall run from [Start Date] to [End Date] (the \"Term\"), subject to any extension mutually agreed by the Parties in writing.\n4.2 Start2 shall complete the Service within the Term, subject to Clause [Force Majeure].",
         "notes": null,
         "placeholders": [
           "[End Date]",
           "[Force Majeure]",
-          "[Start Date]",
-          "[Termination for Prolonged Force Majeure]"
+          "[Start Date]"
         ]
       }
     },
@@ -95,7 +94,7 @@
         "id": 5,
         "clause": "Fee, currency, and payment",
         "language": "5.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the \"Service Fee\"), for the Service.\n5.2 The Service Fee shall be paid as follows: [payment schedule per Decision D-01 — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. \"Commencement\" means [defined event, completed per deal]. \"Completion\" means [defined event, completed per deal].\n5.3 Payment shall be made in [Currency].\n5.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.\n5.5 Payment shall be made to Start2's bank account: [Bank Details].",
-        "notes": "Payment schedule (5.2) depends on Decision D-01, not yet settled. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates (R-03).",
+        "notes": "Payment schedule (5.2) depends on Decision D-01, not yet settled. Never leave Commencement/Completion as an open placeholder in a signed agreement, this is the #1 defect found in the current templates.",
         "placeholders": [
           "[50% on signing, non-refundable on Commencement; 50% on Completion]",
           "[Amount]",
@@ -201,7 +200,7 @@
       "rationale": "Amendment and Termination both already require \"written notice.\" Without this clause, nothing says what counts as written notice, where it must be sent, or when it is deemed received, so a client can dispute that notice was ever validly given. The per-method deemed-receipt structure (under Refence column) removes ambiguity about exactly when a notice takes effect.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
-      "reference_clause": "Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n9.2.1 if personally delivered, on the day of delivery;\n9.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n9.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n9.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n9.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\nEither party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
+      "reference_clause": "Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n11.2.1 if personally delivered, on the day of delivery;\n11.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n11.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n11.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\nEither party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
       "client_facing": true,
       "draft": {
         "id": 11,
@@ -274,12 +273,11 @@
       "draft": {
         "id": 14,
         "clause": "Cost recovery on cancellation",
-        "language": "Where this Agreement is cancelled or terminated for any reason, including under Clause [Force Majeure] or Clause [Termination for Prolonged Force Majeure], any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause [Termination for Cause].",
-        "notes": "Decision D-08 is whether this is the right model (recover actual costs only) versus the stronger alternative seen in the Enterprise Singapore exhibition agreement (retain the whole fee, roll it to a future event). Not yet settled.",
+        "language": "Where this Agreement is cancelled or terminated for any reason, including under Clause [Force Majeure], any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause [Termination for Cause].",
+        "notes": null,
         "placeholders": [
           "[Force Majeure]",
-          "[Termination for Cause]",
-          "[Termination for Prolonged Force Majeure]"
+          "[Termination for Cause]"
         ]
       }
     },
@@ -313,7 +311,7 @@
         "id": 16,
         "clause": "Indemnity",
         "language": "16.1 Each Party (the \"Indemnifying Party\") shall indemnify and hold harmless the other Party, its affiliates, sub-contractors, licensors, licensees, and each of their respective officers, directors, agents, consultants, and employees (collectively, the \"Indemnified Parties\") from and against any and all loss, damage, expense (including legal costs on a solicitor and client basis), and liability (whether criminal or civil), except any indirect, special, or consequential loss or damage, suffered or incurred by the Indemnified Parties arising out of or in connection with the Indemnifying Party's breach of this Agreement, negligence, or wilful default, or that of its sub-contractors, licensees, or their respective officers, directors, agents, consultants, or employees.\n16.2 Company shall indemnify Start2 against any third-party claim arising from the conduct, intellectual property, or materials of any startup or participant that Company puts forward for the Service.\n16.3 The indemnity in this Clause is subject to the cap set out in Clause [Limitation of Liability], except for claims arising from a Party's gross negligence, wilful misconduct, or fraud.",
-        "notes": "18.2 closes a gap not present in the current templates: no client indemnity currently exists for claims caused by the client's own startups.",
+        "notes": "16.2 closes a gap not present in the current templates: no client indemnity currently exists for claims caused by the client's own startups.",
         "placeholders": [
           "[Limitation of Liability]"
         ]
@@ -331,13 +329,13 @@
       "draft": {
         "id": 17,
         "clause": "Limitation of liability",
-        "language": "17.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n17.2 Except as set out in Clause 17.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n17.3 For claims arising from breach of Clause [Confidentiality], Clause [Data Protection], or Clause [Intellectual Property], each Party's total liability to the other is capped instead at [a multiple, see Decision D-03] times the total Service Fee paid or payable under this Agreement.\n\n17.4 Neither cap in Clause 17.2 or 17.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
-        "notes": "The higher multiple for confidentiality/data/IP breaches (Decision D-03) is not yet settled.",
+        "language": "17.1 Neither Party is liable to the other for indirect, special, or consequential loss, including loss of profits, revenue, or business opportunity, arising from this Agreement.\n\n17.2 Except as set out in Clause 17.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.\n\n17.3 For claims arising from breach of Clause [Confidentiality], Clause [Data Protection], or Clause [Intellectual Property], each Party's total liability to the other is capped instead at [a multiple, see Decision D-02] times the total Service Fee paid or payable under this Agreement.\n\n17.4 Neither cap in Clause 17.2 or 17.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.",
+        "notes": "The higher multiple for confidentiality/data/IP breaches (Decision D-02) is not yet settled.",
         "placeholders": [
           "[Confidentiality]",
           "[Data Protection]",
           "[Intellectual Property]",
-          "[a multiple, see Decision D-03]"
+          "[a multiple, see Decision D-02]"
         ]
       }
     },
@@ -348,18 +346,17 @@
       "rationale": "Relieves Start2 of liability for delay from events like export-control suspensions or travel restriction. The explicit financial-obligations exclusion (under Refence column) stops a client ever arguing that a cash-flow problem is itself a force majeure event excusing non-payment.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
-      "reference_clause": "If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented PROVIDED that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement, and PROVIDED that this clause shall not apply in the event of failure of the Exhibitor to provide the Exhibitor Items . Notwithstanding the foregoing, if the Force Majeure Event exceeds one (1) month in duration, either party shall have the right at any time thereafter during the continuance of such failure or delay, to terminate this Agreement by giving written notice to the other party.",
+      "reference_clause": "If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented PROVIDED that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. Notwithstanding the foregoing, if the Force Majeure Event exceeds one (1) month in duration, either party shall have the right at any time thereafter during the continuance of such failure or delay, to terminate this Agreement by giving written notice to the other party.",
       "client_facing": true,
       "draft": {
         "id": 18,
         "clause": "Force majeure",
-        "language": "18.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. \n18.2 If a Force Majeure Event under Clause [Force Majeure] continues for more than [X] days, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.\n18.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause [Cost Recovery on Cancellation].",
+        "language": "18.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a \"Force Majeure Event\"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. \n18.2 If a Force Majeure Event under Clause [Force Majeure] continues for more than one (1) month, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.\n18.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause [Cost Recovery on Cancellation].",
         "notes": null,
         "placeholders": [
           "[14]",
           "[Cost Recovery on Cancellation]",
-          "[Force Majeure]",
-          "[X]"
+          "[Force Majeure]"
         ]
       }
     },
@@ -389,7 +386,7 @@
       "rationale": "Start2's core asset is its methodology. Must not be assignable to the client through vague \"developed by each other\" language that does not distinguish pre-existing IP from program deliverables. The closing catch-all (under Refence column) removes any argument that a right was granted by implication.",
       "mutuality": "Mutual for each party's own creations. Asymmetric in that Start2's core methodology is never transferred, regardless of who commissioned the work.",
       "cap_position": "Infringement liability capped at the higher multiple, see Caps sheet",
-      "reference_clause": "For the avoidance of doubt, no rights other than those set out in this clause 5 are granted. Save as provided in this clause, neither party shall use the other party’s intellectual property without the prior approval of the other party.",
+      "reference_clause": "For the avoidance of doubt, no rights other than those set out in this clause 20 are granted. Save as provided in this clause, neither party shall use the other party’s intellectual property without the prior approval of the other party.",
       "client_facing": true,
       "draft": {
         "id": 20,
@@ -449,7 +446,7 @@
       "draft": {
         "id": 23,
         "clause": "Governing law and dispute resolution",
-        "language": "25.1 This Agreement is governed by the laws of [Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity].\n25.2 In case of dispute between the parties arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, Parties shall in good faith endeavor to amicably resolve such dispute.\n25.3 Failing which, such dispute shall be referred to and finally resolved by arbitration administered by the Singapore International Arbitration Centre (“SIAC”) in accordance with the Arbitration Rules of the Singapore International Arbitration Centre (“SIAC Rules”) for the time being in force, which rules are deemed to be incorporated by reference in this Clause. The Tribunal shall consist of a single arbitrator to be appointed by the Chairman of the SIAC. The seat of the arbitration shall be in Singapore. The language of the arbitration shall be in English. The award of the arbitrator shall be final and binding upon the Parties. The costs and expenses of arbitration, including the compensation and expenses of the Arbitrator, shall be borne by the Parties as the Arbitrator may determine.",
+        "language": "23.1 This Agreement is governed by the laws of [Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity].\n23.2 In case of dispute between the parties arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, Parties shall in good faith endeavor to amicably resolve such dispute.\n23.3 Failing which, such dispute shall be referred to and finally resolved by arbitration administered by the Singapore International Arbitration Centre (“SIAC”) in accordance with the Arbitration Rules of the Singapore International Arbitration Centre (“SIAC Rules”) for the time being in force, which rules are deemed to be incorporated by reference in this Clause. The Tribunal shall consist of a single arbitrator to be appointed by the Chairman of the SIAC. The seat of the arbitration shall be in Singapore. The language of the arbitration shall be in English. The award of the arbitrator shall be final and binding upon the Parties. The costs and expenses of arbitration, including the compensation and expenses of the Arbitrator, shall be borne by the Parties as the Arbitrator may determine.",
         "notes": "Already correct per entity in the current templates, carried forward.",
         "placeholders": [
           "[Singapore / Republic of Korea / Japan / People's Republic of China, per contracting entity]"
@@ -647,61 +644,61 @@
       "ref": "D-01",
       "decision": "Payment split",
       "options": "(a) Keep 50/50 default\n(b) Move to 100% upfront as default\n(c) Staged upfront tied to program phases",
-      "recommendation_claude": "(a) 50/50",
+      "recommendation_claude": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
       "recommendation_usa": "a) 50/50 default - 50% upon signing of contract and 50% upon completion of service. Completion of Service is to be defined.",
-      "affects": "Cash exposure. Clause B in all five templates.",
+      "affects": "Cash exposure. Fee, currency, and payment clause (draft clause 5) in all five templates.",
       "settled": false
     },
     {
       "ref": "D-02",
       "decision": "Liability cap multiple for confidentiality/data/IP breaches",
       "options": "(a) Same cap as general liability (total fees)\n(b) A stated multiple of total fees (2x, 3x)",
-      "recommendation_claude": "(b), 2x total fees as a starting ask. These breach types carry third-party exposure the general cap was not built for.",
+      "recommendation_claude": "Not sure",
       "recommendation_usa": "Not sure",
-      "affects": "Caps sheet. Clause F / new Limitation of Liability clause.",
+      "affects": "Caps sheet. Limitation of liability clause (draft clause 17).",
       "settled": false
     },
     {
       "ref": "D-03",
       "decision": "Review lead time, standard deal",
       "options": "(a) 1 day\n(b) 3 business days\n(c) 5 business days",
-      "recommendation_claude": "(b) for unmodified base template; 5 business days if any client clause is present.",
-      "recommendation_usa": "2 business days if using unmodified template. 5 business days if clauses are updated from template or client's own template",
+      "recommendation_claude": "3 business days if using the unmodified Start2 template. 5 business days if clauses are updated from the template or the client's own template is used.",
+      "recommendation_usa": "3 business days if using the unmodified Start2 template. 5 business days if clauses are updated from the template or the client's own template is used.",
       "affects": "Process & Authority sheet. Sales team expectations.",
       "settled": false
     },
     {
       "ref": "D-04",
-      "decision": "Approval required by Director of Ops and Regional Director sign-off",
-      "options": "(a) Every deal\n(b) Fee-based threshold\n(c) Fee-based threshold plus any client-inserted clause or Critical/High flag",
-      "recommendation_claude": "(c). Ties escalation to actual risk rather than deal count.",
-      "recommendation_usa": "Every contract except for unmodified template by Start2.",
-      "affects": null,
+      "decision": "Sign-off chain before signature",
+      "options": null,
+      "recommendation_claude": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO.",
+      "recommendation_usa": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO.",
+      "affects": "Process & Authority sheet: Sign-off chain.",
       "settled": false
     },
     {
       "ref": "D-05",
-      "decision": "Approval required by CEO",
+      "decision": "Approval required by CEO (superseded by D-04)",
       "options": null,
-      "recommendation_claude": null,
-      "recommendation_usa": "I recommend that when a contract involves money, CEO will review the contract and approve.",
-      "affects": null,
+      "recommendation_claude": "Superseded by D-04: CEO is the third and final approver on every contract.",
+      "recommendation_usa": "Superseded by D-04: CEO is the third and final approver on every contract.",
+      "affects": "Process & Authority sheet: Sign-off chain.",
       "settled": false
     },
     {
       "ref": "D-06",
       "decision": "Long-stop period for prolonged force majeure termination",
       "options": "(a) 30 days\n(b) 60 days\n(c) Tie it to a fraction of the remaining term (e.g. force majeure exceeding half the remaining term)",
-      "recommendation_claude": "(b), 60 days as a default. Long enough that ordinary short disruptions don't trigger an exit right either side didn't want, short enough that a program stuck for two months has a way out.",
-      "recommendation_usa": "(b), 60 days as a default.",
-      "affects": "Must Have: Termination for prolonged force majeure. Force Majeure clause across all five templates.",
+      "recommendation_claude": "1 month. The long-stop before either party may terminate for prolonged force majeure is one (1) month, matching the Force majeure reference clause.",
+      "recommendation_usa": "1 month. The long-stop before either party may terminate for prolonged force majeure is one (1) month, matching the Force majeure reference clause.",
+      "affects": "Must Have: Force majeure (draft clauses 18.2 and 18.3). Force Majeure clause across all five templates.",
       "settled": false
     },
     {
       "ref": "D-07",
       "decision": "Fee treatment on force majeure cancellation: recover costs only, or retain the whole fee",
       "options": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)\n(b) Start2 retains the entire Service Fee already paid, credited toward a future or rescheduled program, regardless of costs actually incurred",
-      "recommendation_claude": "(a) as the default for client service agreements, it only recoups what was genuinely spent and is easier to defend as fair if challenged.",
+      "recommendation_claude": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)",
       "recommendation_usa": "(a) Start2 recovers only costs actually committed or paid to third parties (current Must Have: Cost recovery on cancellation approach)",
       "affects": "Must Have: Cost recovery on cancellation. Interacts with D-01 (payment terms).",
       "settled": false
@@ -790,7 +787,7 @@
     {
       "status": "Capped (higher)",
       "item": "Confidentiality and data protection breach",
-      "measure": "Defined multiple of the Service Fee (figure is yours to set, see Decision D-03)",
+      "measure": "Defined multiple of the Service Fee (figure is yours to set, see Decision D-02)",
       "notes": "Should carry a higher cap than the general liability cap.",
       "drafted_in": "Limitation of Liability, 17.3"
     },
@@ -907,17 +904,17 @@
     {
       "topic": "Lead time, standard deal",
       "rule": "Recommended minimum 3 business days between a complete draft reaching the reviewer and the earliest possible signature date, for a deal using the unmodified base template.",
-      "decision_ref": "Decisions tab: Review lead time, standard deal."
+      "decision_ref": "D-03"
     },
     {
       "topic": "Lead time, deal with client-inserted clause",
       "rule": "Recommended minimum 5 business days, to allow checking the client clause against a rejection threshold, sometimes needing a second opinion.",
-      "decision_ref": "Decisions tab: Review lead time, standard deal."
+      "decision_ref": "D-03"
     },
     {
-      "topic": "Approval threshold",
-      "rule": "Recommended: deals under a set fee threshold, using the unmodified base template, signed by country lead without escalation. Any deal above that threshold, or containing a client-inserted clause, or carrying any Critical/High risk flag, requires Director of People and Operations sign-off before signature.",
-      "decision_ref": "Decisions tab: Approval threshold for Director sign-off."
+      "topic": "Sign-off chain",
+      "rule": "Every contract, regardless of fee, template or inserted clauses, is sent for sign-off before signature, in this order: 1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO. Nothing is signed, initialled, or accepted before all three have approved.",
+      "decision_ref": "D-04"
     },
     {
       "topic": "Client says the contract cannot be changed: first response",
@@ -948,28 +945,16 @@
       "topic": "No external cost before payment received",
       "rule": "No mentor fee, venue booking, travel booking, or subcontractor engagement is committed against a client deal until the payment tranche that funds it has actually landed in Start2's account. Not invoiced. Landed.",
       "decision_ref": null
-    },
-    {
-      "topic": "Public-sector exception route",
-      "rule": "Where the client is a government body with statutory payment-in-arrears rules: \n(a) confirmed written purchase order or equivalent binding commitment, \n(b) a defined payment date tied to a specific confirmed milestone, \n(c) Regional Director of Innovation and Product Strategy, Asia approval before any external cost is committed against that unconfirmed cash. Exception process, not a standing alternative. Log and approve each use individually.",
-      "decision_ref": null
     }
   ],
   "_audit": {
-    "decision_refs_cited_but_undefined": {
-      "D-08": [
-        "draft:Cost recovery on cancellation"
-      ]
-    },
+    "decision_refs_cited_but_undefined": {},
     "decision_refs_cited": {
       "D-01": [
         "draft:Fee, currency, payment trigger",
         "draft:Fee, currency, payment trigger"
       ],
-      "D-08": [
-        "draft:Cost recovery on cancellation"
-      ],
-      "D-03": [
+      "D-02": [
         "draft:Limitation of liability",
         "draft:Limitation of liability",
         "caps:Confidentiality and data protection breach"
