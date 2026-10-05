@@ -10,14 +10,16 @@ Takes a guest list in any reasonable spreadsheet layout, checks every person aga
 ## Inputs
 
 1. **Guest list**: `.xlsx`, `.xlsm` or `.csv`. Legacy `.xls` must be converted to `.xlsx` first.
-2. **Blacklist workbook**: the cleaned `Events_Blacklist_Clean.xlsx` (sheet `Blacklist`, columns Name, Also Registered As, Company, Email(s), LinkedIn, ...). It holds personal data, so it is not stored in this repo. Ask the user for it if it is not attached or named. Never paste its contents into chat beyond the matched rows.
+2. **Blacklist workbook**: the cleaned `Events_Blacklist_Clean.xlsx` (sheet `Blacklist`, columns Name, Also Registered As, Company, Email(s), LinkedIn, ...). The packaged `.skill` bundles it at `assets/Events_Blacklist_Clean.xlsx` and the script uses it by default. The git repo does not hold it because it contains personal data; from a repo checkout, pass `--blacklist <path>` or ask the user for the file. Never print the blacklist beyond the matched rows.
+
+To update the list, replace the bundled workbook (same layout) and repackage.
 
 ## Workflow
 
 1. **Dry run to see the mapping.** The guest list will not match the blacklist layout, so the script first maps each sheet's columns to roles (name, first, last, email, company, LinkedIn):
 
    ```bash
-   python scripts/screen.py --input guests.xlsx --blacklist Events_Blacklist_Clean.xlsx --dry-run
+   python scripts/screen.py --input guests.xlsx --dry-run          # add --blacklist <path> if not bundled
    ```
 
    The script finds the header row (it may sit under a title block), recognises common header wordings ("Attendee", "Organisation", "E-mail", "Surname"...), and sniffs columns whose headers say nothing but whose cells are emails or LinkedIn URLs. It also pulls emails out of name cells such as `Jane Doe <jane@x.com>`, accepts several email columns, and splits `;` separated emails.
@@ -34,7 +36,7 @@ Takes a guest list in any reasonable spreadsheet layout, checks every person aga
 3. **Run for real**, keeping the original file name so the result is "the same Excel":
 
    ```bash
-   python scripts/screen.py --input guests.xlsx --blacklist Events_Blacklist_Clean.xlsx --out <outputs dir>/guests.xlsx
+   python scripts/screen.py --input guests.xlsx --out <outputs dir>/guests.xlsx
    ```
 
    Never overwrite the user's original. A `.csv` input comes back as `.xlsx`.

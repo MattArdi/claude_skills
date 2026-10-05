@@ -23,6 +23,7 @@ import openpyxl
 from openpyxl.utils import column_index_from_string, get_column_letter
 from openpyxl.utils.cell import range_boundaries
 
+BUNDLED_BLACKLIST = Path(__file__).resolve().parent.parent / "assets" / "Events_Blacklist_Clean.xlsx"
 STATUS_HEADER = "Blacklist Status"
 OK, REVIEW, BLACKLISTED = "OK", "Review", "Blacklisted"
 FUZZY_THRESHOLD = 0.88
@@ -382,12 +383,15 @@ def copy_style(src, dst):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--input", required=True)
-    ap.add_argument("--blacklist", required=True)
+    ap.add_argument("--blacklist", default=str(BUNDLED_BLACKLIST) if BUNDLED_BLACKLIST.exists() else None,
+                    help="blacklist workbook (defaults to assets/Events_Blacklist_Clean.xlsx when the skill bundles it)")
     ap.add_argument("--out", help="output .xlsx path (omit with --dry-run)")
     ap.add_argument("--map", help="JSON file or string overriding column mapping; "
                     '{"header_row":3,"name":"B","email":["E","F"]} or keyed by sheet name')
     ap.add_argument("--dry-run", action="store_true", help="print mapping and matches, write nothing")
     a = ap.parse_args()
+    if not a.blacklist:
+        ap.error("--blacklist is required: this copy of the skill does not bundle the blacklist workbook")
     if not a.dry_run and not a.out:
         ap.error("--out is required unless --dry-run")
 
