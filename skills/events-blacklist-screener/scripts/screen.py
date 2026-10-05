@@ -41,15 +41,57 @@ def clean(v):
     return re.sub(r"\s+", " ", str(v).replace("\xa0", " ")).strip() if v is not None else ""
 
 
+INVISIBLE = dict.fromkeys(map(ord, "\u200b\u200c\u200d\u200e\u200f\u2060\ufeff\u00ad\u202a\u202b\u202c\u202d\u202e"))
+# Cyrillic / Greek letters that look like Latin ones, so a lookalike spelling still compares equal
+LOOKALIKE = str.maketrans({
+    "а": "a", "в": "b", "е": "e", "к": "k", "м": "m", "н": "h", "о": "o", "р": "p", "с": "c", "т": "t",
+    "у": "y", "х": "x", "і": "i", "ј": "j", "ѕ": "s", "һ": "h", "ԁ": "d", "ɡ": "g", "ӏ": "l",
+    "α": "a", "β": "b", "ε": "e", "ι": "i", "κ": "k", "ν": "v", "ο": "o", "ρ": "p", "τ": "t", "υ": "u", "χ": "x"})
+
+
 def norm_text(s):
-    s = unicodedata.normalize("NFKD", clean(s))
-    s = "".join(c for c in s if not unicodedata.combining(c)).lower()
+    s = unicodedata.normalize("NFKD", clean(s).translate(INVISIBLE))
+    s = "".join(c for c in s if not unicodedata.combining(c)).lower().translate(LOOKALIKE)
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9]+", " ", s)).strip()
 
 
 def name_tokens(s):
     t = norm_text(s).split()
     return [w for w in t if w not in TITLES]
+
+
+LEET = str.maketrans({"0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", "$": "s"})
+_JOIN_PUNCT = re.compile(r"(?<=\w)[.\u00b7_*'\u2019`](?=\w)")
+
+
+def alt_forms(raw):
+    """Disguised spellings of a name as token lists (beyond the plain normalisation):
+    punctuation inside a word ('Go.h'), spaced-out letters ('G o h'), digits for letters ('G0h'),
+    stretched letters ('Gooh')."""
+    base = name_tokens(raw)
+    forms = []
+    forms.append(name_tokens(_JOIN_PUNCT.sub("", clean(raw))))
+    out, run = [], []
+    for t in base + [""]:
+        if len(t) == 1:
+            run.append(t); continue
+        out += ["".join(run)] if len(run) >= 3 else run
+        run = []
+        if t: out.append(t)
+    forms.append(out)
+    leet = []
+    for t in name_tokens(clean(raw).translate(INVISIBLE)):
+        leet.append(t)
+    raw_tokens = [w for w in re.split(r"[^\w@$]+", unicodedata.normalize("NFKD", clean(raw)).lower()) if w]
+    forms.append([w.translate(LEET) if re.search(r"[a-z]", w) and re.search(r"[0-9@$]", w) else w for w in raw_tokens])
+    forms.append([re.sub(r"(.)\1{2,}", r"\1", w) if len(w) > 3 else w for w in base])
+    forms.append([re.sub(r"(.)\1", r"\1", w) if len(w) >= 4 else w for w in base])
+    seen, res = {tuple(base)}, []
+    for f in forms:
+        f = [w for w in f if w and w not in TITLES]
+        if f and tuple(f) not in seen:
+            seen.add(tuple(f)); res.append(f)
+    return res
 
 
 def name_variants(raw):
@@ -67,6 +109,15 @@ def name_variants(raw):
 
 def emails_in(v):
     return [e.lower().rstrip(".") for e in EMAIL_RE.findall(clean(v))]
+
+
+def canon_email(e):
+    """Same inbox, different spelling: drop '+tag'; Gmail also ignores dots and treats googlemail.com as gmail.com."""
+    local, dom = e.split("@", 1)
+    local = local.split("+")[0]
+    if dom in ("gmail.com", "googlemail.com"):
+        dom, local = "gmail.com", local.replace(".", "")
+    return f"{local}@{dom}"
 
 
 def li_slug(v):
@@ -243,8 +294,10 @@ def corroborated(g, b):
 
 def screen_record(g, blacklist, email_idx, slug_idx):
     for e in g["emails"]:
-        if e in email_idx:
-            return BLACKLISTED, f"email {e} = blacklist '{email_idx[e]['display']}'"
+        hit = email_idx.get(canon_email(e))
+        if hit:
+            note = "" if e in hit["emails"] else " (same inbox after ignoring +tag / Gmail dots)"
+            return BLACKLISTED, f"email {e} = blacklist '{hit['display']}'{note}"
     for s in g["slugs"]:
         if s in slug_idx:
             return BLACKLISTED, f"LinkedIn /{s} = blacklist '{slug_idx[s]['display']}'"
@@ -254,6 +307,11 @@ def screen_record(g, blacklist, email_idx, slug_idx):
         for gn in g["names"]:
             for bn in b["names"]:
                 kind = name_match(name_tokens(gn), name_tokens(bn))
+                if kind is None:
+                    # disguised spellings: always Review, never an automatic Blacklisted
+                    alt = [name_match(g2, name_tokens(bn)) for g2 in alt_forms(gn)] + \
+                          [name_match(name_tokens(gn), b2) for b2 in alt_forms(bn)]
+                    kind = "variant" if any(k and k != "single" for k in alt) else None
                 if kind is None:
                     continue
                 if kind == "exact":
@@ -291,7 +349,7 @@ def load_blacklist(path):
                     continue
                 r["display"] = r["names"][0] if r["names"] else r["emails"][0]
                 entries.append(r)
-            email_idx = {e: b for b in entries for e in b["emails"]}
+            email_idx = {canon_email(e): b for b in entries for e in b["emails"]}
             slug_idx = {s: b for b in entries for s in b["slugs"]}
             return entries, email_idx, slug_idx, ws.title
     sys.exit("Could not find a Name column in the blacklist workbook.")

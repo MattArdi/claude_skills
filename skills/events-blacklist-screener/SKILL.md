@@ -59,6 +59,13 @@ Why these rules:
 - Free-mail domains (gmail, yahoo, ...) never count as corroboration.
 - A single lone first name is never an exact-name match; it needs corroboration and only reaches `Review`.
 
+## Disguised spellings
+
+- **Email:** compared after dropping `+tag` and, for Gmail and googlemail.com, dots (`w.h.goh88+rsvp@googlemail.com` equals `whgoh88@gmail.com`). Still `Blacklisted`, with the reason noting the same inbox.
+- **Invisible and lookalike characters:** zero-width characters are removed and Cyrillic/Greek lookalike letters are mapped to Latin before comparing, so these count as the same name (a deliberate disguise gets no benefit of the doubt).
+- **Visible disguises:** digits for letters (`G0h`), spaced-out letters (`G o h`), punctuation inside a word (`Go.h`), stretched letters (`Gooh`), fused initials (`WH Goh`) and joined words (`Weehong Goh`) are `Review`, never `Blacklisted`.
+- **Out of scope on purpose:** nicknames and English names, romanisation variants (Chan/Chen/Tan), and a different name with a new email. These need a lookup table or other identifiers and would add noise.
+
 ## Output contract
 
 - Same workbook, same sheets, same cell styles. One column, `Blacklist Status`, appended after the last column of each screened sheet, header styled like its neighbour. If the column already exists it is overwritten rather than duplicated.
