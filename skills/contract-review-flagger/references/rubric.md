@@ -13,7 +13,7 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 **Status.** Executed if signature blocks carry signatures and dates, Draft otherwise.
 **Paper.** Start2 template unmodified (compare to `base_agreement_assembled.md`), Start2 template modified, or client or third-party paper. A new contract on anyone else's paper is the 5-business-day case.
 **Contract type.** Service (Start2 sells a service for a fee), Funding (a funder pays a programme through ceilings, claims and audits), Vendor (Start2 buys), Other. For a Funding contract read `FEE` as the funding terms and `COSTREC` as reimbursement and refund terms; set-off, audit, clawback and claim documents matter more.
-**Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract when they set conditions). An annex page that holds only a file icon or a title means the annex is not included.
+**Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract). An annex page that holds only a file icon or a title means the annex is not included.
 
 ## 2. Role
 Run `scripts/match_entities.py`. Start2 Asia is the only entity treated as ours.
@@ -21,7 +21,7 @@ Run `scripts/match_entities.py`. Start2 Asia is the only entity treated as ours.
 2. **FLAG** (any other name containing "Start2", including the bare word): stop, tell the user which name was found and where, and ask whether it is a Start2 entity of ours and in what role. Wait for the answer, then continue.
 3. Nothing found: guess. Signals: who performs the service and who pays; names that resemble Start2; who the standards' provider protections would protect (mentors, methodology, programme delivery).
 4. Role is Provider (we deliver), Buyer (we pay a vendor) or Other (neither). Write `our_entity`, `our_role` and a one-sentence `role_basis` containing "assumed" when guessed.
-5. Provider: run the full review. Buyer or Other: do not apply the standards. Set every coverage verdict to N/A with note "Not assessed: not provider-side", report only role-neutral findings (checks, commercial arithmetic, internal contradictions, blank or missing content), and let the Summary recommendation read "Not assessed".
+5. Provider: run the full review. Buyer or Other: do not apply the standards. Set every coverage verdict to N/A with note "Not assessed: not provider-side", report only role-neutral findings (checks, commercial arithmetic, internal contradictions, blank or missing content), and let the Summary "To confirm" line read "Not assessed".
 
 ## 3. Facts to extract (Summary, Key facts)
 Parties and addresses, signing date, term and end date, fee or funding amounts with currency and tax treatment, payment schedule, percentages and their arithmetic (use `run_checks.py` info), governing law and forum, language, list of annexes present or absent. Give the clause and page for each.
@@ -75,5 +75,5 @@ Fee, currency, tax, payment trigger and due date, term dates, balance amounts, c
 - Confirm Critical, High and client-clause findings with a person (the workbook says so in Read Me).
 - For scanned contracts say in the issue when a reading is uncertain.
 
-## 10. Recommendation
-The workbook computes it. Draft: any Critical = Escalate; any High = Proceed with named conditions; else Proceed. Executed: escalate Critical, log High for amendment or renewal. Sign-off is always the full chain; the skill does not decide it.
+## 10. What to log
+Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation and does not decide sign-off (the full chain applies).

@@ -28,7 +28,6 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 | `scripts/build_review_workbook.py` | `review.json` to the review workbook. |
 | `scripts/suggest_language.py` | Prints Start2 standard language for clause IDs. |
 | `scripts/parse_standards.py`, `assemble_agreement.py` | Rebuild `standards.json` and the assembled agreement after the workbook changes. |
-| `OPEN_ITEMS.md` | What still needs checking, editing or confirming. |
 
 Needs `poppler-utils` (`pdftotext`, `pdftoppm`, `pdfinfo`) and Python `openpyxl`.
 
@@ -68,7 +67,7 @@ Fix every ERROR. Read every WARN: justify a severity that differs from the rule 
 ```
 python3 S/scripts/build_review_workbook.py S/references/standards.json W/review.json W/<contract>_review.xlsx
 ```
-Hand over the workbook with a short message: role guess and basis, status, counts by severity, the recommendation, the three to five items that matter most, and anything uncertain (scanned pages, role guess, items needing a person). Counts and recommendation are formulas in the workbook; state them as the workbook will show them.
+Hand over the workbook with a short message: role guess and basis, status, counts by severity, the number of Critical and High findings to confirm, the three to five items that matter most, and anything uncertain (scanned pages, role guess, items needing a person). Counts and the to-confirm line are formulas in the workbook; state them as the workbook will show them.
 
 ## Rules
 - No quote, no finding. Scanned quotes are transcriptions: say so.

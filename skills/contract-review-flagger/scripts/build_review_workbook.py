@@ -12,7 +12,7 @@ review.json (all keys optional):
   findings: [{severity, type, clause, where, quote, issue, action}]
   coverage: {CLAUSE_ID: {verdict, where, note}}
   checks:   {"1": {result, evidence}, ...}   (keys are Execution Check numbers)
-Counts and the recommendation are formulas over the Findings sheet, so edits in Excel flow through.
+Counts and the to-confirm line are formulas over the Findings sheet, so edits in Excel flow through.
 """
 import json
 import sys
@@ -68,14 +68,14 @@ def dropdown(ws, rng, items):
 def readme(ws):
     rows = [
         ("S", "What this workbook is"),
-        ("One contract per workbook", "Produced by the contract review skill from the contract text and the Start2 standards workbook, then checked by a person. Counts and the recommendation update when you edit the Findings sheet."),
+        ("One contract per workbook", "Produced by the contract review skill from the contract text and the Start2 standards workbook, then checked by a person. Counts and the to-confirm line update when you edit the Findings sheet."),
         ("S", "How to use it"),
-        ("1. Summary", "Read the role, the counts and the recommendation. Check the role guess first: if it is wrong, nothing else applies."),
+        ("1. Summary", "Read the role, the counts and the number of findings to confirm. Check the role guess first: if it is wrong, nothing else applies."),
         ("2. Findings", "Work down the list. It is sorted Critical to Low. Fix, negotiate or accept each item, and change Severity or Type if you disagree. Every Critical, High and client-clause finding must be confirmed by a person."),
         ("3. Coverage", "Use it to see which standard clauses are present, partial, deviant or missing. It is a view; issues are listed in Findings."),
         ("4. Checks", "The 12 execution checks. A failed check also appears in Findings."),
         ("S", "Severity"),
-        ("Critical", "Do not sign (if already executed, escalate at once). Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields."),
+        ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields."),
         ("High", "Fix, or have the full sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
@@ -87,11 +87,11 @@ def readme(ws):
         ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time: 3 business days for the unmodified template, otherwise 5."),
         ("Standards version", "Version of the standards workbook the contract was checked against."),
         ("Our entity", "The Start2 entity in this contract. Guessed from the entity list and the text when not obvious."),
-        ("Our role", "Provider, Buyer or Other. The standards cover provider-side contracts only. If the role is not Provider, standards coverage is not applied and the recommendation says so."),
+        ("Our role", "Provider, Buyer or Other. The standards cover provider-side contracts only. If the role is not Provider, standards coverage is not applied and the To confirm line says so."),
         ("Role basis", "One sentence on why that role was chosen. Always filled when the role was guessed."),
         ("Counterparty", "The other party."),
         ("Critical / High / Medium / Low", "Formulas: number of Findings at each severity."),
-        ("Recommendation", "Formula. Draft: any Critical = Escalate; any High = Proceed with named conditions; otherwise Proceed. Executed: no signature gate; Critical items are escalated and High items logged for amendment or renewal."),
+        ("To confirm", "Formula: the number of Critical and High findings. These are logged for a person to confirm; nothing else is recommended."),
         ("Review lead time", "Formula from Whose paper."),
         ("Sign-off chain", "Fixed. Every contract goes to all three approvers in order."),
         ("Key facts (Fact / Value / Where)", "Facts used in the review: parties, dates, amounts, law, forum, language, annexes, with arithmetic checks. Where gives the contract reference and page."),
@@ -118,7 +118,7 @@ def readme(ws):
         ("Result", "Pass, Fail, N/A or Cannot verify (drop-down)."),
         ("Evidence", "What was seen, with page references."),
         ("S", "Rules"),
-        ("Counts", "Counts and the recommendation use the Findings sheet only. Coverage severity is a view and is not counted."),
+        ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
         ("Role", "The role is guessed when unclear and recorded on Summary. The only time the skill asks is when a name containing 'Start2' other than Start2 Asia appears: it flags the name and waits for confirmation."),
         ("Not legal advice", "A screen against Start2 standards. Decisions follow the sign-off chain."),
     ]
@@ -163,12 +163,10 @@ def build(standards, review, out):
     dropdown(ws, f"B{pos['paper']}", PAPER); dropdown(ws, f"B{pos['our_role']}", ["Provider", "Buyer", "Other"])
     section("Result")
     for k in SEV: row(k, k, f'=COUNTIF(Findings!$B$2:$B${MAXROW},"{k}")')
-    st, ro, c, h = (f"B{pos[x]}" for x in ("status", "our_role", "Critical", "High"))
-    row("Recommendation", "rec",
-        f'=IF(OR({st}="",{ro}=""),"",IF({ro}<>"Provider","Not assessed: the standards cover provider-side contracts only",'
-        f'IF({st}="Executed",IF({c}>0,"Executed: escalate Critical items and log High items for amendment or renewal",'
-        f'IF({h}>0,"Executed: log High items for amendment or renewal","Executed: no action required")),'
-        f'IF({c}>0,"Escalate",IF({h}>0,"Proceed with named conditions","Proceed")))))')
+    ro, c, h = (f"B{pos[x]}" for x in ("our_role", "Critical", "High"))
+    row("To confirm", "confirm",
+        f'=IF({ro}="","",IF({ro}<>"Provider","Not assessed: the standards cover provider-side contracts only",'
+        f'({c}+{h})&" Critical and High findings to confirm"))')
     pp = f"B{pos['paper']}"
     row("Review lead time", "lead", f'=IF({pp}="","",IF({pp}="Start2 template, unmodified","3 business days","5 business days"))')
     row("Sign-off chain", "chain", SIGNOFF)
