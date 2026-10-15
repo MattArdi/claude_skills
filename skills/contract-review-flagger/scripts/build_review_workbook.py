@@ -119,7 +119,7 @@ def readme(ws):
         ("Evidence", "What was seen, with page references."),
         ("S", "Rules"),
         ("Counts", "Counts and the recommendation use the Findings sheet only. Coverage severity is a view and is not counted."),
-        ("Role", "The role is guessed when unclear and recorded on Summary. The skill never stops to ask."),
+        ("Role", "The role is guessed when unclear and recorded on Summary. The only time the skill asks is when a name containing 'Start2' other than Start2 Asia appears: it flags the name and waits for confirmation."),
         ("Not legal advice", "A screen against Start2 standards. Decisions follow the sign-off chain."),
     ]
     header(ws, ["Item", "Description"], [34, 120]); ws.freeze_panes = None

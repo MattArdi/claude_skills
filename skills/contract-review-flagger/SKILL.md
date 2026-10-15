@@ -7,20 +7,19 @@ description: Review a contract against the Start2 Asia contract standards and re
 
 Reads one contract and produces one workbook: Summary, Findings, Coverage, Checks. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
 
-Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). It never stops to ask which party Start2 is: it guesses, records the guess on the Summary, and carries on.
+Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). It guesses which party Start2 is and records the guess on the Summary. The one exception: a name containing "Start2" that is not Start2 Asia is flagged and confirmed with the user before the review continues.
 
 ## Files
 
 | Path | What it is |
 |---|---|
-| `references/Start2_Asia_Contract_Standards_UP_15_Oct_v5.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
+| `references/Start2_Asia_Contract_Standards_UP_15_Oct_v6.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
 | `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
 | `references/rubric.md` | How to judge: role guess, verdicts, client-clause screen, severity table, writing rules. Read it before step 4. |
 | `references/review_schema.md` | The `review.json` format. |
 | `references/start2_entities.json` | Known Start2 entities for the role guess. Incomplete. |
 | `references/base_agreement_assembled.md` | The base English agreement, assembled from the standards (for "template unmodified" checks). |
 | `templates/Contract_Review_Template.xlsx` | Blank review workbook with a Read Me that explains every sheet and column. |
-| `examples/` | ESG (scanned, executed, funding) and BMW (draft, buyer-side) as `*_review.json` plus the workbooks they produce. |
 | `scripts/ingest.py` | Contract file to `document.json`; renders image-only pages. |
 | `scripts/segment.py` | `document.json` to a clause tree. |
 | `scripts/run_checks.py` | Candidates: blanks, dates, duplicate numbers, annexes, percentages. |
@@ -46,7 +45,7 @@ python3 S/scripts/ingest.py <contract> W
 - If a file is neither PDF, DOCX nor text, say so and stop.
 
 ### 2. Context and role
-Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Run `python3 S/scripts/match_entities.py W/document.json`, then guess the role (rubric section 2) and write `role_basis`. A Buyer or Other role means no standards coverage (rubric section 2, step 5).
+Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Run `python3 S/scripts/match_entities.py W/document.json`. If it prints FLAG, ask the user to confirm the entity and wait. Otherwise guess the role (rubric section 2) and write `role_basis`. A Buyer or Other role means no standards coverage (rubric section 2, step 5).
 
 ### 3. Segment and extract
 ```
@@ -78,4 +77,4 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - Never invent contract text, page numbers or clause numbers.
 - Every Critical, High and client-clause finding is confirmed by a person before action. Sign-off is always the full chain: Director of People and Operations, Regional Director of Innovation and Product Strategy, CEO.
 - Contracts hold personal and bank data. Keep them local. No external services.
-- After the standards workbook changes, run `parse_standards.py` and `assemble_agreement.py`, then retest on the examples.
+- After the standards workbook changes, run `parse_standards.py` and `assemble_agreement.py`, then rebuild the blank template.

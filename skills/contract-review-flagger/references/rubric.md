@@ -1,13 +1,13 @@
 # Review rubric
 
-How Claude judges a contract. Read once per review. The standards live in `standards.json` (built from the standards workbook).
+How Claude judges a contract. Read once per review. The standards live in `standards.json` (built from the standards workbook). The severity rules in section 8 are approved.
 
 ## 0. Principles
 - Evidence first. Every finding carries a verbatim quote (300 characters at most) and a page. No quote, no finding. For an absent clause write `(clause absent)` and `Not in contract`.
 - Never mark a clause Conforming without reading the clause text against `required_content` and `standard_language`.
 - English only. A translated contract is reviewed as written; say that the original was not seen.
 - This is a screen against Start2's own standard. It is not legal advice. Do not send contract text to any external service.
-- Never stop to ask. Guess, record the guess in `role_basis`, and carry on.
+- Do not stop to ask about the role. Guess, record the guess in `role_basis`, and carry on. The one exception: a name containing "Start2" that is not Start2 Asia is flagged and confirmed with the user (section 2).
 
 ## 1. Context to establish first
 **Status.** Executed if signature blocks carry signatures and dates, Draft otherwise.
@@ -15,12 +15,12 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 **Contract type.** Service (Start2 sells a service for a fee), Funding (a funder pays a programme through ceilings, claims and audits), Vendor (Start2 buys), Other. For a Funding contract read `FEE` as the funding terms and `COSTREC` as reimbursement and refund terms; set-off, audit, clawback and claim documents matter more.
 **Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract when they set conditions). An annex page that holds only a file icon or a title means the annex is not included.
 
-## 2. Role (always guess)
-Run `scripts/match_entities.py`. Then decide:
-1. Named Start2 entity in the entity list: that party is ours.
-2. Otherwise guess. Signals: who performs the service and who pays; names that resemble a Start2 or predecessor entity; who the standards' provider protections would protect (mentors, methodology, programme delivery).
-3. Role is Provider (we deliver), Buyer (we pay a vendor) or Other (neither).
-4. Write `our_entity`, `our_role` and a one-sentence `role_basis` containing "assumed" when guessed.
+## 2. Role
+Run `scripts/match_entities.py`. Start2 Asia is the only entity treated as ours.
+1. **KNOWN** (Start2 Asia named): that party is ours.
+2. **FLAG** (any other name containing "Start2", including the bare word): stop, tell the user which name was found and where, and ask whether it is a Start2 entity of ours and in what role. Wait for the answer, then continue.
+3. Nothing found: guess. Signals: who performs the service and who pays; names that resemble Start2; who the standards' provider protections would protect (mentors, methodology, programme delivery).
+4. Role is Provider (we deliver), Buyer (we pay a vendor) or Other (neither). Write `our_entity`, `our_role` and a one-sentence `role_basis` containing "assumed" when guessed.
 5. Provider: run the full review. Buyer or Other: do not apply the standards. Set every coverage verdict to N/A with note "Not assessed: not provider-side", report only role-neutral findings (checks, commercial arithmetic, internal contradictions, blank or missing content), and let the Summary recommendation read "Not assessed".
 
 ## 3. Facts to extract (Summary, Key facts)
@@ -45,7 +45,7 @@ Every contract clause not mapped in step 4 is a candidate. Compare it with the p
 Generic screen: one-way termination or cancellation rights, open-ended scope, per-breach penalties, uncapped indemnity, price control, unfunded obligations, outcome-linked payment, payment conditions with no deadline, data or audit access, exclusivity, non-compete.
 
 ## 6. Execution checks (1 to 12)
-Run `scripts/run_checks.py` and judge each candidate. It covers blanks and placeholders (1), duplicate or undefined clause numbers (2), date errors (3), annex presence (9), translation (5) and tracked changes (8). You must still judge 4, 6, 7, 10, 11, 12 yourself and confirm or dismiss every candidate (heading-like labels such as "Party B Bank Account Information:" are false positives).
+Run `scripts/run_checks.py` and judge each candidate. It covers blanks and placeholders (1), duplicate or undefined clause numbers (2), date errors (3), annex presence (9), translation (5) and tracked changes (8). You must still judge 4, 6, 7, 10, 11, 12 yourself and confirm or dismiss every candidate (labels that introduce a list and end in a colon are false positives).
 Result per check: Pass, Fail, N/A, Cannot verify. Each Fail also becomes a Finding with type `Execution` and clause `Check n`.
 
 ## 7. Commercial pass

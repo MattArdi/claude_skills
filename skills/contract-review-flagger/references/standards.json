@@ -1,5 +1,5 @@
 {
-  "source": "Start2_Asia_Contract_Standards_UP_15_Oct_v5.xlsx",
+  "source": "Start2_Asia_Contract_Standards_UP_15_Oct_v6.xlsx",
   "clauses": [
     {
       "id": "PARTIES",
@@ -484,7 +484,7 @@
       "clause": "Compliance with laws / sanctions",
       "draft_heading": "Compliance with laws and sanctions",
       "required_content": "Each party warrants it is not, and is not owned or controlled by, a sanctioned person or entity. Either party may suspend or terminate without the standard cure period if performance becomes restricted by export control, sanctions, or other government action, or if the other party becomes a sanctioned entity.",
-      "rationale": "Start2 delivers cross-border programs to government-linked bodies (Ulsan Technopark, KIDP) across jurisdictions with active and changing export control regimes. Without this clause, Start2 has no clean exit if a government action makes continued performance illegal or commercially unsafe, and would have to rely on the general force majeure clause, which is not written with sanctions or export control in mind.",
+      "rationale": "Start2 delivers cross-border programs to government-linked bodies across jurisdictions with active and changing export control regimes. Without this clause, Start2 has no clean exit if a government action makes continued performance illegal or commercially unsafe, and would have to rely on the general force majeure clause, which is not written with sanctions or export control in mind.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",
@@ -617,7 +617,7 @@
       "cap_measure": null,
       "negotiation_stance": null,
       "standard_language": "This Agreement and its Appendices constitute the entire agreement between the Parties on this subject and supersede all prior discussions, proposals, and representations, whether written or verbal. Neither Party has a remedy for any statement it relied on in entering this Agreement unless that statement is set out in this Agreement.",
-      "notes": "Non-reliance sentence adapted from the Enterprise Singapore exhibition agreement, Clause 15.1.",
+      "notes": null,
       "open_placeholders": null,
       "survives": "N",
       "reference_clause": "This Agreement and its Schedules constitute the entire agreement between the parties with respect to its subject matter, and supersedes all prior agreements, understandings, proposals, representations, and discussions between the parties, whether verbal or written. There are no\nunderstandings, agreements, representations, or warranties, expressed or implied, not expressly specified in this Agreement. Neither party shall have any remedy in respect of any statement made to it upon which it relied in entering into this Agreement.",
@@ -661,7 +661,7 @@
       "clause": "Electronic signature / counterparts",
       "draft_heading": "Electronic signature and counterparts",
       "required_content": "Each party may execute by electronic signature (e.g. Zoho Sign), each counterpart is deemed an original, and all counterparts together form one instrument.",
-      "rationale": "Actual practice already uses electronic signature, the KIDP China agreement was executed on Zoho Sign, but every template still reads \"the parties prepare and sign 2 copies...and keep 1 copy respectively,\" wet-ink language that does not describe how Start2 actually signs.",
+      "rationale": "Actual practice already uses electronic signature, but every template still reads \"the parties prepare and sign 2 copies...and keep 1 copy respectively,\" wet-ink language that does not describe how Start2 actually signs.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",

@@ -17,7 +17,7 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
     "role_basis": "one sentence; say 'assumed' when guessed",
     "counterparty": "the other party"
   },
-  "facts": [ {"fact": "Funding cap", "value": "SGD 2,890,000 = 700,000 + 2,190,000", "where": "5.1; p. 3"} ],
+  "facts": [ {"fact": "Total fee", "value": "USD 100,000 excl. tax = 60,000 + 40,000", "where": "5.1 (p. 3)"} ],
   "findings": [
     {"severity": "Critical | High | Medium | Low",
      "type": "Missing | Partial | Deviant | Client: Reject | Client: Escalate | Client: Conditional | Client: Accept | Unclassified clause | Commercial | Execution | Other",

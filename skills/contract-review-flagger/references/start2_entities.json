@@ -1,8 +1,6 @@
 {
- "note": "Used only to help guess the role. Entries marked assumed or guess must be confirmed. The Asia entities (Singapore, Korea, Japan, China) are not listed yet.",
+ "note": "Start2 Asia is the only entity treated as ours. Any other name containing 'Start2' is flagged and confirmed with the user before the review continues.",
  "entities": [
-  {"name": "German Entrepreneurship Asia Pte Ltd", "aliases": ["GEA", "German Entrepreneurship Asia"], "jurisdiction": "Singapore", "status": "assumed (ESG sample)"},
-  {"name": "Deruchuang Consulting Management (Shanghai) Co., Ltd.", "aliases": ["Deruchuang"], "jurisdiction": "China", "status": "guess (BMW sample)"},
-  {"name": "Start2 Group GmbH", "aliases": ["Start2 Group", "Start2"], "jurisdiction": "Germany", "status": "from the Start2 letterhead skill"}
+  {"name": "Start2 Asia", "aliases": ["Start2 Asia"], "status": "confirmed"}
  ]
 }
