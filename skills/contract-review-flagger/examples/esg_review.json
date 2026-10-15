@@ -102,7 +102,7 @@
   {
    "severity": "High",
    "type": "Execution",
-   "clause": "Check 9",
+   "clause": "Check 11",
    "where": "7.3 Module 2 table (p. 6, 16-18)",
    "quote": "as per template set out in Annex E ... Survey form in the form set out in Annex F",
    "issue": "Module 2 claim documents cite Annex E for the attendance template and Annex F for the survey form. Annex D is the attendance form, Annex E the survey form, and Annex F the progress tracking sheet. Wrong references sit in a payment-release condition.",
@@ -667,7 +667,7 @@
   },
   "9": {
    "result": "Fail",
-   "evidence": "Annex A, D, E, F are icons only; 7.3 cites wrong annex letters (E and F for D and E)."
+   "evidence": "Annex A, D, E, F are icons only; their content is not in the copy (pp. 13, 16-18)."
   },
   "10": {
    "result": "Cannot verify",
@@ -675,7 +675,7 @@
   },
   "11": {
    "result": "Fail",
-   "evidence": "Two clauses numbered 7.2; Module 2 annex letters wrong."
+   "evidence": "7.3 Module 2 cites Annex E and F for the attendance and survey templates; they are Annex D and E (pp. 6, 16-17)."
   },
   "12": {
    "result": "Pass",

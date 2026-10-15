@@ -135,7 +135,9 @@ def readme(ws):
 
 def build(standards, review, out):
     review = review or {}
-    S = review.get("summary", {})
+    S = dict(review.get("summary", {}))
+    if review and not S.get("standards_version"):
+        S["standards_version"] = standards.get("source", "").replace(".xlsx", "")
     wb = openpyxl.Workbook()
     ws = wb.active; ws.title = "Read Me"; readme(ws)
 
