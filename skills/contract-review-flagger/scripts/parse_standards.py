@@ -19,7 +19,7 @@ CLAUSE_KEYS = {
     "ID": "id", "Order": "order", "#": "number", "Tier": "tier", "Client-facing": "client_facing",
     "Clause": "clause", "Draft heading": "draft_heading", "What must be on the page": "required_content",
     "Why it protects Start2": "rationale", "Mutuality": "mutuality", "Cap position": "cap_position",
-    "Cap type": "cap_type", "Cap measure": "cap_measure", "Negotiation stance": "negotiation_stance",
+    "Cap type": "cap_type", "Base severity": "base_severity", "Cap measure": "cap_measure", "Negotiation stance": "negotiation_stance",
     "Standard language": "standard_language", "Notes / placeholders": "notes",
     "Open placeholders": "open_placeholders", "Survives termination": "survives", "Reference clause": "reference_clause",
 }
