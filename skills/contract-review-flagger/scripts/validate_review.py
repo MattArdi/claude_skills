@@ -7,7 +7,9 @@ Errors (exit 1): bad enumerations, unknown clause IDs, missing required fields, 
 Warnings: severity differs from the rule (including the one-level raise for subjective wording), a non-conforming
 verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
 scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
-text too short to explain itself, command text left in Action, documents not supplied without a finding.
+text too short to explain itself, command text left in Action, documents not supplied without a finding,
+legal terms or clause codes left unexplained (plain_language.py), a no-action finding not lowered one level,
+document references that miss a paragraph where the document is named.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
 ignored when quotes are matched against the document.
 """
@@ -18,6 +20,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from subjective import find as find_subjective  # noqa: E402
+from plain_language import load as load_terms, scan as scan_terms  # noqa: E402
+from find_references import matches as find_mentions  # noqa: E402
 
 SEV = ["Low", "Medium", "High", "Critical"]
 TYPES = {"Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", "Client: Conditional", "Client: Accept",
@@ -36,10 +40,12 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", "", s)
 
 
-def expected(base, verdict, subjective=False):
+def expected(base, verdict, subjective=False, action_required=True):
     if base == "n/a" or verdict in ("Conforming", "N/A"): return None
     sev = base if verdict in ("Missing", "Deviant") else SEV[max(0, SEV.index(base) - 1)]
-    return SEV[min(len(SEV) - 1, SEV.index(sev) + 1)] if subjective else sev
+    if subjective: sev = SEV[min(len(SEV) - 1, SEV.index(sev) + 1)]
+    if not action_required: sev = SEV[max(0, SEV.index(sev) - 1)]
+    return sev
 
 
 def main(std_path, rev_path, doc_path=None):
@@ -72,6 +78,11 @@ def main(std_path, rev_path, doc_path=None):
         for k, n in MIN_WORDS.items():
             if f.get(k) and len(f[k].split()) < n:
                 warns.append(f"{tag}: {k} has {len(f[k].split())} words; explain it in full (rubric section 9)")
+        no_action = f.get("action_required") is False
+        if no_action and not (f.get("action") or "").startswith("No action needed"):
+            warns.append(f"{tag}: action_required is false; start the action with 'No action needed' and say why")
+        if not no_action and re.match(r"\s*(?:No action|None\b|Record\b)", f.get("action") or ""):
+            warns.append(f"{tag}: action asks for nothing; set \"action_required\": false and lower severity one level")
         if re.search(r"suggest_language|scripts/|\.py\b", f.get("action") or ""):
             errors.append(f"{tag}: action contains command text; the Suggested language column is filled automatically")
         if q and not q.startswith("("):
@@ -89,10 +100,12 @@ def main(std_path, rev_path, doc_path=None):
                     if len(norm(seg)) >= 15 and norm(seg) not in corpus:
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
-            exp = expected(base[f["clause"]], f["type"], bool(f.get("subjective")))
+            exp = expected(base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
             if exp and f["severity"] != exp:
+                adj = [x for x, on in (("raised one level for subjective wording", f.get("subjective")),
+                                       ("lowered one level as no action is needed", f.get("action_required") is False)) if on]
                 warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}"
-                             f"{', raised one level for subjective wording' if f.get('subjective') else ''}); keep only if justified in the issue text")
+                             f"{'; ' + ', '.join(adj) if adj else ''}); keep only if justified in the issue text")
         elif f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") not in base:
             errors.append(f"{tag}: unknown clause ID {f.get('clause')!r}")
     if unverified:
@@ -112,9 +125,29 @@ def main(std_path, rev_path, doc_path=None):
                 warns.append(f"coverage {cid} is {v['verdict']} but there is no finding for it")
     docs = rev.get("documents_not_supplied", [])
     noted = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Not supplied"}
+    paras = doc["paragraphs"] if doc_path else []
+    pnorm = {p["id"]: norm(p["text"]) for p in paras}
     for i, d in enumerate(docs, 1):
-        for k in ("document", "referenced_at", "governs", "effect", "action"):
+        for k in ("document", "references", "governs", "effect", "action"):
             if not d.get(k): errors.append(f"document {i}: {k} is empty")
+        covered = set()
+        for j, ref in enumerate(d.get("references", []), 1):
+            if not ref.get("where") or not ref.get("quote"):
+                errors.append(f"document {i} reference {j}: where and quote are both required"); continue
+            segs = [norm(x) for x in re.split(r"\s*(?:\.\.\.|…)\s*", ref["quote"]) if len(norm(x)) >= 15]
+            if doc_path and not scanned:
+                for sg in segs:
+                    if sg not in corpus: errors.append(f"document {i} reference {j}: quote not found in document: {sg[:60]!r}")
+            # each reference accounts for one paragraph: the first not yet claimed that holds all of its quote
+            hit = next((p["id"] for p in paras if p["id"] not in covered and segs and all(sg in pnorm[p["id"]] for sg in segs)), None)
+            if hit: covered.add(hit)
+        if d.get("search") and paras:
+            missed = [p for p, _, _ in find_mentions(doc, d["search"]) if p["id"] not in covered]
+            if missed:
+                warns.append(f"document {i} ({d.get('document')}): named in {len(missed)} more place(s) not in references: "
+                             + ", ".join(f"p.{p['page']} {p['id']}" for p in missed) + " (run find_references.py)")
+        elif not d.get("search"):
+            warns.append(f"document {i}: no search terms; add \"search\" so every reference can be checked")
         if d.get("part_of_contract") and d.get("document") not in noted:
             warns.append(f"document {i} ({d.get('document')}) forms part of the contract but has no 'Not supplied' finding")
     for cid, v in cov.items():
@@ -129,6 +162,10 @@ def main(std_path, rev_path, doc_path=None):
     for n, v in checks.items():
         if v.get("result") == "Fail" and f"Check {n}" not in has_exec:
             warns.append(f"check {n} failed but no Execution finding has clause 'Check {n}'")
+    terms, codes = load_terms(std)
+    for where, field, hits in scan_terms(rev, terms, codes):
+        warns.append(f"{where} {field}: explain " + ", ".join(a for a, _ in hits)
+                     + " in plain words (otherwise the workbook adds a 'Terms used' line)")
     for w in warns: print("WARN ", w)
     for e in errors: print("ERROR", e)
     print(f"{len(rev.get('findings', []))} findings, {len(errors)} errors, {len(warns)} warnings")

@@ -17,12 +17,15 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 | `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
 | `references/rubric.md` | How to judge: role guess, verdicts, client-clause screen, severity table, writing rules. Read it before step 4. |
 | `references/review_schema.md` | The `review.json` format. |
+| `references/plain_terms.json` | Legal terms with plain explanations, for the plain-language pass. Add terms as reviews meet them. |
 | `references/start2_entities.json` | Known Start2 entities for the role guess. Incomplete. |
 | `references/base_agreement_assembled.md` | The base English agreement, assembled from the standards (for "template unmodified" checks). |
 | `templates/Contract_Review_Template.xlsx` | Blank review workbook with a Read Me that explains every sheet and column. |
 | `scripts/ingest.py` | Contract file to `document.json`; renders image-only pages. |
 | `scripts/segment.py` | `document.json` to a clause tree. |
 | `scripts/run_checks.py` | Candidates: blanks, dates, duplicate numbers, annexes, outside documents named, subjective wording, percentages. |
+| `scripts/find_references.py` | Every place a document is named, with clause, page and sentence (for Documents not supplied). |
+| `scripts/plain_language.py` | Lists legal terms and clause codes left unexplained in review.json. |
 | `scripts/subjective.py` | Patterns for subjective standards ("acceptable to Canada", "sole discretion"); used by run_checks and validate_review. |
 | `scripts/match_entities.py` | Finds known Start2 entities in the text. |
 | `scripts/validate_review.py` | Schema, severity and quote checks on `review.json`. |
@@ -47,7 +50,7 @@ python3 S/scripts/ingest.py <contract> W
 ### 2. Context and role
 Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Run `python3 S/scripts/match_entities.py W/document.json`. If it prints FLAG, ask the user to confirm the entity and wait. Otherwise guess the role (rubric section 2) and write `role_basis`. A Buyer or Other role means no standards coverage (rubric section 2, step 5).
 
-List every outside document the contract names but that was not supplied (general conditions, bid, policies, codes, links, annexes cited but missing; rubric section 1). Tell the user once which are missing and where they are named, and ask whether they can supply them. Review any they supply as part of the contract; record the rest in `documents_not_supplied`.
+List every outside document the contract names but that was not supplied (general conditions, bid, policies, codes, links, annexes cited but missing; rubric section 1). Tell the user once which are missing and where they are named, and ask whether they can supply them. Review any they supply as part of the contract; record the rest in `documents_not_supplied`, with every place each is named (`python3 S/scripts/find_references.py W/document.json "<name>" ... --json`).
 
 ### 3. Segment and extract
 ```
@@ -60,8 +63,9 @@ Check the clause tree by eye and fix mistakes (the segmenter is best effort). Ex
 Follow `references/rubric.md` sections 4 to 9: coverage verdicts for all 34 clauses, client and non-standard clause screen, subjective standards, the 12 execution checks, the commercial pass, and the writing standard for quotes, Issue and Action. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
 
 ### 5. Write and validate
-Write `W/review.json` (format in `references/review_schema.md`), then:
+Write `W/review.json` (format in `references/review_schema.md`). Set `"action_required": false` and lower the severity one level for findings that need nothing beyond noting (rubric section 8). Run the plain-language pass and explain every term it lists (rubric section 9):
 ```
+python3 S/scripts/plain_language.py S/references/standards.json W/review.json
 python3 S/scripts/validate_review.py S/references/standards.json W/review.json W/document.json
 ```
 Fix every ERROR. Read every WARN: justify a severity that differs from the rule in the issue text, add missing findings, complete cut-off quotes, bold the critical words, flag subjective wording, expand terse Issue and Action text, and for scanned contracts check the quoted pages by eye.
@@ -76,6 +80,7 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.
 - Never guess at the content of a document that was not supplied.
 - Never put script names or commands in the workbook.
+- Explain legal terms and clause codes in plain words where they are used.
 - Do not mark a clause Conforming without reading it.
 - Do not apply provider standards to a buyer-side contract.
 - Never invent contract text, page numbers or clause numbers.

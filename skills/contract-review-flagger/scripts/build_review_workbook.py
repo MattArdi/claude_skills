@@ -10,13 +10,15 @@ review.json (all keys optional):
             paper, standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty,
             defined_terms ({"Start2": "the Contractor", "Company": "Canada"}: the contract's names for the parties)
   facts:    [{fact, value, where}]
-  findings: [{severity, type, clause, where, quote, issue, action, subjective, suggested_language}]
+  findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, suggested_language}]
   coverage: {CLAUSE_ID: {verdict, where, note}}
   checks:   {"1": {result, evidence}, ...}   (keys are Execution Check numbers)
-  documents_not_supplied: [{document, referenced_at, quote, part_of_contract, governs, effect, action}]
+  documents_not_supplied: [{document, search, references: [{where, quote}], part_of_contract, governs, effect, action}]
 Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
 Suggested language is the finding's own suggested_language, else the Start2 standard language of a standard clause
 (Missing, Partial or Deviant findings) with the standard's defined terms swapped for the contract's.
+Any legal term or Start2 clause code left unexplained in Issue, Action, a note, evidence or a document row gets a
+"Terms used" line with its plain meaning (references/plain_terms.json).
 Counts and the to-confirm line are formulas over the Findings sheet, so edits in Excel flow through.
 """
 import json
@@ -34,6 +36,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 
 sys.path.insert(0, str(Path(__file__).parent))
 from suggest_language import render  # noqa: E402
+from plain_language import annotate, load as load_terms  # noqa: E402
 
 SEV = ["Critical", "High", "Medium", "Low"]
 TYPES = ["Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", "Client: Conditional",
@@ -114,6 +117,7 @@ def readme(ws):
         ("High", "Fix, or have the full sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
+        ("No action needed", "A finding that needs nothing from Start2 beyond noting it is lowered one severity level and marked No in the Action needed column. Its Action explains why nothing is needed."),
         ("Subjective wording", "A finding whose quoted text lets the counterparty alone judge Start2's work, payment or people (for example 'acceptable to Canada', 'to the satisfaction of', 'in its sole discretion') is raised one severity level and marked Yes in the Subjective column."),
         ("S", "Sheet: Summary (Item / Value / Where)"),
         ("Contract", "Name or title of the contract being reviewed."),
@@ -143,6 +147,7 @@ def readme(ws):
         ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline."),
         ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding. Fill bracketed items and adjust before sending."),
         ("Subjective", "Yes when the quoted text lets the counterparty alone judge Start2's work, payment or people. The severity already includes the one-level raise."),
+        ("Action needed", "No when the finding needs nothing beyond noting it. The severity already includes the one-level reduction."),
         ("S", "Sheet: Coverage (one row per standard clause)"),
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
@@ -158,12 +163,13 @@ def readme(ws):
         ("Evidence", "What was seen, with page references."),
         ("S", "Sheet: Documents not supplied (one row per document)"),
         ("Document", "The document as the contract names it, with version or date if given."),
-        ("Referenced at", "Contract clause and page where it is named."),
-        ("Quote", "The contract text that names or incorporates it."),
+        ("Referenced at", "Every contract clause and page where the document is named, numbered."),
+        ("Quotes", "The contract text at each of those places, numbered to match, with the document's name in bold."),
         ("Part of contract", "Yes when the contract says the document applies to or forms part of the contract. Those also appear in Findings as type Not supplied."),
         ("Governs", "What the contract says or shows the document covers. Never a guess at its content."),
         ("Effect on this review", "Which findings and coverage rows could not be completed without it."),
         ("Action", "How to obtain it and what to check once it is in hand."),
+        ("Terms used", "Where a legal term or a Start2 clause code (for example WARR) is used without explanation, a 'Terms used' line at the end of the cell gives its plain meaning."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
         ("Role", "The role is guessed when unclear and recorded on Summary. The only time the skill asks is when a name containing 'Start2' other than Start2 Asia appears: it flags the name and waits for confirmation."),
@@ -228,19 +234,24 @@ def build(standards, review, out):
 
     # ---- Findings
     ws = wb.create_sheet("Findings")
-    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action", "Suggested language", "Subjective"],
-           [5, 11, 18, 18, 22, 60, 70, 55, 60, 11])
+    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action", "Suggested language", "Subjective", "Action needed"],
+           [5, 11, 18, 18, 22, 60, 70, 55, 60, 11, 11])
     order = {k: i for i, k in enumerate(SEV)}
     by = {c["id"]: c for c in standards["clauses"]}
     terms = S.get("defined_terms") or None
+    glossary, codes = load_terms(standards)
+
+    def plain(t):
+        return annotate(t, glossary, codes) if t else t
     fl = sorted(review.get("findings", []), key=lambda f: order.get(f["severity"], 9))
     for i, f in enumerate(fl, 1):
-        vals = [i, f["severity"], f["type"], f["clause"], f.get("where"), rich(f.get("quote")), f.get("issue"), f.get("action"),
-                suggestion(f, by, terms), "Yes" if f.get("subjective") else None]
+        vals = [i, f["severity"], f["type"], f["clause"], f.get("where"), rich(f.get("quote")), plain(f.get("issue")), plain(f.get("action")),
+                suggestion(f, by, terms), "Yes" if f.get("subjective") else None, "No" if f.get("action_required") is False else "Yes"]
         for j, v in enumerate(vals, 1):
             cell(ws, i + 1, j, v)
     dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES); dropdown(ws, f"J2:J{MAXROW}", ["Yes"])
-    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:J{max(len(fl), 1) + 1}"
+    dropdown(ws, f"K2:K{MAXROW}", ["Yes", "No"])
+    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:K{max(len(fl), 1) + 1}"
 
     # ---- Coverage
     ws = wb.create_sheet("Coverage")
@@ -250,7 +261,7 @@ def build(standards, review, out):
     for i, x in enumerate(clauses, 2):
         v = cov.get(x["id"], {})
         cell(ws, i, 1, x["id"], BOLD); cell(ws, i, 2, x["clause"]); cell(ws, i, 3, x["base_severity"]); cell(ws, i, 4, v.get("verdict"))
-        cell(ws, i, 5, v.get("where")); cell(ws, i, 7, v.get("note"))
+        cell(ws, i, 5, v.get("where")); cell(ws, i, 7, plain(v.get("note")) if review else None)
         cell(ws, i, 6, f'=IF(D{i}="","",IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",IF(D{i}="Partial",'
                        f'INDEX({{"Low","Low","Medium","High"}},MATCH(C{i},{{"Low","Medium","High","Critical"}},0)),C{i})))')
     n = len(clauses) + 1
@@ -263,17 +274,20 @@ def build(standards, review, out):
     for i, ck in enumerate(standards["execution_checks"], 2):
         v = res.get(str(ck["id"]), {})
         label = CHECK_LABEL_OVERRIDE.get(ck["id"], ck["check"])
-        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, v.get("evidence"))
+        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, plain(v.get("evidence")) if review else None)
     dropdown(ws, f"C2:C{len(standards['execution_checks']) + 1}", RESULTS)
 
     # ---- Documents not supplied
     ws = wb.create_sheet(DOCS)
-    header(ws, ["#", "Document", "Referenced at", "Quote", "Part of contract", "Governs", "Effect on this review", "Action"],
-           [5, 34, 22, 60, 11, 45, 55, 50])
+    header(ws, ["#", "Document", "Referenced at", "Quotes", "Part of contract", "Governs", "Effect on this review", "Action"],
+           [5, 34, 26, 80, 11, 45, 55, 50])
     docs = review.get("documents_not_supplied", [])
     for i, d in enumerate(docs, 1):
-        vals = [i, d.get("document"), d.get("referenced_at"), rich(d.get("quote")), "Yes" if d.get("part_of_contract") else "No",
-                d.get("governs"), d.get("effect"), d.get("action")]
+        refs = d.get("references", [])
+        where = "\n".join(f"{n}. {x['where']}" for n, x in enumerate(refs, 1))
+        quotes = "\n\n".join(f"{n}. {x['where']}: {x['quote']}" for n, x in enumerate(refs, 1))
+        vals = [i, d.get("document"), where, rich(quotes), "Yes" if d.get("part_of_contract") else "No",
+                plain(d.get("governs")), plain(d.get("effect")), plain(d.get("action"))]
         for j, v in enumerate(vals, 1):
             cell(ws, i + 1, j, v)
     dropdown(ws, f"E2:E{MAXROW}", ["Yes", "No"]); ws.auto_filter.ref = f"A1:H{max(len(docs), 1) + 1}"
