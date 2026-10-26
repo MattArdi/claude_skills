@@ -5,7 +5,7 @@ description: Review a contract against the Start2 Asia contract standards and re
 
 # Contract Review Flagger
 
-Reads one contract and produces one workbook: Summary, Findings, Coverage, Checks. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
+Reads one contract and produces one workbook: Summary, Findings, Coverage, Checks, Documents not supplied. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
 
 Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). It guesses which party Start2 is and records the guess on the Summary. The one exception: a name containing "Start2" that is not Start2 Asia is flagged and confirmed with the user before the review continues.
 
@@ -22,11 +22,12 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 | `templates/Contract_Review_Template.xlsx` | Blank review workbook with a Read Me that explains every sheet and column. |
 | `scripts/ingest.py` | Contract file to `document.json`; renders image-only pages. |
 | `scripts/segment.py` | `document.json` to a clause tree. |
-| `scripts/run_checks.py` | Candidates: blanks, dates, duplicate numbers, annexes, percentages. |
+| `scripts/run_checks.py` | Candidates: blanks, dates, duplicate numbers, annexes, outside documents named, subjective wording, percentages. |
+| `scripts/subjective.py` | Patterns for subjective standards ("acceptable to Canada", "sole discretion"); used by run_checks and validate_review. |
 | `scripts/match_entities.py` | Finds known Start2 entities in the text. |
 | `scripts/validate_review.py` | Schema, severity and quote checks on `review.json`. |
-| `scripts/build_review_workbook.py` | `review.json` to the review workbook. |
-| `scripts/suggest_language.py` | Prints Start2 standard language for clause IDs. |
+| `scripts/build_review_workbook.py` | `review.json` to the review workbook; fills Suggested language from the standards and renders **bold** in quotes. |
+| `scripts/suggest_language.py` | Start2 standard language for clause IDs, with the contract's party names (`--terms`). |
 | `scripts/parse_standards.py`, `assemble_agreement.py` | Rebuild `standards.json` and the assembled agreement after the workbook changes. |
 
 Needs `poppler-utils` (`pdftotext`, `pdftoppm`, `pdfinfo`) and Python `openpyxl`.
@@ -46,31 +47,35 @@ python3 S/scripts/ingest.py <contract> W
 ### 2. Context and role
 Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Run `python3 S/scripts/match_entities.py W/document.json`. If it prints FLAG, ask the user to confirm the entity and wait. Otherwise guess the role (rubric section 2) and write `role_basis`. A Buyer or Other role means no standards coverage (rubric section 2, step 5).
 
+List every outside document the contract names but that was not supplied (general conditions, bid, policies, codes, links, annexes cited but missing; rubric section 1). Tell the user once which are missing and where they are named, and ask whether they can supply them. Review any they supply as part of the contract; record the rest in `documents_not_supplied`.
+
 ### 3. Segment and extract
 ```
 python3 S/scripts/segment.py W/document.json W/clauses.json
 python3 S/scripts/run_checks.py W/document.json W/candidates.json
 ```
-Check the clause tree by eye and fix mistakes (the segmenter is best effort). Extract the key facts. Confirm or dismiss each candidate in `candidates.json`.
+Check the clause tree by eye and fix mistakes (the segmenter is best effort). Extract the key facts. Confirm or dismiss each candidate in `candidates.json`, including `referenced_document` (outside documents) and `subjective_standard` (wording that raises severity one level, rubric section 5a).
 
 ### 4. Review (provider role)
-Follow `references/rubric.md` sections 4 to 8: coverage verdicts for all 34 clauses, client and non-standard clause screen, the 12 execution checks, the commercial pass. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
+Follow `references/rubric.md` sections 4 to 9: coverage verdicts for all 34 clauses, client and non-standard clause screen, subjective standards, the 12 execution checks, the commercial pass, and the writing standard for quotes, Issue and Action. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
 
 ### 5. Write and validate
 Write `W/review.json` (format in `references/review_schema.md`), then:
 ```
 python3 S/scripts/validate_review.py S/references/standards.json W/review.json W/document.json
 ```
-Fix every ERROR. Read every WARN: justify a severity that differs from the rule in the issue text, add missing findings, and for scanned contracts check the quoted pages by eye.
+Fix every ERROR. Read every WARN: justify a severity that differs from the rule in the issue text, add missing findings, complete cut-off quotes, bold the critical words, flag subjective wording, expand terse Issue and Action text, and for scanned contracts check the quoted pages by eye.
 
 ### 6. Build and deliver
 ```
 python3 S/scripts/build_review_workbook.py S/references/standards.json W/review.json W/<contract>_review.xlsx
 ```
-Hand over the workbook with a short message: role guess and basis, status, counts by severity, the number of Critical and High findings to confirm, the three to five items that matter most, and anything uncertain (scanned pages, role guess, items needing a person). Counts and the to-confirm line are formulas in the workbook; state them as the workbook will show them.
+Hand over the workbook with a short message: role guess and basis, status, counts by severity, the number of Critical and High findings to confirm, the three to five items that matter most, the documents not supplied, and anything uncertain (scanned pages, role guess, items needing a person). Counts and the to-confirm line are formulas in the workbook; state them as the workbook will show them.
 
 ## Rules
-- No quote, no finding. Scanned quotes are transcriptions: say so.
+- No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.
+- Never guess at the content of a document that was not supplied.
+- Never put script names or commands in the workbook.
 - Do not mark a clause Conforming without reading it.
 - Do not apply provider standards to a buyer-side contract.
 - Never invent contract text, page numbers or clause numbers.

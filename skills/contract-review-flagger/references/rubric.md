@@ -3,7 +3,10 @@
 How Claude judges a contract. Read once per review. The standards live in `standards.json` (built from the standards workbook). The severity rules in section 8 are approved.
 
 ## 0. Principles
-- Evidence first. Every finding carries a verbatim quote (300 characters at most) and a page. No quote, no finding. For an absent clause write `(clause absent)` and `Not in contract`.
+- Evidence first. Every finding carries a verbatim quote and a page. No quote, no finding. For an absent clause write `(clause absent)` and `Not in contract`.
+- Quotes give the fullest context. Quote the whole sentence, sub-clause or list the finding rests on, never a fragment cut off mid-sentence or ending at "that:" or "by:" before the list it introduces. Where the relevant words sit in a long clause, join the excerpts with `...` (each excerpt still verbatim and complete in itself). Aim for under about 1,200 characters per quote.
+- Bold the critical words. Wrap the words the finding turns on in `**double asterisks**` (rendered bold in the workbook), for example `perform the Work in accordance with **standards of quality acceptable to Canada**`. Bold only what the Issue discusses, usually one to three phrases.
+- Never describe what an unsupplied document contains. Write "not supplied, so not reviewed", not "may provide", "typically includes" or "usually covers" (section 1, Documents not supplied).
 - Never mark a clause Conforming without reading the clause text against `required_content` and `standard_language`.
 - English only. A translated contract is reviewed as written; say that the original was not seen.
 - This is a screen against Start2's own standard. It is not legal advice. Do not send contract text to any external service.
@@ -13,6 +16,12 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 **Status.** Executed if signature blocks carry signatures and dates, Draft otherwise.
 **Paper.** Start2 template unmodified (compare to `base_agreement_assembled.md`), Start2 template modified, or client or third-party paper. A new contract on anyone else's paper is the 5-business-day case.
 **Contract type.** Service (Start2 sells a service for a fee), Funding (a funder pays a programme through ceilings, claims and audits), Vendor (Start2 buys), Other. For a Funding contract read `FEE` as the funding terms and `COSTREC` as reimbursement and refund terms; set-off, audit, clawback and claim documents matter more.
+**Documents not supplied.** List every outside document the contract names that was not supplied with it: general or supplementary conditions, standard clause sets (for example SACC 2035), the bid or proposal, statements of work, policies, codes of conduct, manuals, guidelines, websites and links, other agreements, and annexes or schedules cited but not attached. `run_checks.py` lists candidates (kind `referenced_document`); read the whole contract for more. Leave out statutes and regulations unless the contract makes a named code or policy a contract term. When unsure, list it.
+- Tell the user once, before the clause review, which documents are missing and where they are named, and ask whether they can supply them. If they do, ingest them and review them as part of the contract. If they cannot, continue.
+- Record each in `documents_not_supplied`: document name and version, where it is referenced, the quote, `part_of_contract` (true when the contract says it applies to or forms part of the contract), what the contract says it governs, which findings and coverage rows it leaves open, and the action.
+- Each document with `part_of_contract` true, or that imposes obligations on Start2, also becomes a finding of type `Not supplied` with the document name as the clause (section 8 for severity).
+- A standard clause whose topic the contract hands to an unsupplied document (for example "interest will be paid in accordance with section 17 of 2035") gets coverage verdict `Not supplied` and a note naming the document.
+
 **Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract). An annex page that holds only a file icon or a title means the annex is not included.
 
 ## 2. Role
@@ -30,8 +39,8 @@ Parties and addresses, signing date, term and end date, fee or funding amounts w
 For each clause in `standards.json` (34 rows, Must Have first):
 1. Find every contract clause that deals with the topic. One standard clause may map to several contract clauses and the reverse.
 2. Break `required_content` into its elements and check each one. Use `standard_language` and `mutuality` to see what a conforming clause looks like and who it binds.
-3. Verdict: **Conforming** all elements present and balanced as in the standard; **Partial** present but an element is missing; **Deviant** present but it contradicts the standard (one-sided against Start2, a different number, a different mechanism); **Missing** no such clause; **N/A** the standard does not apply (for example `LANG` in a monolingual contract, `NOCOST` always).
-4. Fill `where` (clause number and page) and a one-line `note`.
+3. Verdict: **Conforming** all elements present and balanced as in the standard; **Partial** present but an element is missing; **Deviant** present but it contradicts the standard (one-sided against Start2, a different number, a different mechanism); **Missing** no such clause; **Not supplied** the contract hands the topic to a document that was not supplied, so it could not be checked; **N/A** the standard does not apply (for example `LANG` in a monolingual contract, `NOCOST` always).
+4. Fill `where` (clause number and page) and a `note` in a plain sentence.
 5. Missing, Partial and Deviant verdicts each get a Finding (type = the verdict, clause = the ID).
 6. Good to Have and Nice to Have clauses: Missing is Low. For `ABC` raise to Medium when the counterparty is government-linked or state-owned and say so in the issue.
 
@@ -44,8 +53,15 @@ Every contract clause not mapped in step 4 is a candidate. Compare it with the p
 - Not in the playbook: apply the generic screen below and use `Unclassified clause`. Default Medium, Low if benign.
 Generic screen: one-way termination or cancellation rights, open-ended scope, per-breach penalties, uncapped indemnity, price control, unfunded obligations, outcome-linked payment, payment conditions with no deadline, data or audit access, exclusivity, non-compete.
 
+## 5a. Subjective standards
+A subjective standard lets the counterparty alone judge Start2's work, payment or people: "acceptable to Canada", "to the satisfaction of the Client", "in its sole discretion", "as determined by the Company", "suitable to", "in acceptable form or condition". Such wording can be used to withhold acceptance, and so payment, without an objective test Start2 can point to.
+- `run_checks.py` lists candidates (check `S`, kind `subjective_standard`); `scripts/subjective.py` holds the patterns. Confirm each and look for others in the text.
+- Every finding whose quoted text holds such wording sets `"subjective": true` and is raised one severity level above the section 8 rule (Low to Medium, Medium to High, High to Critical; Critical stays Critical). Bold the subjective words in the quote and say in the Issue that the severity was raised for subjective wording and why.
+- Subjective wording that no other finding covers gets its own finding: type `Deviant` under the standard clause it bears on (`WARR` for quality, `FEE` for payment conditions, `SCOPE` for deliverables), otherwise `Unclassified clause`, raised one level from its usual severity.
+- Where subjective acceptance controls payment, say how much of the fee depends on it.
+
 ## 6. Execution checks (1 to 12)
-Run `scripts/run_checks.py` and judge each candidate. It covers blanks and placeholders (1), duplicate or undefined clause numbers (2), date errors (3), annex presence (9), translation (5) and tracked changes (8). You must still judge 4, 6, 7, 10, 11, 12 yourself and confirm or dismiss every candidate (labels that introduce a list and end in a colon are false positives).
+Run `scripts/run_checks.py` and judge each candidate. It covers blanks and placeholders (1), duplicate or undefined clause numbers (2), date errors (3), annex presence and outside documents (9), translation (5) and tracked changes (8), plus subjective standards (S, section 5a). You must still judge 4, 6, 7, 10, 11, 12 yourself and confirm or dismiss every candidate (labels that introduce a list and end in a colon are false positives).
 Result per check: Pass, Fail, N/A, Cannot verify. Each Fail also becomes a Finding with type `Execution` and clause `Check n`.
 
 ## 7. Commercial pass
@@ -66,11 +82,36 @@ Fee, currency, tax, payment trigger and due date, term dates, balance amounts, c
 | Execution: date or cross-reference mismatch | Medium |
 | Execution: numbering, typo, naming | Low |
 | Commercial: contradiction or undefined money term | High; unusual but explained Medium |
-`validate_review.py` warns when a Missing, Partial or Deviant severity differs from the rule.
+| Not supplied: document that forms part of the contract | High |
+| Not supplied: document that imposes obligations on Start2 but is not stated to form part of the contract | Medium |
+| Any finding whose quote holds subjective wording (section 5a) | one level above its rule, Critical at most |
+`validate_review.py` warns when a Missing, Partial or Deviant severity differs from the rule, including the subjective raise.
 
 ## 9. Writing findings
-- `issue`: one to three sentences: what is wrong and why it matters to Start2.
-- `action`: imperative. When a Start2 clause exists, name its ID and the way to get the text: `scripts/suggest_language.py references/standards.json LOL`.
+Findings are read by colleagues who may not be lawyers and may raise the point with the counterparty. Write in a measured, explanatory tone: complete sentences, no fragments, no one-word actions, no shorthand ("one-sided", "no carve-out") left unexplained. Define a legal term the first time it appears (for example "set-off, meaning Canada deducts amounts it claims from payments due"). Be specific, not alarmist.
+
+**`issue`** (usually four to six sentences, at least 40 words):
+1. What the clause says, in plain words, with its number.
+2. What it means for Start2 in practice: a concrete situation in which it would bite, and its consequence in money, time or rights.
+3. How it compares with the Start2 standard (`required_content`), naming what is missing or different.
+4. Why it has this severity, including any subjective-wording raise.
+Do not put recommendations in the Issue; they belong in the Action.
+
+**`action`** (usually three to five sentences, at least 25 words):
+1. What to do next and who should do it (check internally, ask the counterparty, escalate through the sign-off chain).
+2. The concrete ask, using the standard's numbers where they exist (for example the 14-day cure period in `TERM-CAUSE`), and pointing to the Suggested language column when it is filled.
+3. A fallback if the counterparty declines, and what to record.
+4. For an executed contract: what to check or record now, and what to ask for at renewal.
+Never put command text or script names in the Action. The Suggested language column is filled automatically from the standard; for client, unclassified and commercial findings where a change is asked, write `suggested_language` in the finding.
+
+**`summary.defined_terms`** maps the standard's party names to the contract's own (for example `{"Start2": "the Contractor", "Company": "Canada"}`) so the suggested language reads as the contract does.
+
+Example of the expected depth, from a government services contract:
+- Too terse: "Excusable Delay protects the Contractor only, needs a work-around plan within 15 working days, and after 30 days only Canada may terminate with no claim for costs." / "Record."
+- Expected issue: "Clause 11 treats a delay outside Start2's control as an 'Excusable Delay' only if Start2 tells Canada's Representative straight away and, within 15 working days, sends a detailed work-around plan for Canada's approval. If the delay lasts 30 days or more, Canada alone may terminate (11.3), and neither party may then claim costs, so money Start2 has already spent on mentors, venues or travel for the cancelled programme would not be recovered. Clause 11.4 adds that Canada bears none of Start2's delay costs unless Canada caused the delay. The Start2 standard (`FM`) applies to both parties, provides a good-faith discussion period before termination and keeps Start2's right to cost recovery, so this clause is Deviant."
+- Expected action: "Diarise the 15-working-day notice and work-around-plan requirement with the programme lead so that Start2 does not lose Excusable Delay protection on a technicality. Ask Canada to add that, on termination under 11.3, Start2 is paid for work performed and non-cancellable costs committed before the notice, as in the Start2 standard shown in Suggested language. If Canada declines, record the accepted exposure for the sign-off chain and avoid committing third-party costs earlier than needed."
+
+Other rules:
 - Order does not matter; the workbook sorts by severity.
 - Confirm Critical, High and client-clause findings with a person (the workbook says so in Read Me).
 - For scanned contracts say in the issue when a reading is uncertain.

@@ -5,13 +5,19 @@ Usage: run_checks.py <document.json> <candidates.json>
 
 Check numbers match the Execution Check list in the standards workbook:
  1 blank fields and placeholders   2 duplicate or undefined clause numbers   3 date errors
- 9 annex/attachment references against what is present   plus info: amount reconciliation, translation hint.
+ 9 annex/attachment references against what is present, and outside documents the contract names
+   (general conditions, bids, policies, codes, links) that may not have been supplied
+ plus: subjective standards (check "S", see subjective.py), amount reconciliation, translation hint.
 A page with source needs_vision has no text and is reported as unchecked.
 """
 import json
 import re
 import sys
 from itertools import combinations
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from subjective import find as find_subjective  # noqa: E402
 
 MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
 D_NUM = re.compile(r"\b(\d{1,2})[/.-](\d{1,2})[/.-](\d{4,5})\b")
@@ -26,6 +32,10 @@ LABEL_START = re.compile(r"^[A-Za-z][A-Za-z /]{2,45}:|^Party [AB]\b")
 PLACEHOLDER = re.compile(r"\[[^\]]{1,80}\]|_{3,}|\bTBD\b|\bto be confirmed\b|\bXXX\b", re.I)
 DOTLABEL = re.compile(r"^(\d+\.\d+(?:\.\d+)*)\.?\s+\S")
 CLAUSEREF = re.compile(r"\b[Cc]lauses?\s+(\d+\.\d+(?:\.\d+)*)")
+DOC_REF = re.compile(r"incorporated (?:herein )?by reference|(?:apply to|forms?) (?:and form )?part of|as amended from time to time"
+                     r"|available (?:at|on|from)\b|https?://\S+|www\.\S+|General Conditions|Standard (?:Acquisition )?Clauses"
+                     r"|\bSACC\b|Code of (?:Conduct|Ethics)|\b[A-Z][\w-]* (?:Policy|Policies|Guidelines|Manual|Handbook)\b"
+                     r"|(?:Contractor|Supplier|Vendor)['’]s (?:Bid|Proposal|Tender|Quotation)|Request for Proposals?|\bRFP\b|Terms of Reference", re.I)
 
 
 def num(s): return float(s.replace(",", ""))
@@ -125,6 +135,18 @@ def main(src, dst):
     for key, p in cited.items():
         if key not in heads:
             add(9, "annex_referenced_not_found", p, p["text"], f"{key[0].title()} {key[1]} is cited but no heading was found. May still be an image or an icon (check the pages).")
+
+    # 9 outside documents named in the text: Claude lists every one not supplied (rubric section 1)
+    for p in paras:
+        hits = sorted({m.group(0) for m in DOC_REF.finditer(p["text"])})
+        if hits:
+            add(9, "referenced_document", p, p["text"], f"Names an outside document or incorporates terms by reference: {hits}. Was it supplied?")
+
+    # subjective standards: raise the finding one severity level (rubric section 8)
+    for p in paras:
+        hits = find_subjective(p["text"])
+        if hits:
+            add("S", "subjective_standard", p, p["text"], f"Counterparty-judged wording {hits}. Any finding on this text is raised one level.")
 
     if doc["flags"].get("translation_hint"):
         info.append({"check": 5, "kind": "translation_hint", "page": None, "quote": "", "note": "Text or file name says translated. The original and the precedence rule were not supplied."})

@@ -7,26 +7,38 @@ Usage:
 
 review.json (all keys optional):
   summary:  contract, file, status (Draft|Executed), contract_type (Service|Funding|Vendor|Other),
-            paper, standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty
+            paper, standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty,
+            defined_terms ({"Start2": "the Contractor", "Company": "Canada"}: the contract's names for the parties)
   facts:    [{fact, value, where}]
-  findings: [{severity, type, clause, where, quote, issue, action}]
+  findings: [{severity, type, clause, where, quote, issue, action, subjective, suggested_language}]
   coverage: {CLAUSE_ID: {verdict, where, note}}
   checks:   {"1": {result, evidence}, ...}   (keys are Execution Check numbers)
+  documents_not_supplied: [{document, referenced_at, quote, part_of_contract, governs, effect, action}]
+Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
+Suggested language is the finding's own suggested_language, else the Start2 standard language of a standard clause
+(Missing, Partial or Deviant findings) with the standard's defined terms swapped for the contract's.
 Counts and the to-confirm line are formulas over the Findings sheet, so edits in Excel flow through.
 """
 import json
+import re
 import sys
+from pathlib import Path
 
 import openpyxl
+from openpyxl.cell.rich_text import CellRichText, TextBlock
+from openpyxl.cell.text import InlineFont
 from openpyxl.formatting.rule import CellIsRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
+sys.path.insert(0, str(Path(__file__).parent))
+from suggest_language import render  # noqa: E402
+
 SEV = ["Critical", "High", "Medium", "Low"]
 TYPES = ["Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", "Client: Conditional",
-         "Client: Accept", "Unclassified clause", "Commercial", "Execution", "Other"]
-VERDICTS = ["Conforming", "Partial", "Deviant", "Missing", "N/A"]
+         "Client: Accept", "Unclassified clause", "Commercial", "Execution", "Not supplied", "Other"]
+VERDICTS = ["Conforming", "Partial", "Deviant", "Missing", "Not supplied", "N/A"]
 RESULTS = ["Pass", "Fail", "N/A", "Cannot verify"]
 PAPER = ["Start2 template, unmodified", "Start2 template, modified", "Client or third-party paper"]
 SIGNOFF = ("1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO. "
@@ -38,6 +50,28 @@ SFILL = PatternFill("solid", fgColor="FFD9E1F2"); BFONT = Font(name="Arial", siz
 thin = Side(style="thin", color="FFBFBFBF"); BORDER = Border(left=thin, right=thin, top=thin, bottom=thin)
 COLORS = {"Critical": "FFF4B6B6", "High": "FFF9D6A5", "Medium": "FFFFF2B3", "Low": "FFDCEBF7"}
 MAXROW = 300
+DOCS = "Documents not supplied"
+PLAIN, STRONG = InlineFont(rFont="Arial", sz=10), InlineFont(rFont="Arial", sz=10, b=True)
+
+
+def rich(text):
+    """Render **bold** markers as bold runs; plain strings pass through."""
+    if not isinstance(text, str) or "**" not in text:
+        return text
+    return CellRichText([TextBlock(STRONG if i % 2 else PLAIN, part) for i, part in enumerate(text.split("**")) if part])
+
+
+def suggestion(f, by, terms):
+    if f.get("suggested_language"):
+        return f["suggested_language"]
+    if f.get("type") not in ("Missing", "Partial", "Deviant"):
+        return None
+    text = render(by, f.get("clause"), terms)
+    if not text:
+        return None
+    head = f"Start2 standard clause {f['clause']} ({by[f['clause']]['draft_heading']}), worded for this contract:"
+    tail = "\n\nFill the bracketed items before sending." if re.search(r"\[[^\]]+\]", text) else ""
+    return f"{head}\n{text}{tail}"
 
 
 def cell(ws, r, c, v=None, font=BFONT, fill=None, wrap=True):
@@ -74,11 +108,13 @@ def readme(ws):
         ("2. Findings", "Work down the list. It is sorted Critical to Low. Fix, negotiate or accept each item, and change Severity or Type if you disagree. Every Critical, High and client-clause finding must be confirmed by a person."),
         ("3. Coverage", "Use it to see which standard clauses are present, partial, deviant or missing. It is a view; issues are listed in Findings."),
         ("4. Checks", "The 12 execution checks. A failed check also appears in Findings."),
+        ("5. Documents not supplied", "Every outside document the contract names (general conditions, bids, policies, codes, links) that was not supplied with it. Terms in these documents were not reviewed. Obtain them and re-run the review."),
         ("S", "Severity"),
         ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields."),
         ("High", "Fix, or have the full sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
+        ("Subjective wording", "A finding whose quoted text lets the counterparty alone judge Start2's work, payment or people (for example 'acceptable to Canada', 'to the satisfaction of', 'in its sole discretion') is raised one severity level and marked Yes in the Subjective column."),
         ("S", "Sheet: Summary (Item / Value / Where)"),
         ("Contract", "Name or title of the contract being reviewed."),
         ("Source file", "File name of the contract that was reviewed."),
@@ -92,31 +128,42 @@ def readme(ws):
         ("Counterparty", "The other party."),
         ("Critical / High / Medium / Low", "Formulas: number of Findings at each severity."),
         ("To confirm", "Formula: the number of Critical and High findings. These are logged for a person to confirm; nothing else is recommended."),
+        ("Documents not supplied", "Formula: the number of rows on the Documents not supplied sheet."),
         ("Review lead time", "Formula from Whose paper."),
         ("Sign-off chain", "Fixed. Every contract goes to all three approvers in order."),
         ("Key facts (Fact / Value / Where)", "Facts used in the review: parties, dates, amounts, law, forum, language, annexes, with arithmetic checks. Where gives the contract reference and page."),
         ("S", "Sheet: Findings (one row per issue)"),
         ("#", "Running number."),
         ("Severity", "Critical, High, Medium or Low (drop-down)."),
-        ("Type", "Missing, Partial or Deviant (a standard clause); Client: Reject, Escalate, Conditional or Accept (a client-added clause matched to the playbook); Unclassified clause (not in the standard or playbook, generic screen); Commercial (fee, dates, arithmetic); Execution (a failed check); Other."),
+        ("Type", "Missing, Partial or Deviant (a standard clause); Client: Reject, Escalate, Conditional or Accept (a client-added clause matched to the playbook); Unclassified clause (not in the standard or playbook, generic screen); Commercial (fee, dates, arithmetic); Execution (a failed check); Not supplied (a document that forms part of the contract was not supplied, so its terms were not reviewed); Other."),
         ("Clause", "Standard clause ID (for example LOL), the playbook row name, or Check n."),
         ("Where", "Contract clause number and page, for example 13.1 (p. 10). 'Not in contract' for an absent clause."),
-        ("Quote", "Verbatim text from the contract. Scanned contracts are transcribed from page images, so check the page before relying on a quote."),
-        ("Issue", "What is wrong and why it matters, against the standard."),
-        ("Action", "What to do: insert, change, accept, escalate, or confirm."),
+        ("Quote", "Verbatim text from the contract: the full sentence or sub-clause, with the words the finding turns on in bold. '...' marks text left out between excerpts. Scanned contracts are transcribed from page images, so check the page before relying on a quote."),
+        ("Issue", "What the clause says in plain words, what it means for Start2 in practice, how it compares with the Start2 standard, and why it has this severity."),
+        ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline."),
+        ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding. Fill bracketed items and adjust before sending."),
+        ("Subjective", "Yes when the quoted text lets the counterparty alone judge Start2's work, payment or people. The severity already includes the one-level raise."),
         ("S", "Sheet: Coverage (one row per standard clause)"),
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
         ("Base severity", "Severity if the clause is missing or deviant. Editable for this contract (for example raise anti-bribery to Medium for a government counterparty). n/a for internal rules."),
-        ("Verdict", "Conforming, Partial, Deviant, Missing, or N/A (drop-down)."),
+        ("Verdict", "Conforming, Partial, Deviant, Missing, Not supplied (the contract says the topic is governed by a document that was not supplied), or N/A (drop-down)."),
         ("Where", "Contract clause number and page where the clause was found."),
-        ("Severity", "Formula. Missing or Deviant = Base severity; Partial = one level lower (floor Low); Conforming or N/A = '-'."),
+        ("Severity", "Formula. Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low); Conforming or N/A = '-'."),
         ("Note", "One line on what is present or absent. Details are in Findings."),
         ("S", "Sheet: Checks (one row per execution check)"),
         ("#", "Number of the check in the standards workbook."),
         ("Check", "What is verified before a draft leaves Start2 and again before signature."),
         ("Result", "Pass, Fail, N/A or Cannot verify (drop-down)."),
         ("Evidence", "What was seen, with page references."),
+        ("S", "Sheet: Documents not supplied (one row per document)"),
+        ("Document", "The document as the contract names it, with version or date if given."),
+        ("Referenced at", "Contract clause and page where it is named."),
+        ("Quote", "The contract text that names or incorporates it."),
+        ("Part of contract", "Yes when the contract says the document applies to or forms part of the contract. Those also appear in Findings as type Not supplied."),
+        ("Governs", "What the contract says or shows the document covers. Never a guess at its content."),
+        ("Effect on this review", "Which findings and coverage rows could not be completed without it."),
+        ("Action", "How to obtain it and what to check once it is in hand."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
         ("Role", "The role is guessed when unclear and recorded on Summary. The only time the skill asks is when a name containing 'Start2' other than Start2 Asia appears: it flags the name and waits for confirmation."),
@@ -167,6 +214,7 @@ def build(standards, review, out):
     row("To confirm", "confirm",
         f'=IF({ro}="","",IF({ro}<>"Provider","Not assessed: the standards cover provider-side contracts only",'
         f'({c}+{h})&" Critical and High findings to confirm"))')
+    row("Documents not supplied", "docs", f"=COUNTA('{DOCS}'!$B$2:$B${MAXROW})")
     pp = f"B{pos['paper']}"
     row("Review lead time", "lead", f'=IF({pp}="","",IF({pp}="Start2 template, unmodified","3 business days","5 business days"))')
     row("Sign-off chain", "chain", SIGNOFF)
@@ -180,14 +228,19 @@ def build(standards, review, out):
 
     # ---- Findings
     ws = wb.create_sheet("Findings")
-    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action"], [5, 11, 18, 18, 22, 50, 62, 44])
+    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action", "Suggested language", "Subjective"],
+           [5, 11, 18, 18, 22, 60, 70, 55, 60, 11])
     order = {k: i for i, k in enumerate(SEV)}
+    by = {c["id"]: c for c in standards["clauses"]}
+    terms = S.get("defined_terms") or None
     fl = sorted(review.get("findings", []), key=lambda f: order.get(f["severity"], 9))
     for i, f in enumerate(fl, 1):
-        for j, v in enumerate([i, f["severity"], f["type"], f["clause"], f.get("where"), f.get("quote"), f.get("issue"), f.get("action")], 1):
+        vals = [i, f["severity"], f["type"], f["clause"], f.get("where"), rich(f.get("quote")), f.get("issue"), f.get("action"),
+                suggestion(f, by, terms), "Yes" if f.get("subjective") else None]
+        for j, v in enumerate(vals, 1):
             cell(ws, i + 1, j, v)
-    dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES)
-    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:H{max(len(fl), 1) + 1}"
+    dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES); dropdown(ws, f"J2:J{MAXROW}", ["Yes"])
+    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:J{max(len(fl), 1) + 1}"
 
     # ---- Coverage
     ws = wb.create_sheet("Coverage")
@@ -212,6 +265,18 @@ def build(standards, review, out):
         label = CHECK_LABEL_OVERRIDE.get(ck["id"], ck["check"])
         cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, v.get("evidence"))
     dropdown(ws, f"C2:C{len(standards['execution_checks']) + 1}", RESULTS)
+
+    # ---- Documents not supplied
+    ws = wb.create_sheet(DOCS)
+    header(ws, ["#", "Document", "Referenced at", "Quote", "Part of contract", "Governs", "Effect on this review", "Action"],
+           [5, 34, 22, 60, 11, 45, 55, 50])
+    docs = review.get("documents_not_supplied", [])
+    for i, d in enumerate(docs, 1):
+        vals = [i, d.get("document"), d.get("referenced_at"), rich(d.get("quote")), "Yes" if d.get("part_of_contract") else "No",
+                d.get("governs"), d.get("effect"), d.get("action")]
+        for j, v in enumerate(vals, 1):
+            cell(ws, i + 1, j, v)
+    dropdown(ws, f"E2:E{MAXROW}", ["Yes", "No"]); ws.auto_filter.ref = f"A1:H{max(len(docs), 1) + 1}"
     wb.save(out)
 
 

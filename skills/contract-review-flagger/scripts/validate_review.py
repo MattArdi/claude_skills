@@ -4,22 +4,31 @@
 Usage: validate_review.py <standards.json> <review.json> [document.json]
 
 Errors (exit 1): bad enumerations, unknown clause IDs, missing required fields, quotes not found in a text document.
-Warnings: severity differs from the rule, a non-conforming verdict without a finding, a failed check without a finding,
-quotes that cannot be verified because the document is scanned (verify the cited page by eye).
-Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified.
+Warnings: severity differs from the rule (including the one-level raise for subjective wording), a non-conforming
+verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
+scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
+text too short to explain itself, command text left in Action, documents not supplied without a finding.
+Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
+ignored when quotes are matched against the document.
 """
 import json
 import re
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from subjective import find as find_subjective  # noqa: E402
 
 SEV = ["Low", "Medium", "High", "Critical"]
 TYPES = {"Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", "Client: Conditional", "Client: Accept",
-         "Unclassified clause", "Commercial", "Execution", "Other"}
-VERDICTS = {"Conforming", "Partial", "Deviant", "Missing", "N/A"}
+         "Unclassified clause", "Commercial", "Execution", "Not supplied", "Other"}
+VERDICTS = {"Conforming", "Partial", "Deviant", "Missing", "Not supplied", "N/A"}
 RESULTS = {"Pass", "Fail", "N/A", "Cannot verify"}
 STATUS = {"Draft", "Executed"}; ROLE = {"Provider", "Buyer", "Other"}
 CTYPE = {"Service", "Funding", "Vendor", "Other"}
 REQ_SUMMARY = ["contract", "file", "status", "contract_type", "paper", "our_entity", "our_role", "role_basis", "counterparty"]
+MIN_WORDS = {"issue": 40, "action": 25}  # below this the text is too terse to explain itself (rubric section 9)
+QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
 def norm(s):
@@ -27,10 +36,10 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", "", s)
 
 
-def expected(base, verdict):
+def expected(base, verdict, subjective=False):
     if base == "n/a" or verdict in ("Conforming", "N/A"): return None
-    if verdict in ("Missing", "Deviant"): return base
-    return SEV[max(0, SEV.index(base) - 1)]
+    sev = base if verdict in ("Missing", "Deviant") else SEV[max(0, SEV.index(base) - 1)]
+    return SEV[min(len(SEV) - 1, SEV.index(sev) + 1)] if subjective else sev
 
 
 def main(std_path, rev_path, doc_path=None):
@@ -60,7 +69,19 @@ def main(std_path, rev_path, doc_path=None):
         if f.get("severity") not in SEV: errors.append(f"{tag}: severity {f.get('severity')!r}")
         if f.get("type") not in TYPES: errors.append(f"{tag}: type {f.get('type')!r}")
         q = f.get("quote") or ""
+        for k, n in MIN_WORDS.items():
+            if f.get(k) and len(f[k].split()) < n:
+                warns.append(f"{tag}: {k} has {len(f[k].split())} words; explain it in full (rubric section 9)")
+        if re.search(r"suggest_language|scripts/|\.py\b", f.get("action") or ""):
+            errors.append(f"{tag}: action contains command text; the Suggested language column is filled automatically")
         if q and not q.startswith("("):
+            if "**" not in q:
+                warns.append(f"{tag}: quote has no **bold** part; bold the words the issue turns on")
+            if not QUOTE_END.search(q.replace("**", "")):
+                warns.append(f"{tag}: quote ends mid-sentence ({q.replace('**', '')[-30:]!r}); quote the full sentence or sub-clause")
+            hits = find_subjective(q)
+            if hits and not f.get("subjective"):
+                warns.append(f"{tag}: quote has subjective wording {hits}; set \"subjective\": true and raise severity one level")
             if not doc_path or scanned:
                 unverified += 1
             else:
@@ -68,9 +89,10 @@ def main(std_path, rev_path, doc_path=None):
                     if len(norm(seg)) >= 15 and norm(seg) not in corpus:
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
-            exp = expected(base[f["clause"]], f["type"])
+            exp = expected(base[f["clause"]], f["type"], bool(f.get("subjective")))
             if exp and f["severity"] != exp:
-                warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}); keep only if justified in the issue text")
+                warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}"
+                             f"{', raised one level for subjective wording' if f.get('subjective') else ''}); keep only if justified in the issue text")
         elif f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") not in base:
             errors.append(f"{tag}: unknown clause ID {f.get('clause')!r}")
     if unverified:
@@ -88,6 +110,16 @@ def main(std_path, rev_path, doc_path=None):
         for cid, v in cov.items():
             if v.get("verdict") in ("Missing", "Partial", "Deviant") and cid not in have and base.get(cid) != "n/a":
                 warns.append(f"coverage {cid} is {v['verdict']} but there is no finding for it")
+    docs = rev.get("documents_not_supplied", [])
+    noted = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Not supplied"}
+    for i, d in enumerate(docs, 1):
+        for k in ("document", "referenced_at", "governs", "effect", "action"):
+            if not d.get(k): errors.append(f"document {i}: {k} is empty")
+        if d.get("part_of_contract") and d.get("document") not in noted:
+            warns.append(f"document {i} ({d.get('document')}) forms part of the contract but has no 'Not supplied' finding")
+    for cid, v in cov.items():
+        if v.get("verdict") == "Not supplied" and not docs:
+            errors.append(f"coverage {cid} is Not supplied but documents_not_supplied is empty")
     checks = rev.get("checks", {})
     for n, v in checks.items():
         if v.get("result") not in RESULTS: errors.append(f"check {n}: result {v.get('result')!r}")
