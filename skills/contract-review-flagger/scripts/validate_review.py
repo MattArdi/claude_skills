@@ -67,6 +67,7 @@ def main(std_path, rev_path, doc_path=None):
         corpus = norm(" ".join(texts) + " " + fname); scanned = not texts
         if any(p["source"] == "vision" for p in doc["pages"]):
             warns.append("document text is a vision transcript: quotes match the transcript, not the original image. Check cited pages.")
+    para_ends = [norm(p["text"]) for p in doc["paragraphs"]] if doc_path else []
     unverified = 0
     for i, f in enumerate(rev.get("findings", []), 1):
         tag = f"finding {i} ({f.get('clause')})"
@@ -81,14 +82,16 @@ def main(std_path, rev_path, doc_path=None):
         no_action = f.get("action_required") is False
         if no_action and not (f.get("action") or "").startswith("No action needed"):
             warns.append(f"{tag}: action_required is false; start the action with 'No action needed' and say why")
-        if not no_action and re.match(r"\s*(?:No action|None\b|Record\b)", f.get("action") or ""):
+        if not no_action and re.match(r"\s*(?:No action\b|None\.|Record\.)", f.get("action") or ""):
             warns.append(f"{tag}: action asks for nothing; set \"action_required\": false and lower severity one level")
         if re.search(r"suggest_language|scripts/|\.py\b", f.get("action") or ""):
             errors.append(f"{tag}: action contains command text; the Suggested language column is filled automatically")
         if q and not q.startswith("("):
             if "**" not in q:
                 warns.append(f"{tag}: quote has no **bold** part; bold the words the issue turns on")
-            if not QUOTE_END.search(q.replace("**", "")):
+            last = norm(re.split(r"\s*(?:\.\.\.|…)\s*", q.replace("**", ""))[-1])
+            ends_source = bool(last) and any(t.endswith(last) for t in para_ends)  # a list item or table row that ends without a stop
+            if not QUOTE_END.search(q.replace("**", "")) and not ends_source:
                 warns.append(f"{tag}: quote ends mid-sentence ({q.replace('**', '')[-30:]!r}); quote the full sentence or sub-clause")
             hits = find_subjective(q)
             if hits and not f.get("subjective"):

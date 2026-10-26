@@ -14,7 +14,7 @@
   {"term": "survival", "pattern": "surviv(?:al|es?|ing)", "plain": "clauses that stay in force after the contract ends, such as confidentiality"},
   {"term": "severability", "pattern": "severab(?:ility|le)", "plain": "a clause saying that if a court strikes out one provision, the rest of the contract still stands"},
   {"term": "entire agreement", "pattern": "entire agreement", "plain": "a clause saying the written contract replaces all earlier discussions and promises"},
-  {"term": "assignment", "pattern": "\\bassign(?:ment|s|ed)?\\b|\\bassignee\\b", "plain": "transferring a party's rights or obligations under the contract to someone else"},
+  {"term": "assignment", "pattern": "\\bassign(?:ment|s|ed|ing)?\\b|\\bassignee\\b", "plain": "transferring a party's rights or obligations under the contract to someone else"},
   {"term": "novation", "pattern": "novat(?:ion|e)", "plain": "replacing a party to the contract with a new one, with everyone's agreement"},
   {"term": "warranty", "pattern": "warrant(?:y|ies|s)?\\b", "plain": "a promise in the contract that a fact is true or that work will meet a stated standard"},
   {"term": "representation", "pattern": "\\brepresentations?\\b", "plain": "a statement of fact made to persuade the other party to sign, which can give a claim if untrue"},

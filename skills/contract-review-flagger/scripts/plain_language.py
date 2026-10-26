@@ -4,7 +4,7 @@
 Usage: plain_language.py <standards.json> <review.json>    (prints every unexplained term, by location)
 
 A term counts as explained in a text when one of its uses is followed, within a few words, by an explanation:
-"(...)", ", meaning", ", i.e.", ", that is", ", which means", ": ", " - ", or "is a/an/the". A clause code in
+"(...)", ", meaning", ", i.e.", ", that is", ", which means", ", such as", ": ", " - ", or "is a/an/the". A clause code in
 brackets "(CODE)" does not count as an explanation. A Start2 clause code (WARR, LOL) counts as explained when it
 follows a description in brackets, "the Start2 warranties standard (WARR)", or when the clause name also appears.
 Words in a description that ends in "(CODE)" are part of the clause's name and need no explanation of their own.
@@ -19,7 +19,7 @@ from pathlib import Path
 
 TERMS_FILE = Path(__file__).parent.parent / "references" / "plain_terms.json"
 EXPLAINED = re.compile(r"^[\w-]*['’]?s?(?:\s+[\w'’-]+){0,3}?(?:\s*\((?![A-Z0-9-]+\))|,?\s*(?:meaning|i\.e\.|that is|which means|in other words)\b"
-                       r"|:\s|\s[-–]\s|\s(?:is|are|means)\s(?:a|an|the|when|where)\b)")
+                       r"|:\s|\s[-–]\s|,?\s(?:such as|being)\s|\s(?:is|are|means)\s(?:a|an|the|when|where)\b)")
 SCANNED = {  # review.json texts that readers see as prose
     "findings": ("issue", "action"),
     "coverage": ("note",),
