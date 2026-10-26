@@ -68,7 +68,7 @@ Generic screen: one-way termination or cancellation rights, open-ended scope, pe
 ## 5a. Subjective standards
 A subjective standard lets the counterparty alone judge Start2's work, payment or people: "acceptable to Canada", "to the satisfaction of the Client", "in its sole discretion", "as determined by the Company", "suitable to", "in acceptable form or condition". Such wording can be used to withhold acceptance, and so payment, without an objective test Start2 can point to.
 - `run_checks.py` lists candidates (check `S`, kind `subjective_standard`); `scripts/subjective.py` holds the patterns. Confirm each and look for others in the text.
-- Every finding whose quoted text holds such wording sets `"subjective": true` and is raised one severity level above the section 8 rule (Low to Medium, Medium to High, High to Critical; Critical stays Critical). Bold the subjective words in the quote. The Subjective column shows the raise; the Issue does not mention it.
+- Every finding whose quoted text holds such wording sets `"subjective": true` and is raised one severity level above the section 8 rule (Low to Medium, Medium to High, High to Critical; Critical stays Critical). Bold the subjective words in the quote. The Issue does not mention the raise.
 - Subjective wording that no other finding covers gets its own finding: type `Deviant` under the standard clause it bears on (`WARR` for quality, `FEE` for payment conditions, `SCOPE` for deliverables), otherwise `Unclassified clause`, raised one level from its usual severity.
 - Where subjective acceptance controls payment, say how much of the fee depends on it.
 
@@ -113,7 +113,7 @@ Findings are read by colleagues who may not be lawyers and may raise the point w
 1. What the clause says, in plain words, with its number.
 2. What it means for Start2 in practice: a concrete situation in which it would bite, and its consequence in money, time or rights.
 3. How it compares with the Start2 standard (`required_content`), naming what is missing or different.
-Do not put recommendations in the Issue; they belong in the Action. Do not state or justify the severity, the verdict (Partial, Deviant) or the type in the Issue: the Severity, Type and Subjective columns show them. When a severity differs from the section 8 rule, give the reason in `severity_note`, which the workbook shows as a comment on the Severity cell.
+Do not put recommendations in the Issue; they belong in the Action. Do not state or justify the severity, the verdict (Partial, Deviant) or the type in the Issue: the Severity and Type columns show them. When a severity differs from the section 8 rule, give the reason in `severity_note`, which the workbook shows as a comment on the Severity cell.
 
 **`action`** (full form: usually three to five sentences, at least 25 words):
 1. What to do next and who should do it (check internally, ask the counterparty, escalate through the sign-off chain).

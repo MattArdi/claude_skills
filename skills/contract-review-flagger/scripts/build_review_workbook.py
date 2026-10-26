@@ -118,8 +118,8 @@ def readme(ws):
         ("High", "Fix, or have the full sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
-        ("No action needed", "A finding that needs nothing from Start2 beyond noting it is lowered one severity level and marked No in the Action needed column. Its Action explains why nothing is needed."),
-        ("Subjective wording", "A finding whose quoted text lets the counterparty alone judge Start2's work, payment or people (for example 'acceptable to Canada', 'to the satisfaction of', 'in its sole discretion') is raised one severity level and marked Yes in the Subjective column."),
+        ("No action needed", "A finding that needs nothing from Start2 beyond noting it is lowered one severity level. Its Action starts 'No action needed' and says why."),
+        ("Subjective wording", "A finding whose quoted text lets the counterparty alone judge Start2's work, payment or people (for example 'acceptable to Canada', 'to the satisfaction of', 'in its sole discretion') is raised one severity level. The judging words are in bold in the Quote."),
         ("S", "Sheet: Summary (Item / Value / Where)"),
         ("Contract", "Name or title of the contract being reviewed."),
         ("Source file", "File name of the contract that was reviewed."),
@@ -148,8 +148,6 @@ def readme(ws):
         ("Issue", "What the clause says in plain words, what it means for Start2 in practice, and how it compares with the Start2 standard. Low and no-action findings use two sentences."),
         ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline. Low and no-action findings use one sentence."),
         ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding."),
-        ("Subjective", "Yes when the quoted text lets the counterparty alone judge Start2's work, payment or people. The severity already includes the one-level raise."),
-        ("Action needed", "No when the finding needs nothing beyond noting it. The severity already includes the one-level reduction."),
         ("S", "Sheet: Coverage (one row per standard clause)"),
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
@@ -238,8 +236,8 @@ def build(standards, review, out):
 
     # ---- Findings
     ws = wb.create_sheet("Findings")
-    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action", "Suggested language", "Subjective", "Action needed"],
-           [5, 11, 18, 18, 22, 60, 70, 55, 60, 11, 11])
+    header(ws, ["#", "Severity", "Type", "Clause", "Where", "Quote", "Issue", "Action", "Suggested language"],
+           [5, 11, 18, 18, 22, 60, 70, 55, 60])
     order = {k: i for i, k in enumerate(SEV)}
     by = {c["id"]: c for c in standards["clauses"]}
     terms = S.get("defined_terms") or None
@@ -252,14 +250,13 @@ def build(standards, review, out):
     fl = sorted(review.get("findings", []), key=lambda f: order.get(f["severity"], 9))
     for i, f in enumerate(fl, 1):
         vals = [i, f["severity"], f["type"], f["clause"], f.get("where"), rich(f.get("quote")), plain(f.get("issue")), plain(f.get("action")),
-                suggestion(f, by, terms), "Yes" if f.get("subjective") else None, "No" if f.get("action_required") is False else "Yes"]
+                suggestion(f, by, terms)]
         for j, v in enumerate(vals, 1):
             cell(ws, i + 1, j, v)
         if f.get("severity_note"):
             ws.cell(i + 1, 2).comment = Comment(f["severity_note"], "Contract review")
-    dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES); dropdown(ws, f"J2:J{MAXROW}", ["Yes"])
-    dropdown(ws, f"K2:K{MAXROW}", ["Yes", "No"])
-    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:K{max(len(fl), 1) + 1}"
+    dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES)
+    colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:I{max(len(fl), 1) + 1}"
 
     # ---- Coverage
     ws = wb.create_sheet("Coverage")
