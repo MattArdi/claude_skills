@@ -7,7 +7,7 @@ Errors (exit 1): bad enumerations, unknown clause IDs, missing required fields, 
 Warnings: severity differs from the rule (including the one-level raise for subjective wording), a non-conforming
 verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
 scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
-text too short to explain itself, command text left in Action, documents not supplied without a finding,
+text too short to explain itself (or too long for a Low or no-action finding), command text left in Action, documents not supplied without a finding,
 legal terms or clause codes left unexplained (plain_language.py), a no-action finding not lowered one level,
 document references that miss a paragraph where the document is named.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
@@ -30,8 +30,11 @@ VERDICTS = {"Conforming", "Partial", "Deviant", "Missing", "Not supplied", "N/A"
 RESULTS = {"Pass", "Fail", "N/A", "Cannot verify"}
 STATUS = {"Draft", "Executed"}; ROLE = {"Provider", "Buyer", "Other"}
 CTYPE = {"Service", "Funding", "Vendor", "Other"}
-REQ_SUMMARY = ["contract", "file", "status", "contract_type", "paper", "our_entity", "our_role", "role_basis", "counterparty"]
-MIN_WORDS = {"issue": 40, "action": 25}  # below this the text is too terse to explain itself (rubric section 9)
+PURPOSE = {"Pre-signature", "Signed", "Renewal"}
+REQ_SUMMARY = ["contract", "file", "status", "contract_type", "paper", "purpose", "our_entity", "our_role", "role_basis", "counterparty"]
+# word limits by form (rubric section 9): full form for Critical, High and Medium; short form for Low or no-action
+FULL = {"issue": (40, None), "action": (25, None)}
+SHORT = {"issue": (15, 70), "action": (8, 40)}
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
@@ -58,6 +61,7 @@ def main(std_path, rev_path, doc_path=None):
     if S.get("status") and S["status"] not in STATUS: errors.append(f"summary.status {S['status']!r}")
     if S.get("our_role") and S["our_role"] not in ROLE: errors.append(f"summary.our_role {S['our_role']!r}")
     if S.get("contract_type") and S["contract_type"] not in CTYPE: errors.append(f"summary.contract_type {S['contract_type']!r}")
+    if S.get("purpose") and S["purpose"] not in PURPOSE: errors.append(f"summary.purpose {S['purpose']!r} (Pre-signature, Signed or Renewal)")
 
     corpus, scanned = "", True
     fname = ""
@@ -76,10 +80,15 @@ def main(std_path, rev_path, doc_path=None):
         if f.get("severity") not in SEV: errors.append(f"{tag}: severity {f.get('severity')!r}")
         if f.get("type") not in TYPES: errors.append(f"{tag}: type {f.get('type')!r}")
         q = f.get("quote") or ""
-        for k, n in MIN_WORDS.items():
-            if f.get(k) and len(f[k].split()) < n:
-                warns.append(f"{tag}: {k} has {len(f[k].split())} words; explain it in full (rubric section 9)")
         no_action = f.get("action_required") is False
+        short = no_action or f.get("severity") == "Low"
+        for k, (lo, hi) in (SHORT if short else FULL).items():
+            words = len((f.get(k) or "").split())
+            if f.get(k) and words < lo:
+                warns.append(f"{tag}: {k} has {words} words; explain it in full (rubric section 9)")
+            if hi and words > hi:
+                warns.append(f"{tag}: {k} has {words} words; a {'no-action' if no_action else 'Low'} finding uses the short form "
+                             f"(about {hi} words at most, rubric section 9)")
         if no_action and not (f.get("action") or "").startswith("No action needed"):
             warns.append(f"{tag}: action_required is false; start the action with 'No action needed' and say why")
         if not no_action and re.match(r"\s*(?:No action\b|None\.|Record\.)", f.get("action") or ""):
@@ -161,6 +170,12 @@ def main(std_path, rev_path, doc_path=None):
         if v.get("result") not in RESULTS: errors.append(f"check {n}: result {v.get('result')!r}")
     for n in range(1, len(std["execution_checks"]) + 1):
         if str(n) not in checks: errors.append(f"checks: no result for check {n}")
+    for n, v in checks.items():
+        fix = v.get("correct")
+        if fix is not None and not (isinstance(fix, list) and all(isinstance(x, str) and x for x in fix)):
+            errors.append(f"check {n}: correct must be a list of clause descriptions")
+        if v.get("result") == "Fail" and not fix:
+            warns.append(f"check {n} failed but lists no clauses to correct")
     has_exec = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Execution"}
     for n, v in checks.items():
         if v.get("result") == "Fail" and f"Check {n}" not in has_exec:

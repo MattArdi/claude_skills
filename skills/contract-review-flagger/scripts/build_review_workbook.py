@@ -7,12 +7,12 @@ Usage:
 
 review.json (all keys optional):
   summary:  contract, file, status (Draft|Executed), contract_type (Service|Funding|Vendor|Other),
-            paper, standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty,
+            paper, purpose (Pre-signature|Signed|Renewal), standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty,
             defined_terms ({"Start2": "the Contractor", "Company": "Canada"}: the contract's names for the parties)
   facts:    [{fact, value, where}]
   findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, suggested_language}]
   coverage: {CLAUSE_ID: {verdict, where, note}}
-  checks:   {"1": {result, evidence}, ...}   (keys are Execution Check numbers)
+  checks:   {"1": {result, evidence, correct: [clauses to correct]}, ...}   (keys are Execution Check numbers)
   documents_not_supplied: [{document, search, references: [{where, quote}], part_of_contract, governs, effect, action}]
 Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
 Suggested language is the finding's own suggested_language, else the Start2 standard language of a standard clause
@@ -125,6 +125,7 @@ def readme(ws):
         ("Status", "Draft (unsigned) or Executed (signed). Executed contracts get remediation wording instead of sign/no-sign."),
         ("Contract type", "Service, Funding, Vendor or Other. Funding agreements (grants, claims, audits) read the fee and cost clauses differently."),
         ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time: 3 business days for the unmodified template, otherwise 5."),
+        ("Purpose", "Pre-signature (findings are requests before signing), Signed (checks and records for the current contract) or Renewal (requests for the next version). Confirmed with the requester before the review starts."),
         ("Standards version", "Version of the standards workbook the contract was checked against."),
         ("Our entity", "The Start2 entity in this contract. Guessed from the entity list and the text when not obvious."),
         ("Our role", "Provider, Buyer or Other. The standards cover provider-side contracts only. If the role is not Provider, standards coverage is not applied and the To confirm line says so."),
@@ -143,8 +144,8 @@ def readme(ws):
         ("Clause", "Standard clause ID (for example LOL), the playbook row name, or Check n."),
         ("Where", "Contract clause number and page, for example 13.1 (p. 10). 'Not in contract' for an absent clause."),
         ("Quote", "Verbatim text from the contract: the full sentence or sub-clause, with the words the finding turns on in bold. '...' marks text left out between excerpts. Scanned contracts are transcribed from page images, so check the page before relying on a quote."),
-        ("Issue", "What the clause says in plain words, what it means for Start2 in practice, how it compares with the Start2 standard, and why it has this severity."),
-        ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline."),
+        ("Issue", "What the clause says in plain words, what it means for Start2 in practice, how it compares with the Start2 standard, and why it has this severity. Low and no-action findings use two sentences."),
+        ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline. Low and no-action findings use one sentence."),
         ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding. Fill bracketed items and adjust before sending."),
         ("Subjective", "Yes when the quoted text lets the counterparty alone judge Start2's work, payment or people. The severity already includes the one-level raise."),
         ("Action needed", "No when the finding needs nothing beyond noting it. The severity already includes the one-level reduction."),
@@ -161,6 +162,7 @@ def readme(ws):
         ("Check", "What is verified before a draft leaves Start2 and again before signature."),
         ("Result", "Pass, Fail, N/A or Cannot verify (drop-down)."),
         ("Evidence", "What was seen, with page references."),
+        ("Clauses to correct", "For a failed check, each contract clause or page that needs correcting and what to change, numbered."),
         ("S", "Sheet: Documents not supplied (one row per document)"),
         ("Document", "The document as the contract names it, with version or date if given."),
         ("Referenced at", "Every contract clause and page where the document is named, numbered."),
@@ -172,7 +174,7 @@ def readme(ws):
         ("Terms used", "Where a legal term or a Start2 clause code (for example WARR) is used without explanation, a 'Terms used' line at the end of the cell gives its plain meaning."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
-        ("Role", "The role is guessed when unclear and recorded on Summary. The only time the skill asks is when a name containing 'Start2' other than Start2 Asia appears: it flags the name and waits for confirmation."),
+        ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, and state the purpose. It does not stop again after that."),
         ("Not legal advice", "A screen against Start2 standards. Decisions follow the sign-off chain."),
     ]
     header(ws, ["Item", "Description"], [34, 120]); ws.freeze_panes = None
@@ -207,13 +209,14 @@ def build(standards, review, out):
         pos[key] = r; r += 1
     section("Contract")
     for label, key in (("Contract", "contract"), ("Source file", "file"), ("Status", "status"), ("Contract type", "contract_type"),
-                       ("Whose paper", "paper"), ("Standards version", "standards_version")):
+                       ("Whose paper", "paper"), ("Purpose", "purpose"), ("Standards version", "standards_version")):
         row(label, key, S.get(key))
     section("Our side")
     for label, key in (("Our entity", "our_entity"), ("Our role", "our_role"), ("Role basis", "role_basis"), ("Counterparty", "counterparty")):
         row(label, key, S.get(key))
     dropdown(ws, f"B{pos['status']}", ["Draft", "Executed"]); dropdown(ws, f"B{pos['contract_type']}", ["Service", "Funding", "Vendor", "Other"])
     dropdown(ws, f"B{pos['paper']}", PAPER); dropdown(ws, f"B{pos['our_role']}", ["Provider", "Buyer", "Other"])
+    dropdown(ws, f"B{pos['purpose']}", ["Pre-signature", "Signed", "Renewal"])
     section("Result")
     for k in SEV: row(k, k, f'=COUNTIF(Findings!$B$2:$B${MAXROW},"{k}")')
     ro, c, h = (f"B{pos[x]}" for x in ("our_role", "Critical", "High"))
@@ -269,12 +272,14 @@ def build(standards, review, out):
     colour(ws, f"C2:C{n}"); colour(ws, f"F2:F{n}"); ws.auto_filter.ref = f"A1:G{n}"
 
     # ---- Checks
-    ws = wb.create_sheet("Checks"); header(ws, ["#", "Check", "Result", "Evidence"], [5, 80, 14, 80])
+    ws = wb.create_sheet("Checks"); header(ws, ["#", "Check", "Result", "Evidence", "Clauses to correct"], [5, 70, 14, 70, 70])
     res = review.get("checks", {})
     for i, ck in enumerate(standards["execution_checks"], 2):
         v = res.get(str(ck["id"]), {})
         label = CHECK_LABEL_OVERRIDE.get(ck["id"], ck["check"])
+        fix = "\n".join(f"{k}. {x}" for k, x in enumerate(v.get("correct") or [], 1)) or None
         cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, plain(v.get("evidence")) if review else None)
+        cell(ws, i, 5, fix)
     dropdown(ws, f"C2:C{len(standards['execution_checks']) + 1}", RESULTS)
 
     # ---- Documents not supplied
