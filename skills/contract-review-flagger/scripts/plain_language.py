@@ -9,8 +9,8 @@ brackets "(CODE)" does not count as an explanation. A Start2 clause code (WARR, 
 follows a description in brackets, "the Start2 warranties standard (WARR)", or when the clause name also appears.
 Words in a description that ends in "(CODE)" are part of the clause's name and need no explanation of their own.
 Terms live in references/plain_terms.json.
-validate_review.py warns on what this finds; build_review_workbook.py adds the plain explanation to any text still
-holding an unexplained term, so the workbook never shows one bare.
+Only used when summary.explain_terms is true (the default when missing): validate_review.py then warns on what this
+finds and build_review_workbook.py adds the plain explanation to any text still holding an unexplained term.
 """
 import json
 import re

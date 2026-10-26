@@ -8,7 +8,8 @@ Warnings: severity differs from the rule (including the one-level raise for subj
 verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
 scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
 text too short to explain itself (or too long for a Low or no-action finding), command text left in Action, documents not supplied without a finding,
-legal terms or clause codes left unexplained (plain_language.py), a no-action finding not lowered one level,
+legal terms or clause codes left unexplained (plain_language.py, only when summary.explain_terms is not false),
+an Issue that states or justifies the severity or verdict, a no-action finding not lowered one level,
 document references that miss a paragraph where the document is named.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
 ignored when quotes are matched against the document.
@@ -35,6 +36,9 @@ REQ_SUMMARY = ["contract", "file", "status", "contract_type", "paper", "purpose"
 # word limits by form (rubric section 9): full form for Critical, High and Medium; short form for Low or no-action
 FULL = {"issue": (40, None), "action": (25, None)}
 SHORT = {"issue": (15, 70), "action": (8, 40)}
+RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one level|lowered one level|severity of"
+                    r"|gives (?:Low|Medium|High|Critical)\b|is (?:Low|Medium|High|Critical)\b|at (?:Low|Medium|High|Critical)\.?$"
+                    r"|at (?:Low|Medium|High|Critical)[.;]|this is (?:Partial|Deviant|Conforming)\b)", re.I | re.M)
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
@@ -80,6 +84,9 @@ def main(std_path, rev_path, doc_path=None):
         if f.get("severity") not in SEV: errors.append(f"{tag}: severity {f.get('severity')!r}")
         if f.get("type") not in TYPES: errors.append(f"{tag}: type {f.get('type')!r}")
         q = f.get("quote") or ""
+        if RATING.search(f.get("issue") or ""):
+            warns.append(f"{tag}: issue states or justifies the rating ({RATING.search(f['issue']).group(0)!r}); the Severity and Type"
+                         " columns show it, so leave it out (put a reason for an unusual severity in severity_note)")
         no_action = f.get("action_required") is False
         short = no_action or f.get("severity") == "Low"
         for k, (lo, hi) in (SHORT if short else FULL).items():
@@ -113,11 +120,11 @@ def main(std_path, rev_path, doc_path=None):
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
             exp = expected(base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
-            if exp and f["severity"] != exp:
+            if exp and f["severity"] != exp and not f.get("severity_note"):
                 adj = [x for x, on in (("raised one level for subjective wording", f.get("subjective")),
                                        ("lowered one level as no action is needed", f.get("action_required") is False)) if on]
                 warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}"
-                             f"{'; ' + ', '.join(adj) if adj else ''}); keep only if justified in the issue text")
+                             f"{'; ' + ', '.join(adj) if adj else ''}); keep only with a severity_note saying why")
         elif f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") not in base:
             errors.append(f"{tag}: unknown clause ID {f.get('clause')!r}")
     if unverified:
@@ -181,7 +188,9 @@ def main(std_path, rev_path, doc_path=None):
         if v.get("result") == "Fail" and f"Check {n}" not in has_exec:
             warns.append(f"check {n} failed but no Execution finding has clause 'Check {n}'")
     terms, codes = load_terms(std)
-    for where, field, hits in scan_terms(rev, terms, codes):
+    if S.get("explain_terms") is None:
+        warns.append("summary.explain_terms is not set (ask at intake); explaining terms by default")
+    for where, field, hits in (scan_terms(rev, terms, codes) if S.get("explain_terms") is not False else []):
         warns.append(f"{where} {field}: explain " + ", ".join(a for a, _ in hits)
                      + " in plain words (otherwise the workbook adds a 'Terms used' line)")
     for w in warns: print("WARN ", w)

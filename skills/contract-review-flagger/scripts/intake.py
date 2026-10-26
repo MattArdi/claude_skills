@@ -6,9 +6,11 @@ Usage: intake.py <document.json> [start2_entities.json]
 Collects everything the review needs from the user, so it can run without stopping again:
   1. Start2 entity and role: known Start2 entities found, and any other "Start2" names to confirm.
   2. Outside documents the contract names (general conditions, bid, policies, links): can the user supply them?
-  3. Purpose of the review: Pre-signature, Signed or Renewal (rubric section 1).
+  3. Plain-language explanations: explain legal terms and clause codes where used? (summary.explain_terms)
+  4. Purpose of the review: Pre-signature, Signed or Renewal (rubric section 1).
 Prints a draft. Claude adds its own reading (the role guess, documents the patterns missed, a status guess), sends
-it as one message, waits for the answer, and records it in review.json (summary.purpose, documents_not_supplied).
+it as one message, waits for the answer, and records it in review.json (summary.purpose, summary.explain_terms,
+documents_not_supplied).
 """
 import json
 import re
@@ -66,7 +68,7 @@ def main(doc_path, ent_path=None):
             docs.setdefault(name.lower(), (name, set()))[1].add(p["page"])
     signed = bool(re.search(r"\b(?:signed|signature)\b.{0,80}\b20\d\d\b", " ".join(p["text"] for p in doc["pages"]), re.I | re.S))
 
-    out = [f"Before I review {doc['file']}, three questions so the review can run without stopping:", ""]
+    out = [f"Before I review {doc['file']}, four questions so the review can run without stopping:", ""]
     out.append("1. Start2 entity and role")
     pp = lambda pages: ("p. " if len(pages) == 1 else "pp. ") + ", ".join(map(str, sorted(pages)))  # noqa: E731
     for name, pages in known.items():
@@ -81,7 +83,10 @@ def main(doc_path, ent_path=None):
         out.append(f"   - {name} ({pp(pages)})")
     out.append("   [Remove names that are attached or are only statutes; add any the patterns missed.]")
     out.append("   Can you send any of these? I will review what you send as part of the contract and list the rest as not supplied.")
-    out += ["", "3. Purpose of the review" + (" (the contract looks signed)" if signed else "")]
+    out += ["", "3. Plain-language explanations",
+            "   Should legal terms (carve-out, set-off, indemnity and so on) and Start2 clause codes be explained in plain words",
+            "   where they are used? Yes suits readers who are not lawyers; No gives shorter text for experienced reviewers."]
+    out += ["", "4. Purpose of the review" + (" (the contract looks signed)" if signed else "")]
     for k, v in PURPOSES.items():
         out.append(f"   - {k}: {v}")
     out += ["", "I will start once you reply."]

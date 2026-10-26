@@ -8,27 +8,29 @@ Usage:
 review.json (all keys optional):
   summary:  contract, file, status (Draft|Executed), contract_type (Service|Funding|Vendor|Other),
             paper, purpose (Pre-signature|Signed|Renewal), standards_version, our_entity, our_role (Provider|Buyer|Other), role_basis, counterparty,
-            defined_terms ({"Start2": "the Contractor", "Company": "Canada"}: the contract's names for the parties)
+            defined_terms ({"Start2": "the Contractor", "Company": "Canada"}: the contract's names for the parties),
+            explain_terms (true unless false: add "Terms used" lines for unexplained legal terms)
   facts:    [{fact, value, where}]
-  findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, suggested_language}]
+  findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, severity_note,
+              suggested_language}]   (severity_note becomes a comment on the Severity cell)
   coverage: {CLAUSE_ID: {verdict, where, note}}
   checks:   {"1": {result, evidence, correct: [clauses to correct]}, ...}   (keys are Execution Check numbers)
   documents_not_supplied: [{document, search, references: [{where, quote}], part_of_contract, governs, effect, action}]
 Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
 Suggested language is the finding's own suggested_language, else the Start2 standard language of a standard clause
 (Missing, Partial or Deviant findings) with the standard's defined terms swapped for the contract's.
-Any legal term or Start2 clause code left unexplained in Issue, Action, a note, evidence or a document row gets a
-"Terms used" line with its plain meaning (references/plain_terms.json).
+Unless summary.explain_terms is false, any legal term or Start2 clause code left unexplained in Issue, Action, a note,
+evidence or a document row gets a "Terms used" line with its plain meaning (references/plain_terms.json).
 Counts and the to-confirm line are formulas over the Findings sheet, so edits in Excel flow through.
 """
 import json
-import re
 import sys
 from pathlib import Path
 
 import openpyxl
 from openpyxl.cell.rich_text import CellRichText, TextBlock
 from openpyxl.cell.text import InlineFont
+from openpyxl.comments import Comment
 from openpyxl.formatting.rule import CellIsRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
@@ -73,8 +75,7 @@ def suggestion(f, by, terms):
     if not text:
         return None
     head = f"Start2 standard clause {f['clause']} ({by[f['clause']]['draft_heading']}), worded for this contract:"
-    tail = "\n\nFill the bracketed items before sending." if re.search(r"\[[^\]]+\]", text) else ""
-    return f"{head}\n{text}{tail}"
+    return f"{head}\n{text}"
 
 
 def cell(ws, r, c, v=None, font=BFONT, fill=None, wrap=True):
@@ -139,14 +140,14 @@ def readme(ws):
         ("Key facts (Fact / Value / Where)", "Facts used in the review: parties, dates, amounts, law, forum, language, annexes, with arithmetic checks. Where gives the contract reference and page."),
         ("S", "Sheet: Findings (one row per issue)"),
         ("#", "Running number."),
-        ("Severity", "Critical, High, Medium or Low (drop-down)."),
+        ("Severity", "Critical, High, Medium or Low (drop-down). A comment on the cell explains a severity that differs from the usual rule."),
         ("Type", "Missing, Partial or Deviant (a standard clause); Client: Reject, Escalate, Conditional or Accept (a client-added clause matched to the playbook); Unclassified clause (not in the standard or playbook, generic screen); Commercial (fee, dates, arithmetic); Execution (a failed check); Not supplied (a document that forms part of the contract was not supplied, so its terms were not reviewed); Other."),
         ("Clause", "Standard clause ID (for example LOL), the playbook row name, or Check n."),
         ("Where", "Contract clause number and page, for example 13.1 (p. 10). 'Not in contract' for an absent clause."),
         ("Quote", "Verbatim text from the contract: the full sentence or sub-clause, with the words the finding turns on in bold. '...' marks text left out between excerpts. Scanned contracts are transcribed from page images, so check the page before relying on a quote."),
-        ("Issue", "What the clause says in plain words, what it means for Start2 in practice, how it compares with the Start2 standard, and why it has this severity. Low and no-action findings use two sentences."),
+        ("Issue", "What the clause says in plain words, what it means for Start2 in practice, and how it compares with the Start2 standard. Low and no-action findings use two sentences."),
         ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline. Low and no-action findings use one sentence."),
-        ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding. Fill bracketed items and adjust before sending."),
+        ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding."),
         ("Subjective", "Yes when the quoted text lets the counterparty alone judge Start2's work, payment or people. The severity already includes the one-level raise."),
         ("Action needed", "No when the finding needs nothing beyond noting it. The severity already includes the one-level reduction."),
         ("S", "Sheet: Coverage (one row per standard clause)"),
@@ -171,7 +172,7 @@ def readme(ws):
         ("Governs", "What the contract says or shows the document covers. Never a guess at its content."),
         ("Effect on this review", "Which findings and coverage rows could not be completed without it."),
         ("Action", "How to obtain it and what to check once it is in hand."),
-        ("Terms used", "Where a legal term or a Start2 clause code (for example WARR) is used without explanation, a 'Terms used' line at the end of the cell gives its plain meaning."),
+        ("Terms used", "When plain-language explanations were requested at intake, a legal term or a Start2 clause code (for example WARR) used without explanation gets a 'Terms used' line at the end of the cell giving its plain meaning."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
         ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, and state the purpose. It does not stop again after that."),
@@ -244,14 +245,18 @@ def build(standards, review, out):
     terms = S.get("defined_terms") or None
     glossary, codes = load_terms(standards)
 
+    explain = S.get("explain_terms") is not False
+
     def plain(t):
-        return annotate(t, glossary, codes) if t else t
+        return annotate(t, glossary, codes) if t and explain else t
     fl = sorted(review.get("findings", []), key=lambda f: order.get(f["severity"], 9))
     for i, f in enumerate(fl, 1):
         vals = [i, f["severity"], f["type"], f["clause"], f.get("where"), rich(f.get("quote")), plain(f.get("issue")), plain(f.get("action")),
                 suggestion(f, by, terms), "Yes" if f.get("subjective") else None, "No" if f.get("action_required") is False else "Yes"]
         for j, v in enumerate(vals, 1):
             cell(ws, i + 1, j, v)
+        if f.get("severity_note"):
+            ws.cell(i + 1, 2).comment = Comment(f["severity_note"], "Contract review")
     dropdown(ws, f"B2:B{MAXROW}", SEV); dropdown(ws, f"C2:C{MAXROW}", TYPES); dropdown(ws, f"J2:J{MAXROW}", ["Yes"])
     dropdown(ws, f"K2:K{MAXROW}", ["Yes", "No"])
     colour(ws, f"B2:B{MAXROW}"); ws.auto_filter.ref = f"A1:K{max(len(fl), 1) + 1}"
