@@ -13,7 +13,7 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 
 | Path | What it is |
 |---|---|
-| `README.md` | For people: how the skill works and how every workbook column is computed. Update it when a column or rule changes. |
+| `README.md` | User guide: what the tool does, when to use it, how a review runs, how issues are rated, and what each sheet and column shows. No technical detail. Update it when a sheet, column or rating rule changes. |
 | `references/Start2_Asia_Contract_Standards_UP_15_Oct_v6.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
 | `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
 | `references/rubric.md` | How to judge: role guess, verdicts, client-clause screen, severity table, writing rules. Read it before step 4. |
