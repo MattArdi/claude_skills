@@ -18,7 +18,8 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
     "role_basis": "one sentence; say 'assumed' when guessed",
     "counterparty": "the other party",
     "defined_terms": {"Start2": "the Contractor", "Company": "Canada"},
-    "explain_terms": true
+    "explain_terms": true,
+    "consider_comments": false
   },
   "facts": [ {"fact": "Total fee", "value": "USD 100,000 excl. tax = 60,000 + 40,000", "where": "5.1 (p. 3)"} ],
   "findings": [
@@ -37,6 +38,7 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
   "coverage": { "LOL": {"verdict": "Conforming | Partial | Deviant | Missing | Not supplied | N/A", "where": "", "note": "a plain sentence",
                         "document": "Not supplied only: the document name, exactly as the clause of its Not supplied finding"} },
   "checks":   { "4": {"result": "Pass | Fail | N/A | Cannot verify", "evidence": "what was seen, with pages",
+                    "covered_by": "optional: the clause of the finding that already records this problem (one problem, one finding)",
                     "correct": ["App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD", "..."]} },
   "documents_not_supplied": [
     {"document": "SACC 2035 (2022-12-01) General Conditions - Higher Complexity - Services",
@@ -56,7 +58,7 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
 `subjective` (boolean) is true when the quote holds wording that lets the counterparty alone judge Start2's work,
 payment or people (rubric section 5a); omit it otherwise. `action_required` (boolean) is false only when the finding
 needs nothing beyond noting it (rubric section 8); omit it otherwise. `part_of_contract` is a boolean. `references`
-lists every place the document is named; `search` holds the names used to find them (`find_references.py`). `document` on a coverage entry is used only with `Not supplied`. `defined_terms`,
+lists every place the document is named; `search` holds the names used to find them (`find_references.py`). `document` on a coverage entry is used only with `Not supplied`. `consider_comments` is set only when the file has comments (intake question 5). `defined_terms` is a judgement map of the standard's terms to the contract's own. `defined_terms`,
 `suggested_language` and `documents_not_supplied` are optional.
 
 Rules enforced by `validate_review.py`:
@@ -71,8 +73,10 @@ Rules enforced by `validate_review.py`:
 - An Issue that states or justifies the severity or verdict ("rated High", "raised one level", "rates this Partial") gives a warning.
 - Document references: every quote must be found in the document (error), and a paragraph matching `search` that no reference covers gives a warning.
 - A quote with subjective wording but no `subjective` flag, a quote with no bold part and a quote that ends mid-sentence each give a warning. So does text outside its form: for Critical, High and Medium, an issue under 40 words or an action under 25; for Low or no-action findings, an issue over 70 words or an action over 40.
-- A failed check with no `correct` list gives a warning; `correct` must be a list of strings.
-- A Missing, Partial or Deviant coverage verdict without a finding gives a warning. So does a failed check without an Execution finding, and a document with `part_of_contract` true without a `Not supplied` finding.
+- A failed check with no `correct` list gives a warning; `correct` must be a list of strings. A `covered_by` that names no finding's clause is an error.
+- Text in another language without check 5 `Cannot verify` and a Critical `Check 5` finding gives a warning; so do comments without `consider_comments`.
+- Excerpts in a quote are separated by an ellipsis with a space on each side; an ellipsis inside a fill-in such as `[....]` is contract text.
+- A Missing, Partial or Deviant coverage verdict without a finding gives a warning. So does a failed check with neither an Execution finding nor `covered_by`, and a document with `part_of_contract` true without a `Not supplied` finding.
 - A severity allowed only by a rubric section 4a row gives a warning unless `severity_note` names the row.
 - A Missing, Partial or Deviant finding on a clause whose coverage verdict is Conforming or N/A gives a warning.
 - A `Not supplied` coverage verdict with an empty `documents_not_supplied` list is an error. A `Not supplied` verdict without `document`, or whose `document` matches no `Not supplied` finding, gives a warning.

@@ -13,7 +13,8 @@ text too short to explain itself (or too long for a Low or no-action finding), c
 legal terms or clause codes left unexplained (plain_language.py, only when summary.explain_terms is not false),
 an Issue that states or justifies the severity or verdict, a no-action finding not lowered one level,
 document references that miss a paragraph where the document is named, a Not supplied coverage verdict without a
-matching document finding.
+matching document finding, a failed check with neither an Execution finding nor covered_by, other-language text without
+check 5 'Cannot verify' and a Critical Check 5 finding, and comments without summary.consider_comments.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
 ignored when quotes are matched against the document.
 """
@@ -26,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from subjective import find as find_subjective  # noqa: E402
 from plain_language import load as load_terms, scan as scan_terms  # noqa: E402
 from find_references import matches as find_mentions  # noqa: E402
+from run_checks import other_language  # noqa: E402
 
 SEV = ["Low", "Medium", "High", "Critical"]
 TYPES = {"Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", "Client: Conditional", "Client: Accept",
@@ -47,6 +49,15 @@ RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one lev
 RULE_ALT = {("ABC", "Missing"): ("Medium",)}
 ALT_4A = {("FEE", "Deviant"): ("Low", "Medium", "High"), ("FEE", "Partial"): ("Medium",), ("LOL", "Deviant"): ("Low", "High"),
           ("COSTREC", "Deviant"): ("Medium", "Critical")}
+# Excerpts in a quote are joined by an ellipsis with a space on each side (or at the start or end of the quote).
+# Ellipses inside a fill-in such as "[....]" or "………," are contract text, not separators.
+SEP = re.compile(r"(?:^|\s)(?:\.\.\.|…)(?=\s|$)")
+
+
+def excerpts(q):
+    return [s for s in SEP.split(q) if s.strip()]
+
+
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
@@ -127,7 +138,8 @@ def main(std_path, rev_path, doc_path=None):
         if q and not q.startswith("("):
             if "**" not in q:
                 warns.append(f"{tag}: quote has no **bold** part; bold the words the issue turns on")
-            last = norm(re.split(r"\s*(?:\.\.\.|…)\s*", q.replace("**", ""))[-1])
+            parts = excerpts(q.replace("**", ""))
+            last = norm(parts[-1]) if parts else ""
             ends_source = bool(last) and any(t.endswith(last) for t in para_ends)  # a list item or table row that ends without a stop
             if not QUOTE_END.search(q.replace("**", "")) and not ends_source:
                 warns.append(f"{tag}: quote ends mid-sentence ({q.replace('**', '')[-30:]!r}); quote the full sentence or sub-clause")
@@ -137,7 +149,7 @@ def main(std_path, rev_path, doc_path=None):
             if not doc_path or scanned:
                 unverified += 1
             else:
-                for seg in re.split(r"\s*(?:\.\.\.|…)\s*", q):
+                for seg in excerpts(q):
                     if len(norm(seg)) >= 15 and norm(seg) not in corpus:
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
@@ -180,7 +192,7 @@ def main(std_path, rev_path, doc_path=None):
         for j, ref in enumerate(d.get("references", []), 1):
             if not ref.get("where") or not ref.get("quote"):
                 errors.append(f"document {i} reference {j}: where and quote are both required"); continue
-            segs = [norm(x) for x in re.split(r"\s*(?:\.\.\.|…)\s*", ref["quote"]) if len(norm(x)) >= 15]
+            segs = [norm(x) for x in excerpts(ref["quote"]) if len(norm(x)) >= 15]
             if doc_path and not scanned:
                 for sg in segs:
                     if sg not in corpus: errors.append(f"document {i} reference {j}: quote not found in document: {sg[:60]!r}")
@@ -215,9 +227,20 @@ def main(std_path, rev_path, doc_path=None):
         if v.get("result") == "Fail" and not fix:
             warns.append(f"check {n} failed but lists no clauses to correct")
     has_exec = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Execution"}
+    all_clauses = {f.get("clause") for f in rev.get("findings", [])}
     for n, v in checks.items():
-        if v.get("result") == "Fail" and f"Check {n}" not in has_exec:
-            warns.append(f"check {n} failed but no Execution finding has clause 'Check {n}'")
+        if v.get("covered_by"):
+            if v["covered_by"] not in all_clauses:
+                errors.append(f"check {n}: covered_by {v['covered_by']!r} names no finding's clause")
+        elif v.get("result") == "Fail" and f"Check {n}" not in has_exec:
+            warns.append(f"check {n} failed but no Execution finding has clause 'Check {n}' and no covered_by names the finding that records it")
+    if doc_path and other_language(doc):
+        if checks.get("5", {}).get("result") != "Cannot verify":
+            warns.append("the contract has text in another language: check 5 is 'Cannot verify' (that text is never translated or reviewed)")
+        if not any(f.get("clause") == "Check 5" and f.get("severity") == "Critical" for f in rev.get("findings", [])):
+            warns.append("the contract has text in another language: add a Critical Execution finding, clause 'Check 5', saying it was not reviewed")
+    if doc_path and doc.get("comments") and S.get("consider_comments") is None:
+        warns.append("the file has comments: set summary.consider_comments from the intake answer")
     terms, codes = load_terms(std)
     if S.get("explain_terms") is None:
         warns.append("summary.explain_terms is not set (ask at intake); explaining terms by default")

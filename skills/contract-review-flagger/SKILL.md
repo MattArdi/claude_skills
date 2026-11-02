@@ -5,9 +5,9 @@ description: Review a contract against the Start2 Asia contract standards and re
 
 # Contract Review Flagger
 
-Reads one contract and produces one workbook: Read Me, Summary, Findings, Coverage, Checks, Documents not supplied. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
+Reads one contract and produces one workbook: Read Me, Summary, Findings, Coverage, Checks, Documents not supplied. Claude does the judgement (mapping clauses, mapping the standard's terms to the contract's own for Suggested language, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
 
-Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). Before reviewing, it sends one intake message to confirm the Start2 entity and role, ask for documents the contract names but that were not supplied, ask whether legal terms should be explained in plain words, and fix the purpose (Pre-signature, Signed or Renewal). It does not stop again after that.
+Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). Before reviewing, it sends one intake message to confirm the Start2 entity and role, ask for documents the contract names but that were not supplied, ask whether legal terms should be explained in plain words, fix the purpose (Pre-signature, Signed or Renewal) and, when the file has comments, ask whether to consider them. It does not stop again after that.
 
 ## Files
 
@@ -28,7 +28,7 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 | `scripts/find_references.py` | Every place a document is named, with clause, page and sentence (for Documents not supplied). |
 | `scripts/plain_language.py` | Lists legal terms and clause codes left unexplained in review.json. |
 | `scripts/subjective.py` | Patterns for subjective standards ("acceptable to Canada", "sole discretion"); used by run_checks and validate_review. |
-| `scripts/intake.py` | Drafts the one intake message: entity and role, documents not supplied, plain-language explanations, purpose. |
+| `scripts/intake.py` | Drafts the one intake message: entity and role, documents not supplied, plain-language explanations, purpose, and comments when the file has any; notes other-language text. |
 | `scripts/match_entities.py` | Finds known Start2 entities in the text. |
 | `scripts/validate_review.py` | Schema, severity and quote checks on `review.json`. |
 | `scripts/build_review_workbook.py` | `review.json` to the review workbook; fills Suggested language from the standards and renders **bold** in quotes. |
@@ -53,7 +53,7 @@ python3 S/scripts/ingest.py <contract> W
 ```
 python3 S/scripts/intake.py W/document.json
 ```
-Skim the contract, then edit the draft (rubric section 1a): add the role guess, prune the document list, add documents the patterns missed, and say whether the contract looks signed. Send it as one message covering entity and role, documents not supplied, whether to explain legal terms in plain words, and purpose (Pre-signature, Signed or Renewal). Wait for the reply; this is the only time the review stops for the user.
+Skim the contract, then edit the draft (rubric section 1a): add the role guess, prune the document list, add documents the patterns missed, and say whether the contract looks signed. Send it as one message covering entity and role, documents not supplied, whether to explain legal terms in plain words, purpose (Pre-signature, Signed or Renewal) and, when the file has comments, whether to consider them. Wait for the reply; this is the only time the review stops for the user.
 
 ### 2b. Context and role
 Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Record the confirmed entity and role in `role_basis` and the purpose in `summary.purpose`. A Buyer or Other role means no standards coverage (rubric section 2, step 5). Ingest any documents the user sent and review them as part of the contract; record the rest in `documents_not_supplied`, with every place each is named (`python3 S/scripts/find_references.py W/document.json "<name>" ... --json`).
@@ -63,7 +63,7 @@ Read the contract. Establish status (Draft or Executed), paper, contract type an
 python3 S/scripts/segment.py W/document.json W/clauses.json
 python3 S/scripts/run_checks.py W/document.json W/candidates.json
 ```
-Check the clause tree by eye and fix mistakes (the segmenter is best effort). Extract the key facts. Confirm or dismiss each candidate in `candidates.json`, including `referenced_document` (outside documents) and `subjective_standard` (wording that raises severity one level, rubric section 5a).
+Check the clause tree by eye and fix mistakes (the segmenter is best effort). Extract the key facts. Confirm or dismiss each candidate in `candidates.json`, including `referenced_document` (outside documents), `subjective_standard` (wording that raises severity one level, rubric section 5a) and `other_language_text` (never translated or reviewed; check 5 Cannot verify plus a Critical finding, rubric section 0).
 
 ### 4. Review (provider role)
 Follow `references/rubric.md` sections 4 to 9: coverage verdicts for all 34 clauses, the fixed positions on payment split, higher cap and cancellation (section 4a), client and non-standard clause screen, subjective standards, the 12 execution checks, the commercial pass, and the writing standard for quotes, Issue and Action. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
@@ -86,6 +86,9 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.
 - Never guess at the content of a document that was not supplied.
 - Never put script names or commands in the workbook.
+- Never translate. Text in another language is not reviewed; check 5 records it as Critical.
+- One problem, one finding, at the highest severity any rule gives (rubric section 8). A failed check already recorded as a finding points to it with `covered_by`.
+- Mapping the standard's terms to the contract's own (`defined_terms`) is a judgement call: read the Suggested language before handing over.
 - The skill is exempt from the standards' Review Method reviewer output: no tracked-changes copy, cover note or proceed / escalate recommendation. The review workbook replaces it.
 - Explain legal terms and clause codes in plain words where they are used, if the user asked for it at intake.
 - Do not mark a clause Conforming without reading it.

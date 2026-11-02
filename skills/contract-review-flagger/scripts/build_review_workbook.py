@@ -80,13 +80,14 @@ def suggestion(f, by, terms):
 
 
 def coverage_severity(i, document=None):
-    """Coverage Severity: the highest severity among Findings for this clause (by ID, or for Not supplied by the
-    document name), else the base rule (Missing, Deviant, Not supplied = base; Partial = one lower, floor Low)."""
-    key = f"A{i}"
-    if document:
+    """Coverage Severity: the highest severity among Findings for this clause (by ID and, for Not supplied, also by
+    the document name), else the base rule (Missing, Deviant, Not supplied = base; Partial = one lower, floor Low)."""
+    count = lambda key, s: f'COUNTIFS(Findings!$D$2:$D${MAXROW},{key},Findings!$B$2:$B${MAXROW},"{s}")'  # noqa: E731
+    if document:  # a Not supplied clause counts its own findings and the finding for the document not supplied
         lit = '"' + str(document)[:250].replace('"', '""') + '"'
-        key = f'IF(D{i}="Not supplied",{lit},A{i})'
-    hit = lambda s: f'COUNTIFS(Findings!$D$2:$D${MAXROW},{key},Findings!$B$2:$B${MAXROW},"{s}")>0'
+        hit = lambda s: f'{count(f"A{i}", s)}+IF(D{i}="Not supplied",{count(lit, s)},0)>0'  # noqa: E731
+    else:
+        hit = lambda s: f'{count(f"A{i}", s)}>0'  # noqa: E731
     base = (f'IF(D{i}="Partial",INDEX({{"Low","Low","Medium","High"}},MATCH(C{i},{{"Low","Medium","High","Critical"}},0)),C{i})')
     found = f'IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",{base})'
     for s in reversed(SEV):  # Low innermost, Critical checked first; a finding wins even if the verdict says Conforming
@@ -127,7 +128,7 @@ def readme(ws):
         ("1. Summary", "Read the role, the counts and the number of findings to confirm. Check the role guess first: if it is wrong, nothing else applies."),
         ("2. Findings", "Work down the list. It is sorted Critical to Low. Fix, negotiate or accept each item, and change Severity or Type if you disagree. Every Critical, High and client-clause finding must be confirmed by a person."),
         ("3. Coverage", "Use it to see which standard clauses are present, partial, deviant or missing. It is a view; issues are listed in Findings."),
-        ("4. Checks", "The 12 execution checks. A failed check also appears in Findings."),
+        ("4. Checks", "The 12 execution checks. A failed check also appears in Findings, once: if the same problem is already a finding, the check points to it. Text in another language is never translated or reviewed; check 5 then reads Cannot verify and a Critical finding asks a fluent reviewer to confirm both versions match."),
         ("5. Documents not supplied", "Every outside document the contract names (general conditions, bids, policies, codes, links) that was not supplied with it. Terms in these documents were not reviewed. Obtain them and re-run the review."),
         ("S", "Severity"),
         ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields in a signed contract."),
@@ -143,6 +144,7 @@ def readme(ws):
         ("Contract type", "Service, Funding, Vendor or Other. Funding agreements (grants, claims, audits) read the fee and cost clauses differently."),
         ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time (3 business days for the unmodified template, otherwise 5) and the sign-off chain. Filling the deal-specific blanks leaves the template unmodified; any change to clause wording makes it modified."),
         ("Purpose", "Pre-signature (findings are requests before signing), Signed (checks and records for the current contract) or Renewal (requests for the next version). Confirmed with the requester before the review starts."),
+        ("Comments in the file", "Whether reviewer comments in the contract file were considered, as answered at intake. Blank when the file has none."),
         ("Standards version", "Version of the standards workbook the contract was checked against."),
         ("Our entity", "The Start2 entity in this contract. Guessed from the entity list and the text when not obvious."),
         ("Our role", "Provider, Buyer or Other. The standards cover provider-side contracts only. If the role is not Provider, standards coverage is not applied and the To confirm line says so."),
@@ -163,7 +165,7 @@ def readme(ws):
         ("Quote", "Verbatim text from the contract: the full sentence or sub-clause, with the words the finding turns on in bold. '...' marks text left out between excerpts. Scanned contracts are transcribed from page images, so check the page before relying on a quote."),
         ("Issue", "What the clause says in plain words, what it means for Start2 in practice, and how it compares with the Start2 standard. Low and no-action findings use two sentences."),
         ("Action", "What to do next and who does it: what to check internally, what to ask the counterparty for, and a fallback if they decline. Low and no-action findings use one sentence."),
-        ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with the parties named as in this contract; otherwise wording written for this finding."),
+        ("Suggested language", "Wording to propose to the counterparty. For a standard clause, the Start2 standard language with its terms (parties, fee, service and so on) replaced by the contract's own, chosen by judgement, so read it before sending; otherwise wording written for this finding."),
         ("S", "Sheet: Coverage (one row per standard clause)"),
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
@@ -176,7 +178,7 @@ def readme(ws):
         ("#", "Number of the check in the standards workbook."),
         ("Check", "What is verified before a draft leaves Start2 and again before signature."),
         ("Result", "Pass, Fail, N/A or Cannot verify (drop-down)."),
-        ("Evidence", "What was seen, with page references."),
+        ("Evidence", "What was seen, with page references. When the problem is already a finding, it names that finding instead of repeating it."),
         ("Clauses to correct", "For a failed check, each contract clause or page that needs correcting and what to change, numbered."),
         ("S", "Sheet: Documents not supplied (one row per document)"),
         ("Document", "The document as the contract names it, with version or date if given."),
@@ -189,7 +191,8 @@ def readme(ws):
         ("Terms used", "When plain-language explanations were requested at intake, a legal term or a Start2 clause code (for example WARR) used without explanation gets a 'Terms used' line at the end of the cell giving its plain meaning."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
-        ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, say whether legal terms should be explained in plain words, and state the purpose. It does not stop again after that."),
+        ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, say whether legal terms should be explained in plain words, state the purpose and, if the file has comments, say whether to consider them. It does not stop again after that."),
+        ("One problem, one finding", "A problem caught by more than one rule (a standard clause and a client-clause rule, or a clause and a failed check) is listed once, at the highest severity any of those rules gives; a comment on the Severity cell names the other rules."),
         ("Not legal advice", "A screen against Start2 standards. Decisions follow the sign-off chain."),
     ]
     header(ws, ["Item", "Description"], [34, 120]); ws.freeze_panes = None
@@ -223,8 +226,12 @@ def build(standards, review, out):
         cell(ws, r, 1, label, BOLD); cell(ws, r, 2, value); cell(ws, r, 3)
         pos[key] = r; r += 1
     section("Contract")
+    cc = S.get("consider_comments")
+    S["comments"] = None if cc is None else ("Considered as the commenters' proposed positions, not contract text" if cc
+                                             else "Ignored at the requester's instruction")
     for label, key in (("Contract", "contract"), ("Source file", "file"), ("Status", "status"), ("Contract type", "contract_type"),
-                       ("Whose paper", "paper"), ("Purpose", "purpose"), ("Standards version", "standards_version")):
+                       ("Whose paper", "paper"), ("Purpose", "purpose"), ("Comments in the file", "comments"),
+                       ("Standards version", "standards_version")):
         row(label, key, S.get(key))
     section("Our side")
     for label, key in (("Our entity", "our_entity"), ("Our role", "our_role"), ("Role basis", "role_basis"), ("Counterparty", "counterparty")):
@@ -296,7 +303,10 @@ def build(standards, review, out):
         v = res.get(str(ck["id"]), {})
         label = CHECK_LABEL_OVERRIDE.get(ck["id"], ck["check"])
         fix = "\n".join(f"{k}. {x}" for k, x in enumerate(v.get("correct") or [], 1)) or None
-        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, plain(v.get("evidence")) if review else None)
+        ev = plain(v.get("evidence")) if review else None
+        if v.get("covered_by"):
+            ev = f"{ev or ''}\nRecorded on the Findings sheet under {v['covered_by']}.".strip()
+        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, ev)
         cell(ws, i, 5, fix)
     dropdown(ws, f"C2:C{len(standards['execution_checks']) + 1}", RESULTS)
 

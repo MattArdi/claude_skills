@@ -30,11 +30,12 @@ It works on English contracts where Start2 delivers a service or programme. The 
 ## How a review works
 
 1. **You share the contract.** Upload it and ask for a review.
-2. **You answer four quick questions.** Before starting, the tool sends one message asking:
+2. **You answer four quick questions (five if the file has comments).** Before starting, the tool sends one message asking:
    - which Start2 company is signing, and in what role;
    - whether you can send any documents the contract mentions but that are not attached (for example general conditions or the original proposal);
    - whether legal terms should be explained in plain words (useful for readers who are not lawyers);
-   - the purpose of the review: before signing, already signed, or ahead of a renewal.
+   - the purpose of the review: before signing, already signed, or ahead of a renewal;
+   - if the file has reviewer comments, whether they should be considered (as proposals, never as contract text) or ignored.
 
    After your reply it does not stop to ask anything else.
 3. **The tool reads the whole contract.** It compares every clause with Start2's standards, checks clauses the client may have added against Start2's playbook, runs 12 document checks, and goes over the money terms.
@@ -59,6 +60,8 @@ The starting point is how important the topic is: each Start2 standard clause ha
 
 A missing anti-bribery clause is Low, or Medium when the client is government-linked or state-owned.
 
+A problem caught by more than one rule, for example a clause that breaks both a Start2 standard and a client-clause rule, or a missing signature block that also fails a document check, is listed once at the most serious rating any rule gives.
+
 Three Start2 positions have their own ratings. Where a contract matches more than one rule, the most serious rating applies, and a comment on the Severity cell names the rule used:
 
 | Topic | Start2 position | How a different term is rated |
@@ -81,6 +84,7 @@ A guide to the workbook: what each sheet and column means, and the rating scale.
 | Contract type | Service, Funding, Vendor or Other. |
 | Whose paper | Start2's template unchanged, Start2's template changed, or the client's own paper. Filling in the deal details (names, fee, dates, scope) does not count as a change; changing any clause wording does. |
 | Purpose | Before signing, already signed, or renewal, as given at the start. |
+| Comments in the file | Whether reviewer comments in the contract file were considered or ignored, as answered at the start. Blank if there were none. |
 | Standards version | Which version of Start2's standards was used: the file name and the content version from its version history. |
 | Our entity, Our role, Role basis, Counterparty | Which Start2 company is signing, its role, how that was confirmed, and the other party. |
 | Critical, High, Medium, Low | The number of issues at each rating. These update automatically if you change a rating on the Findings sheet. |
@@ -103,7 +107,7 @@ One row per issue, most serious first.
 | Quote | The exact words from the contract, with the key words in bold. |
 | Issue | What the clause says, what it means for Start2 in practice, and how it differs from Start2's standard. |
 | Action | What to do next, who should do it, what to ask the client for, and a fallback if they say no. |
-| Suggested language | For a Start2 standard clause, Start2's standard wording using the contract's own names for the parties, ready to propose to the client. For other issues, wording written for that issue where a change is asked. Blank otherwise. |
+| Suggested language | For a Start2 standard clause, Start2's standard wording with its terms (party names, fee, service and so on) replaced by the contract's own. Which terms to replace is a judgement made by the AI, so read the wording before sending it. For other issues, wording written for that issue where a change is asked. Blank otherwise. |
 
 Low and no-action items are kept short; Critical, High and Medium items are explained in full.
 
@@ -126,11 +130,11 @@ The 12 document checks Start2 runs before a draft leaves the company and again b
 |---|---|
 | #, Check | The check, for example "every placeholder is filled" or "the company name is the same everywhere". |
 | Result | Pass, Fail, N/A or Cannot verify. |
-| Evidence | What was found, with page numbers. |
+| Evidence | What was found, with page numbers. If the problem is already listed on the Findings sheet, the check points to that issue instead of listing it twice. |
 | Clauses to correct | For a failed check, a numbered list of the clauses or pages to correct and what to change. |
 
 ### Documents not supplied
-Every outside document the contract relies on that was not attached, such as general conditions, the original proposal, policies or websites.
+Every outside document the contract relies on that was not attached, such as general conditions, the original proposal, policies or websites. Public arbitration rules (LCIA, SIAC and similar) are not listed.
 
 | Column | What it shows |
 |---|---|
@@ -145,6 +149,7 @@ Every outside document the contract relies on that was not attached, such as gen
 ## Good to know
 
 - **Scanned pages** are read from the page images. Quotes from those pages should be checked against the original before you rely on them.
+- **Bilingual contracts:** only the English text is reviewed. The other language is never translated, and the Checks sheet flags this as Critical so a fluent reviewer confirms both versions match before signing.
 - **Missing documents** cannot be reviewed. If a contract relies on general conditions that were not attached, the related issues stay open until those conditions are read.
 - **Only English contracts** where Start2 is the service provider are reviewed against the standards. If Start2 is the buyer, the workbook shows "Not assessed" and lists only general issues such as blanks and wrong dates.
 - **You can edit the workbook.** Change a rating on the Findings sheet and the Summary counts and Coverage severities update automatically. Changing a verdict on the Coverage sheet does not change the counts.

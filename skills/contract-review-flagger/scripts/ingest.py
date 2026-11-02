@@ -8,9 +8,11 @@ PDF with a text layer: text is taken per page with pdftotext.
 PDF without a text layer (scanned) or with image-only pages: those pages are rendered to
 <outdir>/pages/page-NNN.jpg and flagged needs_vision. Claude reads the images, writes
 transcript.json ({"1": "page text", ...}) and re-runs this script with --transcript.
-DOCX: paragraphs and tables are read from the XML; tracked insertions/deletions and comments are counted.
+DOCX: paragraphs and tables are read from the XML; tracked insertions/deletions are counted and comments are
+extracted with their author and the text they are attached to (used only if the requester asks for them at intake).
 
 document.json: {file, format, source_note, pages:[{page, source, text}], paragraphs:[{id, page, text}],
+                comments:[{id, author, text, anchor}],
                 flags:{scanned, needs_vision_pages, tracked_changes:{ins,del}, comments, translation_hint}}
 """
 import argparse
@@ -64,7 +66,21 @@ def read_docx(path):
     z = zipfile.ZipFile(path)
     root = ET.fromstring(z.read("word/document.xml"))
     ins = len(root.findall(f".//{W}ins")); dele = len(root.findall(f".//{W}del"))
-    comments = "word/comments.xml" in z.namelist()
+    comments = []
+    if "word/comments.xml" in z.namelist():
+        anchors, active = {}, set()
+        for el in root.iter():
+            if el.tag == f"{W}commentRangeStart":
+                active.add(el.get(f"{W}id")); anchors.setdefault(el.get(f"{W}id"), [])
+            elif el.tag == f"{W}commentRangeEnd":
+                active.discard(el.get(f"{W}id"))
+            elif el.tag == f"{W}t" and active:
+                for cid in active: anchors[cid].append(el.text or "")
+        for c in ET.fromstring(z.read("word/comments.xml")).iter(f"{W}comment"):
+            cid = c.get(f"{W}id")
+            text = "\n".join("".join(t.text or "" for t in p.iter(f"{W}t")) for p in c.iter(f"{W}p")).strip()
+            comments.append({"id": cid, "author": c.get(f"{W}author"), "text": text,
+                             "anchor": re.sub(r"\s+", " ", "".join(anchors.get(cid, []))).strip()[:300]})
 
     def ptext(p):
         parts = []
@@ -99,7 +115,7 @@ def main():
     ext = path.suffix.lower()
     transcript = json.load(open(a.transcript)) if a.transcript else None
     flags = {"scanned": False, "needs_vision_pages": [], "tracked_changes": {"ins": 0, "del": 0}, "comments": False}
-    paragraphs = []
+    paragraphs, comment_list = [], []
     if ext == ".pdf":
         pages, need = read_pdf(path, out, transcript, a.dpi)
         flags["needs_vision_pages"] = need
@@ -108,10 +124,10 @@ def main():
             paragraphs += paragraphs_from(p["text"], p["page"])
         fmt = "pdf"
     elif ext == ".docx":
-        paras, tc, com = read_docx(path)
+        paras, tc, comment_list = read_docx(path)
         pages = [{"page": 1, "source": "text", "text": "\n\n".join(paras)}]
         paragraphs = [{"page": None, "text": t} for t in paras]
-        flags["tracked_changes"], flags["comments"], fmt = tc, com, "docx"
+        flags["tracked_changes"], flags["comments"], fmt = tc, bool(comment_list), "docx"
     elif ext in (".txt", ".md"):
         text = path.read_text(errors="replace")
         pages = [{"page": 1, "source": "text", "text": text}]
@@ -122,12 +138,14 @@ def main():
         p["id"] = f"P{i:04d}"
     corpus = " ".join(p["text"] for p in pages) + " " + path.name
     flags["translation_hint"] = bool(re.search(r"translat", corpus, re.I))
-    doc = {"file": path.name, "format": fmt, "pages": pages, "paragraphs": paragraphs, "flags": flags}
+    doc = {"file": path.name, "format": fmt, "pages": pages, "paragraphs": paragraphs, "comments": comment_list, "flags": flags}
     (out / "document.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     msg = f"{path.name}: {fmt}, {len(pages)} page(s), {len(paragraphs)} paragraph(s)"
     if flags["needs_vision_pages"]:
         msg += (f"\nNEEDS VISION: {len(flags['needs_vision_pages'])} page(s) have no text layer. Images are in {out/'pages'}. "
                 "Read them (20 pages per call), write transcript.json, then re-run with --transcript.")
+    if comment_list:
+        msg += f"\nCOMMENTS: {len(comment_list)} by {', '.join(sorted({c['author'] or '?' for c in comment_list}))} (ask at intake whether to consider them)."
     if fmt == "docx" and (flags["tracked_changes"]["ins"] or flags["tracked_changes"]["del"]):
         msg += f"\nTRACKED CHANGES: {flags['tracked_changes']['ins']} insertions, {flags['tracked_changes']['del']} deletions (deleted text excluded)."
     print(msg)

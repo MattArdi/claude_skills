@@ -4,9 +4,12 @@
 Usage: run_checks.py <document.json> <candidates.json>
 
 Check numbers match the Execution Check list in the standards workbook:
- 1 blank fields and placeholders   2 duplicate or undefined clause numbers   3 date errors
+ 1 blank fields and placeholders (brackets, underscores, dotted or ellipsis fill-ins, TBD)
+ 2 duplicate or undefined clause numbers   3 date errors
+ 5 text in another language: never translated or reviewed; check 5 is Cannot verify plus a Critical finding
  9 annex/attachment references against what is present, and outside documents the contract names
-   (general conditions, bids, policies, codes, links) that may not have been supplied
+   (general conditions, bids, policies, codes, links) that may not have been supplied; institutional arbitration
+   rules (LCIA, SIAC, ICC, UNCITRAL and similar) are left out
  plus: subjective standards (check "S", see subjective.py), amount reconciliation (check "C", commercial pass),
  translation hint.
 A page with source needs_vision has no text and is reported as unchecked.
@@ -26,20 +29,50 @@ D_MDY = re.compile(rf"\b({MONTHS})\s+(\d{{1,2}}),?\s+(\d{{4,5}})\b")
 D_DMY = re.compile(rf"\b(\d{{1,2}})\s+({MONTHS})\s+(\d{{4,5}})\b")
 AMT = re.compile(r"(RMB|SGD|S\$|USD|US\$|EUR|€|CNY|GBP|£|KRW|JPY|\$)\s?(\d[\d,]*(?:\.\d+)?)")
 PCT = re.compile(r"(\d+(?:\.\d+)?)\s?%")
-ANNEX_REF = re.compile(r"\b(Annex|Appendix|Schedule|Attachment|Exhibit)\s+([A-Z]\d?|\d+)\b")
-ANNEX_HEAD = re.compile(r"^(ANNEX|Annex|APPENDIX|Appendix|SCHEDULE|Schedule|ATTACHMENT|Attachment|EXHIBIT|Exhibit)\s+([A-Z]\d?|\d+)\b[:.\s-]*(.*)$")
+ANNEX_REF = re.compile(r"\b(Annex|Appendix|Schedule|Attachment|Exhibit)\s+(?:No\.?\s*|Nr\.?\s*|Number\s+)?([A-Z]\d?|\d+)\b")
+ANNEX_PLURAL = re.compile(r"\b(Annexes|Appendices|Schedules|Attachments|Exhibits)\b")
+ANNEX_HEAD = re.compile(r"^(ANNEX|Annex|APPENDIX|Appendix|SCHEDULE|Schedule|ATTACHMENT|Attachment|EXHIBIT|Exhibit)\s+(?:No\.?\s*|Nr\.?\s*)?([A-Z]\d?|\d+)\b[:.\s-]*(.*)$")
 LABEL_ONLY = re.compile(r"^[A-Za-z][A-Za-z /]{2,45}:\s*$")
 LABEL_START = re.compile(r"^[A-Za-z][A-Za-z /]{2,45}:|^Party [AB]\b")
-PLACEHOLDER = re.compile(r"\[[^\]]{1,80}\]|_{3,}|\bTBD\b|\bto be confirmed\b|\bXXX\b", re.I)
+# fill-ins: [brackets], ___, dotted or ellipsis runs ("....", "………", "….."), TBD
+PLACEHOLDER = re.compile(r"\[[^\]]{1,80}\]|_{3,}|\.{4,}|(?=[.…]*…)[.…]{2,}|\bTBD\b|\bto be confirmed\b|\bXXX\b", re.I)
+ARB_RULES = re.compile(r"\barbitra|\bLCIA\b|\bSIAC\b|\bICC\b|\bUNCITRAL\b|\bHKIAC\b|\bCIETAC\b|\bKCAB\b|\bJCAA\b", re.I)
+NON_LATIN = re.compile(r"[\u0400-\u04FF\u0590-\u06FF\u0E00-\u0E7F\u3040-\u30FF\u3400-\u9FFF\uAC00-\uD7AF]")
 DOTLABEL = re.compile(r"^(\d+\.\d+(?:\.\d+)*)\.?\s+\S")
 CLAUSEREF = re.compile(r"\b[Cc]lauses?\s+(\d+\.\d+(?:\.\d+)*)")
 DOC_REF = re.compile(r"incorporated (?:herein )?by reference|(?:apply to|forms?) (?:and form )?part of|as amended from time to time"
                      r"|available (?:at|on|from)\b|https?://\S+|www\.\S+|General Conditions|Standard (?:Acquisition )?Clauses"
+                     r"|(?:constitutes?|shall form|forms?) (?:an? )?integral part of"
                      r"|\bSACC\b|Code of (?:Conduct|Ethics)|\b[A-Z][\w-]* (?:Policy|Policies|Guidelines|Manual|Handbook)\b"
                      r"|(?:Contractor|Supplier|Vendor)['’]s (?:Bid|Proposal|Tender|Quotation)|Request for Proposals?|\bRFP\b|Terms of Reference", re.I)
 
 
 def num(s): return float(s.replace(",", ""))
+
+
+def doc_refs(text):
+    """DOC_REF matches, leaving out sentences about institutional arbitration rules (not listed as documents)."""
+    out = []
+    for m in DOC_REF.finditer(text):
+        a = text.rfind(". ", 0, m.start())
+        b = text.find(". ", m.end())
+        if ARB_RULES.search(text[a + 1: b if b != -1 else len(text)]):
+            continue
+        out.append(m)
+    return out
+
+
+def other_language(doc):
+    """Share of letters outside plain ASCII, and any non-Latin script: a sign of a bilingual or translated text."""
+    text = " ".join(p["text"] for p in doc["paragraphs"])
+    letters = [c for c in text if c.isalpha()]
+    if not letters:
+        return None
+    share = sum(1 for c in letters if ord(c) > 127) / len(letters)
+    non_latin = len(NON_LATIN.findall(text))
+    if share >= 0.01 or non_latin >= 20:
+        return {"share_non_ascii_letters": round(share * 100, 1), "non_latin_characters": non_latin}
+    return None
 
 
 def main(src, dst):
@@ -133,15 +166,27 @@ def main(src, dst):
     for i, p in enumerate(paras):
         if ANNEX_HEAD.match(p["text"]) and len(p["text"]) <= 140: continue
         for m in ANNEX_REF.finditer(p["text"]): cited.setdefault((m.group(1).lower(), m.group(2)), p)
+    if not heads:
+        for p in paras:
+            m = ANNEX_PLURAL.search(p["text"])
+            if m:
+                cited.setdefault((m.group(1).lower(), "(unnumbered)"), p); break
     for key, p in cited.items():
         if key not in heads:
             add(9, "annex_referenced_not_found", p, p["text"], f"{key[0].title()} {key[1]} is cited but no heading was found. May still be an image or an icon (check the pages).")
 
     # 9 outside documents named in the text: Claude lists every one not supplied (rubric section 1)
     for p in paras:
-        hits = sorted({m.group(0) for m in DOC_REF.finditer(p["text"])})
+        hits = sorted({m.group(0) for m in doc_refs(p["text"])})
         if hits:
             add(9, "referenced_document", p, p["text"], f"Names an outside document or incorporates terms by reference: {hits}. Was it supplied?")
+
+    # 5 other-language text: never translated or reviewed (rubric section 0)
+    lang = other_language(doc)
+    if lang:
+        add(5, "other_language_text", None, "", f"Text in another language ({lang['share_non_ascii_letters']}% of letters non-ASCII, "
+            f"{lang['non_latin_characters']} non-Latin characters). Do not translate or review it: check 5 is Cannot verify and a "
+            "Critical Execution finding (clause 'Check 5') says the other-language text was not reviewed.")
 
     # subjective standards: raise the finding one severity level (rubric section 8)
     for p in paras:
