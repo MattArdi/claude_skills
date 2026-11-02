@@ -70,6 +70,7 @@ These three clauses have fixed positions. Apply them on top of section 4. The se
 | A middle tranche not tied to named and described deliverables (tied to a date, to "midway", or left blank) | Deviant | High |
 | A middle tranche tied to deliverables in an Appendix that was not supplied | Not supplied | section 8 |
 | A tranche with no due date (the standard is 7 days from Start2's invoice) | Partial | High (section 8 rule) |
+| A due date longer than 7 days from invoice (beyond 30 days is also the client-clause reject row) | Deviant | Critical (section 8 rule) |
 | Signing instalment non-refundable from signing | No finding | - |
 | Contract silent on whether the signing instalment is refundable | Partial | Medium |
 | Signing instalment refundable, in full or in part, after Commencement | Deviant | Medium |
@@ -190,4 +191,4 @@ Other rules:
 - For scanned contracts say in the issue when a reading is uncertain.
 
 ## 10. What to log
-Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation. The Summary shows the sign-off chain worked out from Whose paper: the Director of People and Operations and the Regional Director of Innovation and Product Strategy for every contract, and the CEO as well for anything other than an unmodified Start2 template.
+Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation. It is exempt from the reviewer output on the standards' Review Method sheet (tracked-changes copy, cover note and a proceed or escalate recommendation): the review workbook replaces it. The Summary shows the sign-off chain worked out from Whose paper: the Director of People and Operations and the Regional Director of Innovation and Product Strategy for every contract, and the CEO as well for anything other than an unmodified Start2 template.

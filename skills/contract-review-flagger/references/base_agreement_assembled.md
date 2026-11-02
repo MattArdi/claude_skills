@@ -157,7 +157,7 @@ This Agreement and its Appendices constitute the entire agreement between the Pa
 
 ## 25. Survival
 
-Clauses 8, 16, 17, 23, and 21 survive termination or expiry of this Agreement.
+Clauses 8, 16, 17, 20, 23, and 21 survive termination or expiry of this Agreement.
 
 ## 26. Electronic signature and counterparts
 

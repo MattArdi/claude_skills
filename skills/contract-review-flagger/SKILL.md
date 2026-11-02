@@ -86,6 +86,7 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.
 - Never guess at the content of a document that was not supplied.
 - Never put script names or commands in the workbook.
+- The skill is exempt from the standards' Review Method reviewer output: no tracked-changes copy, cover note or proceed / escalate recommendation. The review workbook replaces it.
 - Explain legal terms and clause codes in plain words where they are used, if the user asked for it at intake.
 - Do not mark a clause Conforming without reading it.
 - Do not apply provider standards to a buyer-side contract.

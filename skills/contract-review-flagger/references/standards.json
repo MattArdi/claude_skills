@@ -520,7 +520,7 @@
       "standard_language": "{{IP}}.1 Start2 retains sole and exclusive ownership of all intellectual property rights, whether registered or not, in its pre-existing and independently developed materials, including its methodology, curriculum, frameworks, training materials, evaluation tools, software, platforms, databases, trademarks, trade names, logos, business plans, know-how, and processes, and any improvement, enhancement, or derivative work of the foregoing, however and whenever created, including during the course of delivering the Service. None of the foregoing is assigned or transferred to Company under this Agreement.\n{{IP}}.2 Company retains ownership of its own pre-existing intellectual property and confidential business information.\n{{IP}}.3 Program-specific deliverables prepared for Company's own cohort (such as mentor evaluation reports, session schedules, or feedback scores) are licensed to Company for its own internal use. This licence does not extend to the underlying methodology, tools, or materials used to produce them, which remain Start2's under Clause {{IP}}.1.\n{{IP}}.4 Each Party grants the other a limited, non-exclusive licence to use its name and logo for purposes connected with this Agreement, with no transfer of ownership.\n{{IP}}.5 For the avoidance of doubt, no rights other than those expressly set out in this Clause are granted.",
       "notes": null,
       "open_placeholders": null,
-      "survives": "N",
+      "survives": "Y",
       "reference_clause": "For the avoidance of doubt, no rights other than those set out in this clause {{IP}} are granted. Save as provided in this clause, neither party shall use the other party’s intellectual property without the prior approval of the other party.",
       "refs": [
         "IP",
@@ -631,7 +631,7 @@
       "client_facing": "Y",
       "clause": "Survival",
       "draft_heading": "Survival",
-      "required_content": "Express list of which clauses survive termination or expiry of the agreement: Confidentiality, Indemnity, Limitation of Liability, Dispute Resolution, and Data Protection.",
+      "required_content": "Express list of which clauses survive termination or expiry of the agreement: Confidentiality, Indemnity, Limitation of Liability, Intellectual Property, Dispute Resolution, and Data Protection.",
       "rationale": "Confidentiality already has its own explicit survival line. The other four do not. Without an express survival clause, a party could argue the liability cap or the arbitration requirement lapses the moment the contract ends, even for a claim about conduct that happened during the term.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
@@ -639,7 +639,7 @@
       "base_severity": "Medium",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "Clauses {{CONF}}, {{INDEM}}, {{LOL}}, {{DISPUTE}}, and {{DP}} survive termination or expiry of this Agreement.",
+      "standard_language": "Clauses {{CONF}}, {{INDEM}}, {{LOL}}, {{IP}}, {{DISPUTE}}, and {{DP}} survive termination or expiry of this Agreement.",
       "notes": null,
       "open_placeholders": null,
       "survives": "N",
@@ -649,6 +649,7 @@
         "DISPUTE",
         "DP",
         "INDEM",
+        "IP",
         "LOL"
       ]
     },
