@@ -174,12 +174,18 @@ def main(std_path, rev_path, doc_path=None):
     for cid, v in cov.items():
         if cid not in base: errors.append(f"coverage: unknown clause ID {cid!r}")
         if v.get("verdict") not in VERDICTS: errors.append(f"coverage {cid}: verdict {v.get('verdict')!r}")
+    if S.get("framework"):
+        for cid, v in cov.items():
+            if v.get("verdict") == "Missing":
+                warns.append(f"coverage {cid} is Missing in a framework agreement: set N/A with note \"Not checked: not in the "
+                             "framework agreement (may be set in an Annex).\" and drop its finding (rubric section 1)")
     if S_role == "Provider":
         missing = [c for c in base if c not in cov]
         if missing: errors.append(f"coverage: no verdict for {missing}")
         have = {(f.get("clause")) for f in rev.get("findings", [])}
         for cid, v in cov.items():
-            if v.get("verdict") in ("Missing", "Partial", "Deviant") and cid not in have and base.get(cid) != "n/a":
+            if v.get("verdict") in ("Missing", "Partial", "Deviant") and cid not in have and base.get(cid) != "n/a" \
+                    and not (S.get("framework") and v.get("verdict") == "Missing"):
                 warns.append(f"coverage {cid} is {v['verdict']} but there is no finding for it")
     docs = rev.get("documents_not_supplied", [])
     noted = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Not supplied"}

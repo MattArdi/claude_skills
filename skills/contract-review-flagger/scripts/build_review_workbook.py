@@ -142,6 +142,7 @@ def readme(ws):
         ("Source file", "File name of the contract that was reviewed."),
         ("Status", "Draft (unsigned) or Executed (signed). Some severities depend on it, for example a blank essential field is High in a draft and Critical once signed."),
         ("Contract type", "Service, Funding, Vendor or Other. Funding agreements (grants, claims, audits) read the fee and cost clauses differently."),
+        ("Framework agreement", "Yes when the contract sets general terms and leaves each round or order to later Annexes. Standard clauses not in the framework are then N/A, not checked, and have no finding."),
         ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time (3 business days for the unmodified template, otherwise 5) and the sign-off chain. Filling the deal-specific blanks leaves the template unmodified; any change to clause wording makes it modified."),
         ("Purpose", "Pre-signature (findings are requests before signing), Signed (checks and records for the current contract) or Renewal (requests for the next version). Confirmed with the requester before the review starts."),
         ("Comments in the file", "Whether reviewer comments in the contract file were considered, as answered at intake. Blank when the file has none."),
@@ -170,7 +171,7 @@ def readme(ws):
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
         ("Base severity", "Starting severity if the clause is missing or deviant, before the clause-specific rules and adjustments shown on Findings. Used for Severity only when the clause has no finding. n/a for internal rules."),
-        ("Verdict", "Conforming, Partial, Deviant, Missing, Not supplied (the contract says the topic is governed by a document that was not supplied), or N/A (drop-down)."),
+        ("Verdict", "Conforming, Partial, Deviant, Missing, Not supplied (the contract says the topic is governed by a document that was not supplied), or N/A (drop-down). In a framework agreement, a clause not in the framework is N/A with the note 'Not checked': it was not reviewed and must be checked in each Annex."),
         ("Where", "Contract clause number and page where the clause was found."),
         ("Severity", "Formula. The highest severity among this clause's rows on the Findings sheet (for Not supplied, the row for the document not supplied), so it changes when you edit Findings. With no matching finding: Conforming or N/A = '-'; Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low)."),
         ("Note", "One line on what is present or absent. Details are in Findings."),
@@ -229,8 +230,11 @@ def build(standards, review, out):
     cc = S.get("consider_comments")
     S["comments"] = None if cc is None else ("Considered as the commenters' proposed positions, not contract text" if cc
                                              else "Ignored at the requester's instruction")
+    fw = S.get("framework")
+    S["framework_text"] = None if fw is None else (
+        "Yes: clauses not in the framework are N/A and were not checked; check them in each Annex" if fw else "No")
     for label, key in (("Contract", "contract"), ("Source file", "file"), ("Status", "status"), ("Contract type", "contract_type"),
-                       ("Whose paper", "paper"), ("Purpose", "purpose"), ("Comments in the file", "comments"),
+                       ("Framework agreement", "framework_text"), ("Whose paper", "paper"), ("Purpose", "purpose"), ("Comments in the file", "comments"),
                        ("Standards version", "standards_version")):
         row(label, key, S.get(key))
     section("Our side")

@@ -82,6 +82,7 @@ A guide to the workbook: what each sheet and column means, and the rating scale.
 | Contract, Source file | The contract reviewed. |
 | Status | Draft or Executed (signed). |
 | Contract type | Service, Funding, Vendor or Other. |
+| Framework agreement | Yes when the contract sets general terms and leaves each round or order to later annexes. |
 | Whose paper | Start2's template unchanged, Start2's template changed, or the client's own paper. Filling in the deal details (names, fee, dates, scope) does not count as a change; changing any clause wording does. |
 | Purpose | Before signing, already signed, or renewal, as given at the start. |
 | Comments in the file | Whether reviewer comments in the contract file were considered or ignored, as answered at the start. Blank if there were none. |
@@ -118,7 +119,7 @@ One row for each of Start2's 34 standard clauses, so you can see at a glance wha
 |---|---|
 | ID, Clause | The Start2 standard clause. |
 | Base severity | The starting rating if the clause is missing or contradicted, before the adjustments and special rules described above. Used for Severity only when the clause has no issue on the Findings sheet. |
-| Verdict | Conforming (meets the standard), Partial (something is missing), Deviant (contradicts the standard), Missing, Not supplied (the contract leaves this topic to a document that was not attached), or N/A. |
+| Verdict | Conforming (meets the standard), Partial (something is missing), Deviant (contradicts the standard), Missing, Not supplied (the contract leaves this topic to a document that was not attached), or N/A. In a framework agreement, a clause that is not in the framework is N/A and marked "Not checked". |
 | Where | Where the clause is in the contract. |
 | Severity | The most serious rating among this clause's issues on the Findings sheet (for Not supplied, the issue for the missing document), so the two sheets always agree. It updates if you change a rating on Findings. A clause with no issue shows "-" if it conforms, otherwise the rating worked out from the verdict and base severity. |
 | Note | A short description of what is there or missing. Details are on the Findings sheet. |
@@ -149,6 +150,7 @@ Every outside document the contract relies on that was not attached, such as gen
 ## Good to know
 
 - **Scanned pages** are read from the page images. Quotes from those pages should be checked against the original before you rely on them.
+- **Framework agreements** (general terms, with each round or order set in later annexes): only the clauses actually in the framework are checked. Start2 standard clauses that are not in it are marked N/A, "Not checked", with no issue raised, so check them in each annex before it is signed.
 - **Bilingual contracts:** only the English text is reviewed. The other language is never translated, and the Checks sheet flags this as Critical so a fluent reviewer confirms both versions match before signing.
 - **Missing documents** cannot be reviewed. If a contract relies on general conditions that were not attached, the related issues stay open until those conditions are read.
 - **Only English contracts** where Start2 is the service provider are reviewed against the standards. If Start2 is the buyer, the workbook shows "Not assessed" and lists only general issues such as blanks and wrong dates.
