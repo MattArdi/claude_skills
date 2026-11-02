@@ -99,7 +99,7 @@ Below 2x leaves Start2 under-protected when the counterparty breaches; above 2x 
 | Roll-forward alone, the scope shows third-party costs (venue, mentors, travel, subcontractors) | Deviant | Medium |
 | Roll-forward left to the parties to agree after cancellation ("may agree to reschedule and credit the fee"), with or without cost recovery | Deviant | Critical |
 | Roll-forward that does not say what happens to the credited money if the rescheduled programme does not take place | Deviant | Critical |
-| Roll-forward that says what happens to the credited money | Judge it against `standard_language` like any other clause (section 4) | section 8 rule |
+| Roll-forward that says what happens to the credited money | Judge it against roll-forward in `required_content` (agreed in the contract, a set period, no third-party cost, delivery mainly by Start2) as in section 4; Start2 has no standard roll-forward wording | section 8 rule |
 | Roll-forward with no time limit for the rescheduled programme | Partial | Medium (section 8 rule) |
 | Cost recovery or roll-forward for force majeure only, not other cancellation or termination | Partial | Medium (section 8 rule) |
 | Neither | Missing | High (section 8 rule) |

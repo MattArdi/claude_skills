@@ -95,8 +95,7 @@ This Agreement may only be amended by a written instrument signed by both Partie
 
 ## 14. Cost recovery on cancellation
 
-14.1 Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
-14.2 Where, at the date of cancellation, Start2 has committed, incurred, or paid no cost to a third party in connection with the Service, and the Service is to be delivered mainly by Start2 itself, Start2 shall retain the Service Fee already paid and credit it in full towards a rescheduled Service delivered within twelve (12) months of the date of cancellation. If the rescheduled Service is not delivered within that period, Start2 shall refund to Company the credited Service Fee less the greater of: (a) the Service Fee for work performed to date under Clause 13; and (b) any instalment that is non-refundable under Clause 5.2.
+Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
 
 ## 15. Warranties
 
@@ -123,7 +122,7 @@ This Agreement may only be amended by a written instrument signed by both Partie
 
 18.1 If the ability of either party to perform any of its obligations under this Agreement is limited, delayed or prevented in whole or in part by reason of any cause or event beyond the reasonable control of such party, including but without limitation fire, storm, tempest, explosion, accident, breakdown of plant or machinery, strike and/or industrial dispute, war, civil strike or commotion, act of foreign enemy, epidemic, quarantine, health risk, terrorist activity, events of national emergency, hostilities (whether war be declared or not), law or act of or authorised by a government but excluding the inability to meet financial obligations (a "Force Majeure Event"), such party shall be excused, discharged or released without penalty or liability from its obligations under this Agreement to the extent and for the period that such performance is so limited, delayed or prevented provided that such party shall take all steps reasonably possible to mitigate the losses or damages caused by its failure or delay to perform its obligations under this Agreement. 
 18.2 If a Force Majeure Event under Clause 18 continues for more than sixty (60) days, the Parties shall first discuss in good faith, for up to [14] days, whether to postpone or reschedule the Service instead of terminating this Agreement.
-18.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause 14. This does not affect Clause 5.2 or Clause 14.2.
+18.3 If the Parties do not agree to postpone or reschedule within that period, either Party may terminate this Agreement on written notice to the other, without liability, other than for amounts already due under Clause 14.
 
 ## 19. Compliance with laws and sanctions
 
