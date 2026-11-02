@@ -10,7 +10,6 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
     "file": "source file name",
     "status": "Draft | Executed",
     "contract_type": "Service | Funding | Vendor | Other",
-    "framework": "true when the contract is a framework agreement (rounds or orders set in later Annexes); boolean",
     "paper": "Start2 template, unmodified | Start2 template, modified | Client or third-party paper",
     "purpose": "Pre-signature | Signed | Renewal (from the intake message)",
     "standards_version": "optional; defaults to the standards file name",
@@ -80,6 +79,5 @@ Rules enforced by `validate_review.py`:
 - A Missing, Partial or Deviant coverage verdict without a finding gives a warning. So does a failed check with neither an Execution finding nor `covered_by`, and a document with `part_of_contract` true without a `Not supplied` finding.
 - A severity allowed only by a rubric section 4a row gives a warning unless `severity_note` names the row.
 - A Missing, Partial or Deviant finding on a clause whose coverage verdict is Conforming or N/A gives a warning.
-- A framework agreement (`framework` true) with a Missing coverage verdict gives a warning: clauses not in a framework are N/A, noted "Not checked", with no finding.
 - A `Not supplied` coverage verdict with an empty `documents_not_supplied` list is an error. A `Not supplied` verdict without `document`, or whose `document` matches no `Not supplied` finding, gives a warning.
 - The Coverage sheet shows, for each clause, the highest severity among its findings (by clause ID, or by `document` for Not supplied), so coverage and findings agree. A clause with a finding shows that severity even if its verdict was left Conforming.

@@ -86,7 +86,6 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.
 - Never guess at the content of a document that was not supplied.
 - Never put script names or commands in the workbook.
-- Framework agreements: standard clauses not in the framework are N/A, "Not checked", with no finding; say so in the hand-over (rubric section 1).
 - Never translate. Text in another language is not reviewed; check 5 records it as Critical.
 - One problem, one finding, at the highest severity any rule gives (rubric section 8). A failed check already recorded as a finding points to it with `covered_by`.
 - Mapping the standard's terms to the contract's own (`defined_terms`) is a judgement call: read the Suggested language before handing over.
