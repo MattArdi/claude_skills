@@ -4,7 +4,8 @@
 Usage: validate_review.py <standards.json> <review.json> [document.json]
 
 Errors (exit 1): bad enumerations, unknown clause IDs, missing required fields, quotes not found in a text document.
-Warnings: severity differs from the rule (including the one-level raise for subjective wording), a non-conforming
+Warnings: severity differs from the rule (including the one-level raise for subjective wording and the clause-specific
+severities for FEE, LOL and COSTREC in rubric section 4a), a non-conforming
 verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
 scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
 text too short to explain itself (or too long for a Low or no-action finding), command text left in Action, documents not supplied without a finding,
@@ -39,6 +40,8 @@ SHORT = {"issue": (15, 70), "action": (8, 40)}
 RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one level|lowered one level|severity of"
                     r"|gives (?:Low|Medium|High|Critical)\b|is (?:Low|Medium|High|Critical)\b|at (?:Low|Medium|High|Critical)\.?$"
                     r"|at (?:Low|Medium|High|Critical)[.;]|this is (?:Partial|Deviant|Conforming)\b)", re.I | re.M)
+# Clause-specific severities (rubric section 4a): allowed in addition to the base-severity rule.
+ALT = {("FEE", "Deviant"): ("Low", "High"), ("LOL", "Deviant"): ("Low", "High"), ("COSTREC", "Deviant"): ("Medium",)}
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
@@ -47,12 +50,23 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", "", s)
 
 
-def expected(base, verdict, subjective=False, action_required=True):
-    if base == "n/a" or verdict in ("Conforming", "N/A"): return None
-    sev = base if verdict in ("Missing", "Deviant") else SEV[max(0, SEV.index(base) - 1)]
+def adjust(sev, subjective=False, action_required=True):
     if subjective: sev = SEV[min(len(SEV) - 1, SEV.index(sev) + 1)]
     if not action_required: sev = SEV[max(0, SEV.index(sev) - 1)]
     return sev
+
+
+def expected(base, verdict, subjective=False, action_required=True):
+    if base == "n/a" or verdict in ("Conforming", "N/A"): return None
+    sev = base if verdict in ("Missing", "Deviant") else SEV[max(0, SEV.index(base) - 1)]
+    return adjust(sev, subjective, action_required)
+
+
+def allowed(cid, base, verdict, subjective=False, action_required=True):
+    """Severities the rules allow: the base rule plus any clause-specific case (rubric section 4a)."""
+    exp = expected(base, verdict, subjective, action_required)
+    if exp is None: return None
+    return [exp] + [a for a in (adjust(s, subjective, action_required) for s in ALT.get((cid, verdict), ())) if a != exp]
 
 
 def main(std_path, rev_path, doc_path=None):
@@ -119,8 +133,9 @@ def main(std_path, rev_path, doc_path=None):
                     if len(norm(seg)) >= 15 and norm(seg) not in corpus:
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
-            exp = expected(base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
-            if exp and f["severity"] != exp and not f.get("severity_note"):
+            ok = allowed(f["clause"], base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
+            exp = " or ".join(dict.fromkeys(ok)) if ok else None
+            if ok and f["severity"] not in ok and not f.get("severity_note"):
                 adj = [x for x, on in (("raised one level for subjective wording", f.get("subjective")),
                                        ("lowered one level as no action is needed", f.get("action_required") is False)) if on]
                 warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}"

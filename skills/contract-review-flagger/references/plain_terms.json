@@ -53,7 +53,8 @@
   {"term": "remedy", "pattern": "\\bremed(?:y|ies|ied)\\b", "plain": "to fix a breach, or the legal right a party has when the other breaches"},
   {"term": "audit right", "pattern": "audit rights?", "plain": "the client's or a government auditor's right to inspect Start2's records"},
   {"term": "playbook", "pattern": "playbook", "plain": "Start2's list of clauses clients often add, with the position Start2 takes on each"},
-  {"term": "sign-off chain", "pattern": "sign[- ]off chain", "plain": "the internal approvals every contract needs: Director of People and Operations, then Regional Director of Innovation and Product Strategy, then CEO"},
+  {"term": "sign-off chain", "pattern": "sign[- ]off chain", "plain": "the internal approvals a contract needs: the Director of People and Operations, then the Regional Director of Innovation and Product Strategy, then the CEO for any contract that differs from the Start2 template"},
+  {"term": "roll-forward", "pattern": "roll[- ]?forward", "plain": "keeping a fee already paid and crediting it to a rescheduled programme instead of refunding it"},
   {"term": "Conforming, Partial, Deviant", "pattern": "\\b(?:Deviant|Partial|Conforming)\\b", "plain": "review verdicts: Conforming meets the Start2 standard, Partial covers it with something missing, Deviant contradicts it"}
  ]
 }

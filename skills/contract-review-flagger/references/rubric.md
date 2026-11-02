@@ -14,7 +14,7 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 
 ## 1. Context to establish first
 **Status.** Executed if signature blocks carry signatures and dates, Draft otherwise.
-**Paper.** Start2 template unmodified (compare to `base_agreement_assembled.md`), Start2 template modified, or client or third-party paper. A new contract on anyone else's paper is the 5-business-day case.
+**Paper.** Start2 template unmodified (compare to `base_agreement_assembled.md`), Start2 template modified, or client or third-party paper. Filling the deal-specific blanks (entity, fee, dates, scope, Appendix) leaves the template unmodified; any change to clause wording, including the 50/50 payment fallback, makes it modified. A new contract on anyone else's paper is the 5-business-day case. Paper also sets the sign-off chain: the CEO approves every contract that is not an unmodified Start2 template.
 **Contract type.** Service (Start2 sells a service for a fee), Funding (a funder pays a programme through ceilings, claims and audits), Vendor (Start2 buys), Other. For a Funding contract read `FEE` as the funding terms and `COSTREC` as reimbursement and refund terms; set-off, audit, clawback and claim documents matter more.
 **Documents not supplied.** List every outside document the contract names that was not supplied with it: general or supplementary conditions, standard clause sets (for example SACC 2035), the bid or proposal, statements of work, policies, codes of conduct, manuals, guidelines, websites and links, other agreements, and annexes or schedules cited but not attached. `run_checks.py` lists candidates (kind `referenced_document`); read the whole contract for more. Leave out statutes and regulations unless the contract makes a named code or policy a contract term. When unsure, list it.
 - Ask for them in the intake message (section 1a). Ingest and review any the user supplies as part of the contract; record the rest.
@@ -56,6 +56,47 @@ For each clause in `standards.json` (34 rows, Must Have first):
 5. Missing, Partial and Deviant verdicts each get a Finding (type = the verdict, clause = the ID).
 6. Good to Have and Nice to Have clauses: Missing is Low. For `ABC` raise to Medium when the counterparty is government-linked or state-owned and say so in the issue.
 
+## 4a. Payment split, higher cap and cancellation terms
+These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule.
+
+**Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion.
+
+| What the contract says | Verdict | Severity |
+|---|---|---|
+| 50/30/20, with the 30% tied to deliverables named and described in the payment clause, or in an Appendix the payment clause refers to | No finding on the split | - |
+| More than 50% on signing (for example 60/40, 70/30, 100% upfront) | No finding on the split | - |
+| 50% on signing with a different remainder (50/50, 50/25/25, 50/40/10) | Deviant | Low. The Action asks the deal owner to confirm the split was chosen on purpose and says the CEO must approve it |
+| Less than 50% on signing (40/60, 30/70, 40/40/20, 100% on Completion) | Deviant | High |
+| A middle tranche not tied to named and described deliverables (tied to a date, to "midway", or left blank) | Deviant | High |
+| A middle tranche tied to deliverables in an Appendix that was not supplied | Not supplied | section 8 |
+
+Completion needs only a defined event; a blank Completion is a failed check 1. For a Funding contract do not apply the split: check only that every payment has a defined trigger, and record an undefined trigger as `Commercial` (High).
+
+**Higher cap (`LOL`).** Standard: 2x the total Service Fee paid or payable, binding both parties, for breaches of confidentiality, data protection and IP. 2x is the only accepted figure.
+
+| What the contract says | Verdict | Severity |
+|---|---|---|
+| 2x for all three breach types, binding both parties | No finding on the higher cap | - |
+| No higher cap: these breaches fall under the general cap | Partial | High (section 8 rule) |
+| A different multiple, higher or lower | Deviant | High |
+| A higher cap that covers only some of the three breach types, or binds one party only | Deviant | High |
+| A fixed amount equal to 2x the Service Fee | Deviant | Low (the amount does not follow a change in the fee) |
+| A fixed amount not equal to 2x the Service Fee | Deviant | High |
+| No liability cap at all, or unlimited liability | Missing, or the client-clause hard stop | Critical |
+
+Below 2x leaves Start2 under-protected when the counterparty breaches; above 2x raises Start2's own exposure. Say which in the Issue.
+
+**Cancellation (`COSTREC`).** Standard: cost recovery or roll-forward, or both, for every cancellation or termination. Roll-forward means Start2 keeps the fee paid and credits it to a rescheduled programme.
+
+| What the contract says | Verdict | Severity |
+|---|---|---|
+| Cost recovery for every cancellation or termination, with or without roll-forward | No finding | - |
+| Roll-forward alone, the scope shows no third-party cost and delivery depends mainly on Start2 | No finding; say so in the coverage note | - |
+| Roll-forward alone, the scope shows third-party costs (venue, mentors, travel, subcontractors) | Deviant | Medium |
+| Roll-forward with no time limit for the rescheduled programme | Partial | Medium (section 8 rule) |
+| Cost recovery or roll-forward for force majeure only, not other cancellation or termination | Partial | Medium (section 8 rule) |
+| Neither | Missing | High (section 8 rule) |
+
 ## 5. Client clauses and anything outside the standard
 Every contract clause not mapped in step 4 is a candidate. Compare it with the playbook rows in `standards.json` (`client_inserted_clauses`): exclusivity, clawback or refund on underperformance, most-favoured pricing, unlimited liability, IP assignment, governing law switch, payment terms beyond 30 days, confidentiality carve-outs for affiliates, insurance, audit rights, payment suspension on allegation, minimum-threshold revenue, grant flow-down audit rights, liquidated damages.
 - Within Start2's position: type `Client: Accept`, Low.
@@ -83,6 +124,7 @@ Fee, currency, tax, payment trigger and due date, term dates, balance amounts, c
 | Source | Severity |
 |---|---|
 | Missing or Deviant Must Have clause | the clause's `base_severity` |
+| Payment split, higher cap and cancellation cases listed in section 4a | as set in section 4a |
 | Partial Must Have clause | one level lower, floor Low |
 | Good or Nice clause missing | Low (`ABC` Medium for government-linked counterparty) |
 | Client clause: Reject threshold met or hard stop | Critical |
@@ -131,7 +173,7 @@ Never put command text or script names in the Action. The Suggested language col
 Example of the expected depth for the full form, from a government services contract:
 - Too terse: "Excusable Delay protects the Contractor only, needs a work-around plan within 15 working days, and after 30 days only Canada may terminate with no claim for costs." / "Record."
 - Expected issue: "Clause 11 is Canada's version of a force majeure clause (one that excuses delay caused by events outside a party's control). It treats a delay outside Start2's control as an 'Excusable Delay' only if Start2 tells Canada's Representative straight away and, within 15 working days, sends a detailed work-around plan for Canada's approval. If the delay lasts 30 days or more, Canada alone may terminate (11.3), and neither party may then claim costs, so money Start2 has already spent on mentors, venues or travel for the cancelled programme would not be recovered. Clause 11.4 adds that Canada bears none of Start2's delay costs unless Canada caused the delay. The Start2 force majeure standard (FM) applies to both parties, provides a good-faith discussion period before termination and keeps Start2's right to recover its costs."
-- Expected action: "Diarise the 15-working-day notice and work-around-plan requirement with the programme lead so that Start2 does not lose Excusable Delay protection on a technicality. Ask Canada to add that, on termination under 11.3, Start2 is paid for work performed and non-cancellable costs committed before the notice, as in the Start2 standard shown in Suggested language. If Canada declines, record the accepted exposure for the sign-off chain (the Director of People and Operations, the Regional Director of Innovation and Product Strategy and the CEO, who approve every contract) and avoid committing third-party costs earlier than needed."
+- Expected action: "Diarise the 15-working-day notice and work-around-plan requirement with the programme lead so that Start2 does not lose Excusable Delay protection on a technicality. Ask Canada to add that, on termination under 11.3, Start2 is paid for work performed and non-cancellable costs committed before the notice, as in the Start2 standard shown in Suggested language. If Canada declines, record the accepted exposure for the sign-off chain (the Director of People and Operations and the Regional Director of Innovation and Product Strategy, who approve every contract, and the CEO, who also approves any contract that differs from the Start2 template) and avoid committing third-party costs earlier than needed."
 
 Other rules:
 - Order does not matter; the workbook sorts by severity.
@@ -139,4 +181,4 @@ Other rules:
 - For scanned contracts say in the issue when a reading is uncertain.
 
 ## 10. What to log
-Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation and does not decide sign-off (the full chain applies).
+Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation. The Summary shows the sign-off chain worked out from Whose paper: the Director of People and Operations and the Regional Director of Innovation and Product Strategy for every contract, and the CEO as well for anything other than an unmodified Start2 template.

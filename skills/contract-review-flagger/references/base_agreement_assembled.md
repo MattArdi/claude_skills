@@ -27,7 +27,7 @@ D. Start2 will provide [Service Description] to Company (the "Service").
 ## 5. Fee, currency, and payment
 
 5.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the "Service Fee"), for the Service.
-5.2 The Service Fee shall be paid as follows: [payment schedule, default 50% on signing and 50% on Completion — e.g. 100% upfront per phase, invoiced 7 days before each phase, due within 7 days of invoice] OR [50% on signing, non-refundable on Commencement; 50% on Completion]. "Commencement" means [defined event, completed per deal]. "Completion" means [defined event, completed per deal].
+5.2 The Service Fee shall be paid in three instalments: (a) 50% of the Service Fee on signing of this Agreement; (b) 30% of the Service Fee midway through the Service, on delivery of [Midpoint Deliverable(s): name and describe each, in this Clause or in Appendix 1]; and (c) 20% of the Service Fee on Completion. "Completion" means [defined completion event, completed per deal].
 5.3 Payment shall be made in [Currency].
 5.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.
 5.5 Payment shall be made to Start2's bank account: [Bank Details].
@@ -95,7 +95,8 @@ This Agreement may only be amended by a written instrument signed by both Partie
 
 ## 14. Cost recovery on cancellation
 
-Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
+14.1 Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
+14.2 Where, at the date of cancellation, Start2 has committed, incurred, or paid no cost to a third party in connection with the Service, and the Service is to be delivered mainly by Start2 itself, the Parties may instead agree in writing that Start2 retains the Service Fee already paid and credits it in full towards a rescheduled Service delivered within twelve (12) months of the date of cancellation. If the rescheduled Service is not delivered within that period, Clause 14.1 applies.
 
 ## 15. Warranties
 
@@ -114,7 +115,7 @@ Where this Agreement is cancelled or terminated for any reason, including under 
 
 17.2 Except as set out in Clause 17.3, each Party's total liability to the other under this Agreement, whether in contract, tort, or otherwise, is capped at the total Service Fee paid or payable under this Agreement.
 
-17.3 For claims arising from breach of Clause 8, Clause 21, or Clause 20, each Party's total liability to the other is capped instead at [multiple] times the total Service Fee paid or payable under this Agreement.
+17.3 For claims arising from breach of Clause 8, Clause 21, or Clause 20, each Party's total liability to the other is capped instead at two (2) times the total Service Fee paid or payable under this Agreement.
 
 17.4 Neither cap in Clause 17.2 or 17.3 applies to loss arising from a Party's gross negligence, wilful misconduct, or fraud.
 

@@ -12,7 +12,7 @@ The Contract Review Flagger reads a contract and checks it against Start2 Asia's
 
 Each issue is rated Critical, High, Medium or Low, so the most important items are at the top.
 
-It is a screen against Start2's own standards, not legal advice. Every Critical and High item, and every client-added clause, is confirmed by a person, and every contract still goes through the full sign-off chain.
+It is a screen against Start2's own standards, not legal advice. Every Critical and High item, and every client-added clause, is confirmed by a person, and every contract still goes through the sign-off chain.
 
 ### When to use it
 
@@ -57,6 +57,14 @@ The starting point is how important the topic is: each Start2 standard clause ha
 - **Up one step** when the clause lets the client alone judge Start2's work or payment, for example "acceptable to the client", "to the client's satisfaction" or "in its sole discretion". Those words are shown in bold in the quote.
 - **Down one step** when Start2 has nothing to do about it, for example a standard government term that cannot be changed and has no effect on delivery. The action then starts "No action needed".
 
+Three Start2 positions have their own ratings:
+
+| Topic | Start2 position | How a different term is rated |
+|---|---|---|
+| Payment split | 50% on signing, 30% midway on delivery of named and described deliverables, 20% on completion. | 50/50 or another split with 50% on signing: Low, and the CEO must approve it. Less than 50% on signing, or a middle payment not tied to named deliverables: High. More paid upfront is not flagged. |
+| Higher liability cap | Twice the total fee, binding both sides, for breaches of confidentiality, data protection and intellectual property. | Any other figure, or a cap that covers only some of these breaches or one side only: High. No higher cap at all: High. |
+| Cancellation | Start2 recovers the third-party costs it has committed (cost recovery), or keeps the fee paid and credits it to a rescheduled programme (roll-forward), or both. | Neither: High. Roll-forward alone where the programme has third-party costs such as venues, mentors or travel: Medium. |
+
 ## What is in the workbook
 
 ### Read Me
@@ -69,7 +77,7 @@ A guide to the workbook: what each sheet and column means, and the rating scale.
 | Contract, Source file | The contract reviewed. |
 | Status | Draft or Executed (signed). |
 | Contract type | Service, Funding, Vendor or Other. |
-| Whose paper | Start2's template unchanged, Start2's template changed, or the client's own paper. |
+| Whose paper | Start2's template unchanged, Start2's template changed, or the client's own paper. Filling in the deal details (names, fee, dates, scope) does not count as a change; changing any clause wording does. |
 | Purpose | Before signing, already signed, or renewal, as given at the start. |
 | Standards version | Which version of Start2's standards was used. |
 | Our entity, Our role, Role basis, Counterparty | Which Start2 company is signing, its role, how that was confirmed, and the other party. |
@@ -77,7 +85,7 @@ A guide to the workbook: what each sheet and column means, and the rating scale.
 | To confirm | How many Critical and High issues need a person to confirm them. |
 | Documents not supplied | How many outside documents are missing. |
 | Review lead time | The recommended review time before signature: 3 business days for Start2's unchanged template, 5 otherwise. |
-| Sign-off chain | Director of People and Operations, then Regional Director of Innovation and Product Strategy, then CEO. |
+| Sign-off chain | Director of People and Operations, then Regional Director of Innovation and Product Strategy, for every contract. The CEO also approves any contract that is not Start2's unchanged template. Worked out from Whose paper. |
 | Key facts | Parties, dates, amounts, payment schedule, governing law, language and annexes, each with where it is in the contract. |
 
 ### Findings

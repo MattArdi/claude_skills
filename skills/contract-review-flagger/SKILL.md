@@ -14,9 +14,9 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 | Path | What it is |
 |---|---|
 | `README.md` | User guide: what the tool does, when to use it, how a review runs, how issues are rated, and what each sheet and column shows. No technical detail. Update it when a sheet, column or rating rule changes. |
-| `references/Start2_Asia_Contract_Standards_UP_15_Oct_v6.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
+| `references/Start2_Asia_Contract_Standards_UP_02_Nov_v7.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
 | `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
-| `references/rubric.md` | How to judge: role guess, verdicts, client-clause screen, severity table, writing rules. Read it before step 4. |
+| `references/rubric.md` | How to judge: role guess, verdicts, the fixed positions on payment split, higher cap and cancellation (section 4a), client-clause screen, severity table, writing rules. Read it before step 4. |
 | `references/review_schema.md` | The `review.json` format. |
 | `references/plain_terms.json` | Legal terms with plain explanations, for the plain-language pass. Add terms as reviews meet them. |
 | `references/start2_entities.json` | Known Start2 entities for the role guess. Incomplete. |
@@ -66,7 +66,7 @@ python3 S/scripts/run_checks.py W/document.json W/candidates.json
 Check the clause tree by eye and fix mistakes (the segmenter is best effort). Extract the key facts. Confirm or dismiss each candidate in `candidates.json`, including `referenced_document` (outside documents) and `subjective_standard` (wording that raises severity one level, rubric section 5a).
 
 ### 4. Review (provider role)
-Follow `references/rubric.md` sections 4 to 9: coverage verdicts for all 34 clauses, client and non-standard clause screen, subjective standards, the 12 execution checks, the commercial pass, and the writing standard for quotes, Issue and Action. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
+Follow `references/rubric.md` sections 4 to 9: coverage verdicts for all 34 clauses, the fixed positions on payment split, higher cap and cancellation (section 4a), client and non-standard clause screen, subjective standards, the 12 execution checks, the commercial pass, and the writing standard for quotes, Issue and Action. Use `references/standards.json` for required content, standard language, mutuality, cap position and the playbook. Parallel subagents may handle clause groups, but one agent writes the final `review.json`.
 
 ### 5. Write and validate
 Write `W/review.json` (format in `references/review_schema.md`). Use the full form for Critical, High and Medium findings and the short form (two-sentence Issue, one-sentence Action) for Low and no-action findings (rubric section 9). For each failed check, list the clauses to correct. Set `"action_required": false` and lower the severity one level for findings that need nothing beyond noting (rubric section 8). If `explain_terms` is true, run the plain-language pass and explain every term it lists (rubric section 9):
@@ -90,6 +90,6 @@ Hand over the workbook with a short message: role guess and basis, status, count
 - Do not mark a clause Conforming without reading it.
 - Do not apply provider standards to a buyer-side contract.
 - Never invent contract text, page numbers or clause numbers.
-- Every Critical, High and client-clause finding is confirmed by a person before action. Sign-off is always the full chain: Director of People and Operations, Regional Director of Innovation and Product Strategy, CEO.
+- Every Critical, High and client-clause finding is confirmed by a person before action. Sign-off: the Director of People and Operations and the Regional Director of Innovation and Product Strategy approve every contract; the CEO also approves any contract that differs from the Start2 template. The Summary works this out from Whose paper.
 - Contracts hold personal and bank data. Keep them local. No external services.
 - After the standards workbook changes, run `parse_standards.py` and `assemble_agreement.py`, then rebuild the blank template.

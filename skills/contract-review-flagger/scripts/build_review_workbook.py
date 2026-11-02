@@ -46,8 +46,9 @@ TYPES = ["Missing", "Partial", "Deviant", "Client: Reject", "Client: Escalate", 
 VERDICTS = ["Conforming", "Partial", "Deviant", "Missing", "Not supplied", "N/A"]
 RESULTS = ["Pass", "Fail", "N/A", "Cannot verify"]
 PAPER = ["Start2 template, unmodified", "Start2 template, modified", "Client or third-party paper"]
-SIGNOFF = ("1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy; 3. CEO. "
-           "Applies to every contract.")
+SIGNOFF_BASE = "1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy"
+SIGNOFF_TWO = SIGNOFF_BASE + ". No CEO approval: the Start2 template is unmodified."
+SIGNOFF_CEO = SIGNOFF_BASE + "; 3. CEO, as terms differ from the Start2 template."
 CHECK_LABEL_OVERRIDE = {11: "Cross-references in the contract point to clauses and annexes that exist and are correctly numbered."}
 
 HFILL = PatternFill("solid", fgColor="FF1F3864"); HFONT = Font(name="Arial", size=10, bold=True, color="FFFFFFFF")
@@ -115,7 +116,7 @@ def readme(ws):
         ("5. Documents not supplied", "Every outside document the contract names (general conditions, bids, policies, codes, links) that was not supplied with it. Terms in these documents were not reviewed. Obtain them and re-run the review."),
         ("S", "Severity"),
         ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields."),
-        ("High", "Fix, or have the full sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
+        ("High", "Fix, or have the sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
         ("No action needed", "A finding that needs nothing from Start2 beyond noting it is lowered one severity level. Its Action starts 'No action needed' and says why."),
@@ -125,7 +126,7 @@ def readme(ws):
         ("Source file", "File name of the contract that was reviewed."),
         ("Status", "Draft (unsigned) or Executed (signed). Executed contracts get remediation wording instead of sign/no-sign."),
         ("Contract type", "Service, Funding, Vendor or Other. Funding agreements (grants, claims, audits) read the fee and cost clauses differently."),
-        ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time: 3 business days for the unmodified template, otherwise 5."),
+        ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time (3 business days for the unmodified template, otherwise 5) and the sign-off chain. Filling the deal-specific blanks leaves the template unmodified; any change to clause wording makes it modified."),
         ("Purpose", "Pre-signature (findings are requests before signing), Signed (checks and records for the current contract) or Renewal (requests for the next version). Confirmed with the requester before the review starts."),
         ("Standards version", "Version of the standards workbook the contract was checked against."),
         ("Our entity", "The Start2 entity in this contract. Guessed from the entity list and the text when not obvious."),
@@ -136,7 +137,7 @@ def readme(ws):
         ("To confirm", "Formula: the number of Critical and High findings. These are logged for a person to confirm; nothing else is recommended."),
         ("Documents not supplied", "Formula: the number of rows on the Documents not supplied sheet."),
         ("Review lead time", "Formula from Whose paper."),
-        ("Sign-off chain", "Fixed. Every contract goes to all three approvers in order."),
+        ("Sign-off chain", "Formula from Whose paper. Every contract goes to the Director of People and Operations, then the Regional Director of Innovation and Product Strategy; the CEO also approves any contract that is not an unmodified Start2 template."),
         ("Key facts (Fact / Value / Where)", "Facts used in the review: parties, dates, amounts, law, forum, language, annexes, with arithmetic checks. Where gives the contract reference and page."),
         ("S", "Sheet: Findings (one row per issue)"),
         ("#", "Running number."),
@@ -225,7 +226,7 @@ def build(standards, review, out):
     row("Documents not supplied", "docs", f"=COUNTA('{DOCS}'!$B$2:$B${MAXROW})")
     pp = f"B{pos['paper']}"
     row("Review lead time", "lead", f'=IF({pp}="","",IF({pp}="Start2 template, unmodified","3 business days","5 business days"))')
-    row("Sign-off chain", "chain", SIGNOFF)
+    row("Sign-off chain", "chain", f'=IF({pp}="","",IF({pp}="{PAPER[0]}","{SIGNOFF_TWO}","{SIGNOFF_CEO}"))')
     for k in SEV: ws.cell(pos[k], 2).alignment = Alignment(horizontal="left", vertical="top")
     colour(ws, f"A{pos['Critical']}:A{pos['Low']}")
     # colour the label cells directly (static) for readability
