@@ -11,7 +11,8 @@ scanned (verify the cited page by eye), quotes cut off mid-sentence or with noth
 text too short to explain itself (or too long for a Low or no-action finding), command text left in Action, documents not supplied without a finding,
 legal terms or clause codes left unexplained (plain_language.py, only when summary.explain_terms is not false),
 an Issue that states or justifies the severity or verdict, a no-action finding not lowered one level,
-document references that miss a paragraph where the document is named.
+document references that miss a paragraph where the document is named, a Not supplied coverage verdict without a
+matching document finding.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
 ignored when quotes are matched against the document.
 """
@@ -187,6 +188,10 @@ def main(std_path, rev_path, doc_path=None):
     for cid, v in cov.items():
         if v.get("verdict") == "Not supplied" and not docs:
             errors.append(f"coverage {cid} is Not supplied but documents_not_supplied is empty")
+        elif v.get("verdict") == "Not supplied" and not v.get("document"):
+            warns.append(f"coverage {cid} is Not supplied without \"document\"; name the document so Coverage severity follows its finding")
+        elif v.get("verdict") == "Not supplied" and v["document"] not in noted:
+            warns.append(f"coverage {cid}: document {v['document']!r} matches no Not supplied finding's clause")
     checks = rev.get("checks", {})
     for n, v in checks.items():
         if v.get("result") not in RESULTS: errors.append(f"check {n}: result {v.get('result')!r}")

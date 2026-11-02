@@ -13,7 +13,7 @@ review.json (all keys optional):
   facts:    [{fact, value, where}]
   findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, severity_note,
               suggested_language}]   (severity_note becomes a comment on the Severity cell)
-  coverage: {CLAUSE_ID: {verdict, where, note}}
+  coverage: {CLAUSE_ID: {verdict, where, note, document}}   (document: for Not supplied, the name used as that finding's clause)
   checks:   {"1": {result, evidence, correct: [clauses to correct]}, ...}   (keys are Execution Check numbers)
   documents_not_supplied: [{document, search, references: [{where, quote}], part_of_contract, governs, effect, action}]
 Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
@@ -77,6 +77,21 @@ def suggestion(f, by, terms):
         return None
     head = f"Start2 standard clause {f['clause']} ({by[f['clause']]['draft_heading']}), worded for this contract:"
     return f"{head}\n{text}"
+
+
+def coverage_severity(i, document=None):
+    """Coverage Severity: the highest severity among Findings for this clause (by ID, or for Not supplied by the
+    document name), else the base rule (Missing, Deviant, Not supplied = base; Partial = one lower, floor Low)."""
+    key = f"A{i}"
+    if document:
+        lit = '"' + str(document)[:250].replace('"', '""') + '"'
+        key = f'IF(D{i}="Not supplied",{lit},A{i})'
+    hit = lambda s: f'COUNTIFS(Findings!$D$2:$D${MAXROW},{key},Findings!$B$2:$B${MAXROW},"{s}")>0'
+    base = (f'IF(D{i}="Partial",INDEX({{"Low","Low","Medium","High"}},MATCH(C{i},{{"Low","Medium","High","Critical"}},0)),C{i})')
+    found = base
+    for s in reversed(SEV):  # Low innermost, Critical checked first
+        found = f'IF({hit(s)},"{s}",{found})'
+    return f'=IF(D{i}="","",IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",{found}))'
 
 
 def cell(ws, r, c, v=None, font=BFONT, fill=None, wrap=True):
@@ -152,10 +167,10 @@ def readme(ws):
         ("S", "Sheet: Coverage (one row per standard clause)"),
         ("ID", "Stable clause key from the standards workbook."),
         ("Clause", "Clause name."),
-        ("Base severity", "Severity if the clause is missing or deviant. Editable for this contract (for example raise anti-bribery to Medium for a government counterparty). n/a for internal rules."),
+        ("Base severity", "Starting severity if the clause is missing or deviant, before the clause-specific rules and adjustments shown on Findings. Used for Severity only when the clause has no finding. n/a for internal rules."),
         ("Verdict", "Conforming, Partial, Deviant, Missing, Not supplied (the contract says the topic is governed by a document that was not supplied), or N/A (drop-down)."),
         ("Where", "Contract clause number and page where the clause was found."),
-        ("Severity", "Formula. Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low); Conforming or N/A = '-'."),
+        ("Severity", "Formula. The highest severity among this clause's rows on the Findings sheet (for Not supplied, the row for the document not supplied), so it changes when you edit Findings. Conforming or N/A = '-'. With no matching finding: Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low)."),
         ("Note", "One line on what is present or absent. Details are in Findings."),
         ("S", "Sheet: Checks (one row per execution check)"),
         ("#", "Number of the check in the standards workbook."),
@@ -268,8 +283,7 @@ def build(standards, review, out):
         v = cov.get(x["id"], {})
         cell(ws, i, 1, x["id"], BOLD); cell(ws, i, 2, x["clause"]); cell(ws, i, 3, x["base_severity"]); cell(ws, i, 4, v.get("verdict"))
         cell(ws, i, 5, v.get("where")); cell(ws, i, 7, plain(v.get("note")) if review else None)
-        cell(ws, i, 6, f'=IF(D{i}="","",IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",IF(D{i}="Partial",'
-                       f'INDEX({{"Low","Low","Medium","High"}},MATCH(C{i},{{"Low","Medium","High","Critical"}},0)),C{i})))')
+        cell(ws, i, 6, coverage_severity(i, v.get("document")))
     n = len(clauses) + 1
     dropdown(ws, f"C2:C{n}", SEV + ["n/a"]); dropdown(ws, f"D2:D{n}", VERDICTS)
     colour(ws, f"C2:C{n}"); colour(ws, f"F2:F{n}"); ws.auto_filter.ref = f"A1:G{n}"

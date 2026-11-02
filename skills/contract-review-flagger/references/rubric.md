@@ -21,7 +21,7 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 - Find every place each document is named: run `scripts/find_references.py W/document.json "<name>" "<other names>" --json` with every name the contract uses for it (for example "2035 (2022-12-01)", "General Conditions", "SACC"). Check each hit, correct its clause number, and keep every one that refers to the document, including the cover page and the priority-of-documents list.
 - Record each in `documents_not_supplied`: document name and version, `search` (the names used to find it), `references` (every place it is named, each with `where` and a verbatim `quote` with the name in **bold**), `part_of_contract` (true when the contract says it applies to or forms part of the contract), what the contract says it governs, which findings and coverage rows it leaves open, and the action.
 - Each document with `part_of_contract` true, or that imposes obligations on Start2, also becomes a finding of type `Not supplied` with the document name as the clause (section 8 for severity).
-- A standard clause whose topic the contract hands to an unsupplied document (for example "interest will be paid in accordance with section 17 of 2035") gets coverage verdict `Not supplied` and a note naming the document.
+- A standard clause whose topic the contract hands to an unsupplied document (for example "interest will be paid in accordance with section 17 of 2035") gets coverage verdict `Not supplied`, a note naming the document, and `document` set to the same name used as the clause of that document's `Not supplied` finding, so the Coverage severity follows that finding.
 
 **Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract). An annex page that holds only a file icon or a title means the annex is not included.
 
@@ -59,7 +59,7 @@ For each clause in `standards.json` (34 rows, Must Have first):
 ## 4a. Payment split, higher cap and cancellation terms
 These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule.
 
-**Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion.
+**Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion, each due within 7 days of Start2's invoice.
 
 | What the contract says | Verdict | Severity |
 |---|---|---|
@@ -69,6 +69,7 @@ These three clauses have fixed positions. Apply them on top of section 4. The se
 | Less than 50% on signing (40/60, 30/70, 40/40/20, 100% on Completion) | Deviant | High |
 | A middle tranche not tied to named and described deliverables (tied to a date, to "midway", or left blank) | Deviant | High |
 | A middle tranche tied to deliverables in an Appendix that was not supplied | Not supplied | section 8 |
+| A tranche with no due date (the standard is 7 days from Start2's invoice) | Partial | High (section 8 rule) |
 
 Completion needs only a defined event; a blank Completion is a failed check 1. For a Funding contract do not apply the split: check only that every payment has a defined trigger, and record an undefined trigger as `Commercial` (High).
 

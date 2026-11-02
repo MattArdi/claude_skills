@@ -61,7 +61,7 @@ Three Start2 positions have their own ratings:
 
 | Topic | Start2 position | How a different term is rated |
 |---|---|---|
-| Payment split | 50% on signing, 30% midway on delivery of named and described deliverables, 20% on completion. | 50/50 or another split with 50% on signing: Low, and the CEO must approve it. Less than 50% on signing, or a middle payment not tied to named deliverables: High. More paid upfront is not flagged. |
+| Payment split | 50% on signing, 30% midway on delivery of named and described deliverables, 20% on completion, each due within 7 days of Start2's invoice. | 50/50 or another split with 50% on signing: Low, and the CEO must approve it. Less than 50% on signing, a middle payment not tied to named deliverables, or a payment with no due date: High. More paid upfront is not flagged. |
 | Higher liability cap | Twice the total fee, binding both sides, for breaches of confidentiality, data protection and intellectual property. | Any other figure, or a cap that covers only some of these breaches or one side only: High. No higher cap at all: High. |
 | Cancellation | Start2 recovers the third-party costs it has committed (cost recovery), or keeps the fee paid and credits it to a rescheduled programme (roll-forward), or both. | Neither: High. Roll-forward alone where the programme has third-party costs such as venues, mentors or travel: Medium. |
 
@@ -111,10 +111,10 @@ One row for each of Start2's 34 standard clauses, so you can see at a glance wha
 | Column | What it shows |
 |---|---|
 | ID, Clause | The Start2 standard clause. |
-| Base severity | How serious it is if the clause is missing or contradicted. |
+| Base severity | The starting rating if the clause is missing or contradicted, before the adjustments described above. |
 | Verdict | Conforming (meets the standard), Partial (something is missing), Deviant (contradicts the standard), Missing, Not supplied (the contract leaves this topic to a document that was not attached), or N/A. |
 | Where | Where the clause is in the contract. |
-| Severity | Worked out automatically from the verdict and the base severity. |
+| Severity | The most serious rating among this clause's issues on the Findings sheet, so the two sheets always agree. It updates if you change a rating on Findings. |
 | Note | A short description of what is there or missing. Details are on the Findings sheet. |
 
 ### Checks

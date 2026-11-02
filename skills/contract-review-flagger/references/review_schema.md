@@ -34,7 +34,8 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
      "severity_note": "optional: why the severity differs from the rule; shown as a comment on the Severity cell",
      "suggested_language": "optional: wording to propose; omit for standard clauses to use the Start2 standard"}
   ],
-  "coverage": { "LOL": {"verdict": "Conforming | Partial | Deviant | Missing | Not supplied | N/A", "where": "", "note": "a plain sentence"} },
+  "coverage": { "LOL": {"verdict": "Conforming | Partial | Deviant | Missing | Not supplied | N/A", "where": "", "note": "a plain sentence",
+                        "document": "Not supplied only: the document name, exactly as the clause of its Not supplied finding"} },
   "checks":   { "4": {"result": "Pass | Fail | N/A | Cannot verify", "evidence": "what was seen, with pages",
                     "correct": ["App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD", "..."]} },
   "documents_not_supplied": [
@@ -55,7 +56,7 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
 `subjective` (boolean) is true when the quote holds wording that lets the counterparty alone judge Start2's work,
 payment or people (rubric section 5a); omit it otherwise. `action_required` (boolean) is false only when the finding
 needs nothing beyond noting it (rubric section 8); omit it otherwise. `part_of_contract` is a boolean. `references`
-lists every place the document is named; `search` holds the names used to find them (`find_references.py`). `defined_terms`,
+lists every place the document is named; `search` holds the names used to find them (`find_references.py`). `document` on a coverage entry is used only with `Not supplied`. `defined_terms`,
 `suggested_language` and `documents_not_supplied` are optional.
 
 Rules enforced by `validate_review.py`:
@@ -72,4 +73,5 @@ Rules enforced by `validate_review.py`:
 - A quote with subjective wording but no `subjective` flag, a quote with no bold part and a quote that ends mid-sentence each give a warning. So does text outside its form: for Critical, High and Medium, an issue under 40 words or an action under 25; for Low or no-action findings, an issue over 70 words or an action over 40.
 - A failed check with no `correct` list gives a warning; `correct` must be a list of strings.
 - A Missing, Partial or Deviant coverage verdict without a finding gives a warning. So does a failed check without an Execution finding, and a document with `part_of_contract` true without a `Not supplied` finding.
-- A `Not supplied` coverage verdict with an empty `documents_not_supplied` list is an error.
+- A `Not supplied` coverage verdict with an empty `documents_not_supplied` list is an error. A `Not supplied` verdict without `document`, or whose `document` matches no `Not supplied` finding, gives a warning.
+- The Coverage sheet shows, for each clause, the highest severity among its findings (by clause ID, or by `document` for Not supplied), so coverage and findings agree.
