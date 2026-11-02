@@ -6,6 +6,15 @@ Files compared:
 - **New:** `Start2_Asia_Contract_Standards_UP_27_Oct.xlsx` (last modified 2026-10-27 07:34 UTC by U-sa Phalakornkitti)
 - **Skill baseline (for section 5):** `skills/contract-review-flagger/references/Start2_Asia_Contract_Standards_UP_15_Oct_v6.xlsx` and `references/standards.json`
 
+> **Status, 2 Nov: superseded for the skill.** This report compares the two files as received. Sections 5 to 7 describe the skill as it stood before the decisions were applied and are kept as a record. The decisions are now in the skill as standards v7.6 (`skills/contract-review-flagger/references/Start2_Asia_Contract_Standards_UP_02_Nov_v7.xlsx`, version history on its Design Guide sheet), resolved by the workbook owner as follows:
+> - **Payment split:** 50% on signing, 30% midway on delivery of named and described deliverables, 20% on Completion; signing instalment non-refundable on Commencement; each instalment due within 7 days of invoice. 50/50 is accepted but flagged (Low) and needs CEO approval; a due date over 7 days is Critical.
+> - **Higher cap:** 2x the total Service Fee for confidentiality, data protection and IP breaches, binding both parties; any other figure is flagged (High).
+> - **Review lead time:** 3 business days for the unmodified template, 5 otherwise (the 27 Oct 2-day figure was not adopted).
+> - **Sign-off:** Director of People and Operations and Regional Director on every contract; CEO as well whenever any term differs from the approved template.
+> - **Force majeure long-stop:** 60 days, unchanged.
+> - **Cancellation:** cost recovery or roll-forward must be in every contract. A roll-forward left to later agreement, or silent on what happens to the money, is Critical. Start2's standard wording keeps cost recovery only.
+> - **Also decided:** IP survives termination; the review skill is exempt from the Review Method reviewer output.
+
 Method: every cell value in all ten sheets was dumped and diffed; cell styles, comments, hyperlinks, merged cells, data validation, conditional formatting, hidden rows/columns, column widths and the raw sheet XML were compared separately. Shared-string index renumbering (a side effect of Excel re-saving) was filtered out.
 
 ---
@@ -138,7 +147,7 @@ The decisions were recorded on sheet 4 only. These cells still contradict them o
 
 ---
 
-## 5. 27 Oct vs the skill's current baseline (15 Oct v6 / standards.json)
+## 5. 27 Oct vs the skill's baseline before the update (15 Oct v6 / standards.json)
 
 | Topic | Skill today (v6) | 27 Oct | Status | Skill files affected |
 |---|---|---|---|---|
