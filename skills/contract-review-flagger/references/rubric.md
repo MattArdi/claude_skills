@@ -59,7 +59,7 @@ For each clause in `standards.json` (34 rows, Must Have first):
 ## 4a. Payment split, higher cap and cancellation terms
 These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule.
 
-**Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion, each due within 7 days of Start2's invoice.
+**Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion, each due within 7 days of Start2's invoice. The signing instalment is non-refundable on Commencement.
 
 | What the contract says | Verdict | Severity |
 |---|---|---|
@@ -70,8 +70,11 @@ These three clauses have fixed positions. Apply them on top of section 4. The se
 | A middle tranche not tied to named and described deliverables (tied to a date, to "midway", or left blank) | Deviant | High |
 | A middle tranche tied to deliverables in an Appendix that was not supplied | Not supplied | section 8 |
 | A tranche with no due date (the standard is 7 days from Start2's invoice) | Partial | High (section 8 rule) |
+| Signing instalment non-refundable from signing | No finding | - |
+| Contract silent on whether the signing instalment is refundable | Partial | Medium |
+| Signing instalment refundable, in full or in part, after Commencement | Deviant | Medium |
 
-Completion needs only a defined event; a blank Completion is a failed check 1. For a Funding contract do not apply the split: check only that every payment has a defined trigger, and record an undefined trigger as `Commercial` (High).
+Commencement and Completion need only a defined event; a blank one is a failed check 1. For a Funding contract do not apply the split: check only that every payment has a defined trigger, and record an undefined trigger as `Commercial` (High).
 
 **Higher cap (`LOL`).** Standard: 2x the total Service Fee paid or payable, binding both parties, for breaches of confidentiality, data protection and IP. 2x is the only accepted figure.
 

@@ -42,7 +42,7 @@ RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one lev
                     r"|gives (?:Low|Medium|High|Critical)\b|is (?:Low|Medium|High|Critical)\b|at (?:Low|Medium|High|Critical)\.?$"
                     r"|at (?:Low|Medium|High|Critical)[.;]|this is (?:Partial|Deviant|Conforming)\b)", re.I | re.M)
 # Clause-specific severities (rubric section 4a): allowed in addition to the base-severity rule.
-ALT = {("FEE", "Deviant"): ("Low", "High"), ("LOL", "Deviant"): ("Low", "High"), ("COSTREC", "Deviant"): ("Medium",)}
+ALT = {("FEE", "Deviant"): ("Low", "Medium", "High"), ("FEE", "Partial"): ("Medium",), ("LOL", "Deviant"): ("Low", "High"), ("COSTREC", "Deviant"): ("Medium",)}
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 

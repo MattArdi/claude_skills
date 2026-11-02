@@ -27,7 +27,7 @@ D. Start2 will provide [Service Description] to Company (the "Service").
 ## 5. Fee, currency, and payment
 
 5.1 Company shall pay Start2 a Service Fee of [Currency] [Amount], excluding [applicable tax/GST/VAT] (the "Service Fee"), for the Service.
-5.2 The Service Fee shall be paid in three instalments: (a) 50% of the Service Fee on signing of this Agreement; (b) 30% of the Service Fee midway through the Service, on delivery of [Midpoint Deliverable(s): name and describe each, in this Clause or in Appendix 1]; and (c) 20% of the Service Fee on Completion. "Completion" means [defined completion event, completed per deal]. Each instalment is due within seven (7) days of the date of Start2's invoice for it.
+5.2 The Service Fee shall be paid in three instalments: (a) 50% of the Service Fee on signing of this Agreement; (b) 30% of the Service Fee midway through the Service, on delivery of [Midpoint Deliverable(s): name and describe each, in this Clause or in Appendix 1]; and (c) 20% of the Service Fee on Completion. The instalment under (a) is non-refundable on Commencement. "Commencement" means [defined commencement event, completed per deal]. "Completion" means [defined completion event, completed per deal]. Each instalment is due within seven (7) days of the date of Start2's invoice for it.
 5.3 Payment shall be made in [Currency].
 5.4 The Service Fee shall be paid without deduction or withholding for any tax, duty, or charge. Where such deduction or withholding is required by law, Company shall gross up the payment so that Start2 receives the full Service Fee net of such deduction.
 5.5 Payment shall be made to Start2's bank account: [Bank Details].
