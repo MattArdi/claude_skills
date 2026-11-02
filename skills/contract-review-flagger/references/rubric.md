@@ -90,16 +90,21 @@ Commencement and Completion need only a defined event; a blank one is a failed c
 
 Below 2x leaves Start2 under-protected when the counterparty breaches; above 2x raises Start2's own exposure. Say which in the Issue.
 
-**Cancellation (`COSTREC`).** Standard: cost recovery or roll-forward, or both, for every cancellation or termination. Roll-forward means Start2 keeps the fee paid and credits it to a rescheduled programme.
+**Cancellation (`COSTREC`).** Standard: cost recovery or roll-forward, or both, for every cancellation or termination. Roll-forward means Start2 keeps the fee paid and credits it to a rescheduled programme. It must be agreed in the contract itself, and the contract must say what happens to the credited money if the rescheduled programme does not take place.
 
 | What the contract says | Verdict | Severity |
 |---|---|---|
 | Cost recovery for every cancellation or termination, with or without roll-forward | No finding | - |
 | Roll-forward alone, the scope shows no third-party cost and delivery depends mainly on Start2 | No finding; say so in the coverage note | - |
 | Roll-forward alone, the scope shows third-party costs (venue, mentors, travel, subcontractors) | Deviant | Medium |
+| Roll-forward left to the parties to agree after cancellation ("may agree to reschedule and credit the fee"), with or without cost recovery | Deviant | Critical |
+| Roll-forward that does not say what happens to the credited money if the rescheduled programme does not take place | Deviant | Critical |
+| Roll-forward that says what happens to the credited money | Judge it against `standard_language` like any other clause (section 4) | section 8 rule |
 | Roll-forward with no time limit for the rescheduled programme | Partial | Medium (section 8 rule) |
 | Cost recovery or roll-forward for force majeure only, not other cancellation or termination | Partial | Medium (section 8 rule) |
 | Neither | Missing | High (section 8 rule) |
+
+A clause that only lets the parties discuss postponing or rescheduling the programme, without saying what happens to the fee, is not a roll-forward: the Start2 force majeure standard (FM) does this, and it is judged under `FM`.
 
 ## 5. Client clauses and anything outside the standard
 Every contract clause not mapped in step 4 is a candidate. Compare it with the playbook rows in `standards.json` (`client_inserted_clauses`): exclusivity, clawback or refund on underperformance, most-favoured pricing, unlimited liability, IP assignment, governing law switch, payment terms beyond 30 days, confidentiality carve-outs for affiliates, insurance, audit rights, payment suspension on allegation, minimum-threshold revenue, grant flow-down audit rights, liquidated damages.
