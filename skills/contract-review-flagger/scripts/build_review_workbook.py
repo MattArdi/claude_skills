@@ -88,10 +88,10 @@ def coverage_severity(i, document=None):
         key = f'IF(D{i}="Not supplied",{lit},A{i})'
     hit = lambda s: f'COUNTIFS(Findings!$D$2:$D${MAXROW},{key},Findings!$B$2:$B${MAXROW},"{s}")>0'
     base = (f'IF(D{i}="Partial",INDEX({{"Low","Low","Medium","High"}},MATCH(C{i},{{"Low","Medium","High","Critical"}},0)),C{i})')
-    found = base
-    for s in reversed(SEV):  # Low innermost, Critical checked first
+    found = f'IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",{base})'
+    for s in reversed(SEV):  # Low innermost, Critical checked first; a finding wins even if the verdict says Conforming
         found = f'IF({hit(s)},"{s}",{found})'
-    return f'=IF(D{i}="","",IF(OR(D{i}="Conforming",D{i}="N/A",C{i}="n/a"),"-",{found}))'
+    return f'=IF(D{i}="","",{found})'
 
 
 def cell(ws, r, c, v=None, font=BFONT, fill=None, wrap=True):
@@ -130,7 +130,7 @@ def readme(ws):
         ("4. Checks", "The 12 execution checks. A failed check also appears in Findings."),
         ("5. Documents not supplied", "Every outside document the contract names (general conditions, bids, policies, codes, links) that was not supplied with it. Terms in these documents were not reviewed. Obtain them and re-run the review."),
         ("S", "Severity"),
-        ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields."),
+        ("Critical", "Do not sign as it stands. Reject threshold met, hard stop, wrong entity, no liability cap, blank essential fields in a signed contract."),
         ("High", "Fix, or have the sign-off chain knowingly accept it, before signing. Material cash, liability, IP, data, forum or scope exposure."),
         ("Medium", "Should be fixed. Negotiable. Raises dispute risk but not direct cash loss."),
         ("Low", "Housekeeping, optional clauses, accepted client clauses."),
@@ -139,7 +139,7 @@ def readme(ws):
         ("S", "Sheet: Summary (Item / Value / Where)"),
         ("Contract", "Name or title of the contract being reviewed."),
         ("Source file", "File name of the contract that was reviewed."),
-        ("Status", "Draft (unsigned) or Executed (signed). Executed contracts get remediation wording instead of sign/no-sign."),
+        ("Status", "Draft (unsigned) or Executed (signed). Some severities depend on it, for example a blank essential field is High in a draft and Critical once signed."),
         ("Contract type", "Service, Funding, Vendor or Other. Funding agreements (grants, claims, audits) read the fee and cost clauses differently."),
         ("Whose paper", "Start2 template unmodified, Start2 template modified, or client or third-party paper. Sets the review lead time (3 business days for the unmodified template, otherwise 5) and the sign-off chain. Filling the deal-specific blanks leaves the template unmodified; any change to clause wording makes it modified."),
         ("Purpose", "Pre-signature (findings are requests before signing), Signed (checks and records for the current contract) or Renewal (requests for the next version). Confirmed with the requester before the review starts."),
@@ -149,14 +149,14 @@ def readme(ws):
         ("Role basis", "One sentence on why that role was chosen. Always filled when the role was guessed."),
         ("Counterparty", "The other party."),
         ("Critical / High / Medium / Low", "Formulas: number of Findings at each severity."),
-        ("To confirm", "Formula: the number of Critical and High findings. These are logged for a person to confirm; nothing else is recommended."),
+        ("To confirm", "Formula: the number of Critical and High findings plus every client-clause finding at Medium or Low. These are logged for a person to confirm; nothing else is recommended."),
         ("Documents not supplied", "Formula: the number of rows on the Documents not supplied sheet."),
         ("Review lead time", "Formula from Whose paper."),
         ("Sign-off chain", "Formula from Whose paper. Every contract goes to the Director of People and Operations, then the Regional Director of Innovation and Product Strategy; the CEO also approves any contract that is not an unmodified Start2 template."),
         ("Key facts (Fact / Value / Where)", "Facts used in the review: parties, dates, amounts, law, forum, language, annexes, with arithmetic checks. Where gives the contract reference and page."),
         ("S", "Sheet: Findings (one row per issue)"),
         ("#", "Running number."),
-        ("Severity", "Critical, High, Medium or Low (drop-down). A comment on the cell explains a severity that differs from the usual rule."),
+        ("Severity", "Critical, High, Medium or Low (drop-down). A comment on the cell explains a severity that differs from the usual rule, or names the clause-specific rule (payment split, higher cap, cancellation) it comes from."),
         ("Type", "Missing, Partial or Deviant (a standard clause); Client: Reject, Escalate, Conditional or Accept (a client-added clause matched to the playbook); Unclassified clause (not in the standard or playbook, generic screen); Commercial (fee, dates, arithmetic); Execution (a failed check); Not supplied (a document that forms part of the contract was not supplied, so its terms were not reviewed); Other."),
         ("Clause", "Standard clause ID (for example LOL), the playbook row name, or Check n."),
         ("Where", "Contract clause number and page, for example 13.1 (p. 10). 'Not in contract' for an absent clause."),
@@ -170,7 +170,7 @@ def readme(ws):
         ("Base severity", "Starting severity if the clause is missing or deviant, before the clause-specific rules and adjustments shown on Findings. Used for Severity only when the clause has no finding. n/a for internal rules."),
         ("Verdict", "Conforming, Partial, Deviant, Missing, Not supplied (the contract says the topic is governed by a document that was not supplied), or N/A (drop-down)."),
         ("Where", "Contract clause number and page where the clause was found."),
-        ("Severity", "Formula. The highest severity among this clause's rows on the Findings sheet (for Not supplied, the row for the document not supplied), so it changes when you edit Findings. Conforming or N/A = '-'. With no matching finding: Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low)."),
+        ("Severity", "Formula. The highest severity among this clause's rows on the Findings sheet (for Not supplied, the row for the document not supplied), so it changes when you edit Findings. With no matching finding: Conforming or N/A = '-'; Missing, Deviant or Not supplied = Base severity; Partial = one level lower (floor Low)."),
         ("Note", "One line on what is present or absent. Details are in Findings."),
         ("S", "Sheet: Checks (one row per execution check)"),
         ("#", "Number of the check in the standards workbook."),
@@ -189,7 +189,7 @@ def readme(ws):
         ("Terms used", "When plain-language explanations were requested at intake, a legal term or a Start2 clause code (for example WARR) used without explanation gets a 'Terms used' line at the end of the cell giving its plain meaning."),
         ("S", "Rules"),
         ("Counts", "Counts and the to-confirm line use the Findings sheet only. Coverage severity is a view and is not counted."),
-        ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, and state the purpose. It does not stop again after that."),
+        ("Role and intake", "Before the review, the skill sends one intake message asking the requester to confirm the Start2 entity and role, send any documents the contract names but that were not supplied, say whether legal terms should be explained in plain words, and state the purpose. It does not stop again after that."),
         ("Not legal advice", "A screen against Start2 standards. Decisions follow the sign-off chain."),
     ]
     header(ws, ["Item", "Description"], [34, 120]); ws.freeze_panes = None
@@ -207,7 +207,7 @@ def build(standards, review, out):
     review = review or {}
     S = dict(review.get("summary", {}))
     if review and not S.get("standards_version"):
-        S["standards_version"] = standards.get("source", "").replace(".xlsx", "")
+        S["standards_version"] = standards.get("source", "").replace(".xlsx", "") + (f" (content {standards['version']})" if standards.get("version") else "")
     wb = openpyxl.Workbook()
     ws = wb.active; ws.title = "Read Me"; readme(ws)
 
@@ -237,7 +237,8 @@ def build(standards, review, out):
     ro, c, h = (f"B{pos[x]}" for x in ("our_role", "Critical", "High"))
     row("To confirm", "confirm",
         f'=IF({ro}="","",IF({ro}<>"Provider","Not assessed: the standards cover provider-side contracts only",'
-        f'({c}+{h})&" Critical and High findings to confirm"))')
+        f'({c}+{h}+SUMPRODUCT((LEFT(Findings!$C$2:$C${MAXROW},7)="Client:")*((Findings!$B$2:$B${MAXROW}="Medium")+(Findings!$B$2:$B${MAXROW}="Low"))))'
+        f'&" findings to confirm (Critical, High and client clauses)"))')
     row("Documents not supplied", "docs", f"=COUNTA('{DOCS}'!$B$2:$B${MAXROW})")
     pp = f"B{pos['paper']}"
     row("Review lead time", "lead", f'=IF({pp}="","",IF({pp}="Start2 template, unmodified","3 business days","5 business days"))')

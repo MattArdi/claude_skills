@@ -5,7 +5,7 @@ Usage: assemble_agreement.py <standards.xlsx> [out.md]
 
 Numbers the client-facing Must Have clauses in `Order`, resolves {{ID}}
 tokens to clause numbers, and fails on any defect that would leave a stale or
-literal cross-reference in the draft (Execution Check items 2 and 12).
+literal cross-reference in the draft (Execution Check items 2 and 11).
 Bracketed fill-ins ([Start Date], [X]% ...) are left in place and listed.
 """
 import re

@@ -24,7 +24,7 @@
   {"term": "arbitration", "pattern": "arbitrat(?:ion|or|ors|e)", "plain": "a private dispute process decided by an independent arbitrator instead of a court, usually faster and confidential"},
   {"term": "litigation", "pattern": "litigat(?:ion|e)", "plain": "taking a dispute to court"},
   {"term": "state immunity", "pattern": "(?:state|sovereign|crown) immunity|\\bimmunity\\b", "plain": "legal protection that can limit when a government can be sued, or have a judgment enforced against it, in a court"},
-  {"term": "the Crown", "pattern": "\\bthe Crown\\b", "plain": "the government acting as a legal party, here the Government of Canada"},
+  {"term": "the Crown", "pattern": "\\bthe Crown\\b", "plain": "the government acting as a legal party to the contract"},
   {"term": "waiver", "pattern": "\\bwaiv(?:er|e|es|ed)\\b", "plain": "giving up a right, either expressly or by not enforcing it"},
   {"term": "liquidated damages", "pattern": "liquidated damages", "plain": "a fixed sum payable for a stated breach, agreed in advance instead of proving the actual loss"},
   {"term": "clawback", "pattern": "claw[- ]?back", "plain": "a right to take back money already paid if a stated condition is not met"},

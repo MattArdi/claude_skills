@@ -3,8 +3,8 @@
 
 Usage: match_entities.py <document.json> [start2_entities.json]
 KNOWN: a name that contains a listed entity name or alias (after stripping company suffixes).
-FLAG:  any other name containing "Start2", including "Start2" on its own. The skill must stop and ask the user
-       to confirm whether that entity is ours (and in what role) before it continues.
+FLAG:  any other name containing "Start2", including "Start2" on its own. Ask in the one intake message
+       (rubric section 1a) whether that entity is ours and in what role; do not stop the review again for it.
 No hit does not mean Start2 is absent: guess the role from the text (see references/rubric.md).
 """
 import json
@@ -32,7 +32,7 @@ def main(doc_path, ent_path=None):
     for name, (pg, snip) in known.items(): print(f"KNOWN {name} p.{pg}: {snip}")
     for name, (pg, snip) in flagged.items(): print(f"FLAG  {name!r} p.{pg}: {snip}")
     if flagged:
-        print("ASK THE USER: confirm whether the flagged name is a Start2 entity of ours and in what role, then continue.")
+        print("ASK IN THE INTAKE MESSAGE: whether the flagged name is a Start2 entity of ours and in what role.")
     if not known and not flagged:
         print("no Start2 name found: guess the role from the text")
 

@@ -17,9 +17,9 @@
       "base_severity": "Critical",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "This Agreement is made between [Start2 Entity Legal Name] (\"Start2\"), a company with its registered address at [Registered Address], and \n\n[Company Full Name] (\"Company\"), a company with its registered address at [Company Address]. \n\nStart2 and Company are hereinafter individually referred to as a \"Party\" and collectively as the \"Parties\".",
+      "standard_language": "This Agreement is made on [Agreement Date] between [Start2 Entity Legal Name] (\"Start2\"), a company with its registered address at [Registered Address], and \n\n[Company Full Name] (\"Company\"), a company with its registered address at [Company Address]. \n\nStart2 and Company are hereinafter individually referred to as a \"Party\" and collectively as the \"Parties\".",
       "notes": null,
-      "open_placeholders": "[Company Address]\n[Company Full Name]\n[Registered Address]\n[Start2 Entity Legal Name]",
+      "open_placeholders": "[Agreement Date]\n[Company Address]\n[Company Full Name]\n[Registered Address]\n[Start2 Entity Legal Name]",
       "survives": "N",
       "reference_clause": null,
       "refs": []
@@ -63,7 +63,7 @@
       "base_severity": "High",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "{{SCOPE}}.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1 (the \"Scope\"), which the Parties shall agree and attach before execution of this Agreement.\n{{SCOPE}}.2 Appendix 1 shall specify, at minimum: the deliverables Start2 will provide, any exclusions, and the number of participants or startups covered (if applicable).",
+      "standard_language": "{{SCOPE}}.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1, which the Parties shall agree and attach before execution of this Agreement.\n{{SCOPE}}.2 Appendix 1 shall specify, at minimum: the deliverables Start2 will provide, any exclusions, and the number of participants or startups covered (if applicable).",
       "notes": "Appendix 1 must be a completed, deal-specific scope before signature, never left blank and never carried over unedited from a different client's deal.",
       "open_placeholders": null,
       "survives": "N",
@@ -162,9 +162,9 @@
       "base_severity": "Medium",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "{{LATEPAY}}.1 Any amount not paid by its due date shall accrue interest at [X]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.\n{{LATEPAY}}.2 If any payment is overdue by more than [X] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.",
+      "standard_language": "{{LATEPAY}}.1 Any amount not paid by its due date shall accrue interest at [Interest Rate]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.\n{{LATEPAY}}.2 If any payment is overdue by more than [Suspension Days] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.",
       "notes": "Interest rate and suspension trigger (days) are open figures, not yet set.",
-      "open_placeholders": "[X]",
+      "open_placeholders": "[Interest Rate]\n[Suspension Days]",
       "survives": "N",
       "reference_clause": null,
       "refs": [
@@ -182,7 +182,7 @@
       "required_content": "What each side must not disclose, standard carve-outs, survives termination.",
       "rationale": "Protects Start2 methodology and client business information equally.",
       "mutuality": "Mutual, except the carve-out letting Start2's startups share information with potential clients, experts, and mentors, which is one-directional in substance, functionally necessary for the program to work, not a concession.",
-      "cap_position": "See Cap measure (higher multiple recommended)",
+      "cap_position": "See Cap measure (2x the Service Fee)",
       "cap_type": "higher",
       "base_severity": "High",
       "cap_measure": "Higher cap: 2x the Service Fee ({{LOL}}.3). The confidentiality duty itself is not capped and survives termination indefinitely ({{CONF}}.4, {{SURV}}).",
@@ -255,18 +255,18 @@
       "clause": "Notices",
       "draft_heading": "Notices",
       "required_content": "How formal notice (breach, termination, proposed amendment) must be given: in writing, to a named address, attention person, and email per party, with a deemed-receipt rule stated separately for each delivery method (personal delivery, registered mail domestic vs. international, fax, email).",
-      "rationale": "Amendment and Termination both already require \"written notice.\" Without this clause, nothing says what counts as written notice, where it must be sent, or when it is deemed received, so a client can dispute that notice was ever validly given. The per-method deemed-receipt structure (under Refence column) removes ambiguity about exactly when a notice takes effect.",
+      "rationale": "Amendment and Termination both already require \"written notice.\" Without this clause, nothing says what counts as written notice, where it must be sent, or when it is deemed received, so a client can dispute that notice was ever validly given. The per-method deemed-receipt structure (under Reference column) removes ambiguity about exactly when a notice takes effect.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",
       "base_severity": "Low",
       "cap_measure": null,
       "negotiation_stance": null,
-      "standard_language": "{{NOTICES}}.1 All notices under this Agreement must be in writing and sent to the addresses and contacts named below, or as later updated by written notice:\nTo Start2: [Address] / Attention: [Name, Position] / Email: [Email]\nTo Company: [Address] / Attention: [Name, Position] / Email: [Email]\n{{NOTICES}}.2 Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n{{NOTICES}}.2.1 if personally delivered, on the day of delivery;\n{{NOTICES}}.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n{{NOTICES}}.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n{{NOTICES}}.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n{{NOTICES}}.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\n{{NOTICES}}.3 Either party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
+      "standard_language": "{{NOTICES}}.1 All notices under this Agreement must be in writing and sent to the addresses and contacts named below, or as later updated by written notice:\nTo Start2: [Address] / Attention: [Name, Position] / Email: [Email]\nTo Company: [Address] / Attention: [Name, Position] / Email: [Email]\n{{NOTICES}}.2 Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n{{NOTICES}}.2.1 if personally delivered, on the day of delivery;\n{{NOTICES}}.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n{{NOTICES}}.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n{{NOTICES}}.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n{{NOTICES}}.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicating failed delivery or non-receipt.\n\n{{NOTICES}}.3 Either party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
       "notes": null,
       "open_placeholders": "[Address]\n[Email]\n[Name, Position]",
       "survives": "N",
-      "reference_clause": "Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n11.2.1 if personally delivered, on the day of delivery;\n11.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n11.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n11.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.\n\nEither party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
+      "reference_clause": "Any notices, communications, demands, requests, approvals, or consents shall be deemed to be duly given and received:\n{{NOTICES}}.2.1 if personally delivered, on the day of delivery;\n{{NOTICES}}.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;\n{{NOTICES}}.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;\n{{NOTICES}}.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and\n{{NOTICES}}.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicating failed delivery or non-receipt.\n\nEither party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.",
       "refs": [
         "NOTICES"
       ]
@@ -328,7 +328,7 @@
       "client_facing": "N",
       "clause": "No cost committed before payment received",
       "draft_heading": null,
-      "required_content": "Internal control, referenced in the payment clause commentary, not a client-facing clause.",
+      "required_content": "Internal control, referenced in the cost recovery clause rationale (COSTREC), not a client-facing clause.",
       "rationale": "Cash exposure control.",
       "mutuality": "N/A (internal rule)",
       "cap_position": "N/A",
@@ -359,7 +359,7 @@
       "base_severity": "High",
       "cap_measure": "Not a liability cap: cost-reimbursement mechanism, equal to the actual cost incurred.",
       "negotiation_stance": null,
-      "standard_language": "Where this Agreement is cancelled or terminated for any reason, including under Clause {{FM}}, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause {{TERM-CAUSE}}.",
+      "standard_language": "Where this Agreement is cancelled or terminated for any reason, including under Clause {{FM}}, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation or termination is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause {{TERM-CAUSE}}.",
       "notes": "Every contract must contain cost recovery (the standard language) or roll-forward, or both; a contract with neither is missing this clause. Cost recovery is the default: Start2 recovers only costs actually committed or paid to third parties, which is easier to defend as fair if challenged. Roll-forward (Start2 keeps the fee paid and credits it to a rescheduled program) must be agreed at signing, not left to the parties to agree later, and must say what happens to the credited fee if the rescheduled program does not take place; a roll-forward that fails either test is not acceptable. Roll-forward makes sense only when no third-party cost has been incurred so far and delivery depends mainly on Start2; where the scope shows third-party costs (venue, mentors, travel, subcontractors) and the contract offers roll-forward alone, flag it. Applies to every cancellation or termination, not only force majeure. Interacts with the payment split (FEE). The standard language provides cost recovery only; Start2 has no standard roll-forward wording.",
       "open_placeholders": null,
       "survives": "N",
@@ -409,7 +409,7 @@
       "cap_position": "Capped at total Service Fee, same pool as Limitation of Liability",
       "cap_type": "general",
       "base_severity": "High",
-      "cap_measure": "Same pool as {{LOL}}.2. Gross negligence, wilful misconduct and fraud are outside the cap ({{INDEM}}.3, {{LOL}}.4).",
+      "cap_measure": "Subject to the caps in {{LOL}}: the general cap ({{LOL}}.2), or 2x the Service Fee for breaches of {{CONF}}, {{DP}} or {{IP}} ({{LOL}}.3). Gross negligence, wilful misconduct and fraud are outside the cap ({{INDEM}}.3, {{LOL}}.4).",
       "negotiation_stance": null,
       "standard_language": "{{INDEM}}.1 Each Party (the \"Indemnifying Party\") shall indemnify and hold harmless the other Party, its affiliates, sub-contractors, licensors, licensees, and each of their respective officers, directors, agents, consultants, and employees (collectively, the \"Indemnified Parties\") from and against any and all loss, damage, expense (including legal costs on a solicitor and client basis), and liability (whether criminal or civil), except any indirect, special, or consequential loss or damage, suffered or incurred by the Indemnified Parties arising out of or in connection with the Indemnifying Party's breach of this Agreement, negligence, or wilful default, or that of its sub-contractors, licensees, or their respective officers, directors, agents, consultants, or employees.\n{{INDEM}}.2 Company shall indemnify Start2 against any third-party claim arising from the conduct, intellectual property, or materials of any startup or participant that Company puts forward for the Service.\n{{INDEM}}.3 The indemnity in this Clause is subject to the cap set out in Clause {{LOL}}, except for claims arising from a Party's gross negligence, wilful misconduct, or fraud.",
       "notes": "{{INDEM}}.2 closes a gap not present in the current templates: no client indemnity currently exists for claims caused by the client's own startups.",
@@ -417,7 +417,10 @@
       "survives": "Y",
       "reference_clause": null,
       "refs": [
+        "CONF",
+        "DP",
         "INDEM",
+        "IP",
         "LOL"
       ]
     },
@@ -458,7 +461,7 @@
       "clause": "Force majeure",
       "draft_heading": "Force majeure",
       "required_content": "Standard carve-out excusing non-performance caused by events outside a party's control, with an explicit line excluding inability to meet financial obligations from qualifying as a force majeure event. Includes a long-stop: if the event continues beyond a stated period, the parties first discuss in good faith, for a capped window, whether to postpone or reschedule instead. If no agreement is reached within that window, either party may terminate on written notice, without liability beyond amounts already due under Cost Recovery on Cancellation.",
-      "rationale": "Relieves Start2 of liability for delay from events like export-control suspensions or travel restriction. The explicit financial-obligations exclusion (under Refence column) stops a client ever arguing that a cash-flow problem is itself a force majeure event excusing non-payment.",
+      "rationale": "Relieves Start2 of liability for delay from events like export-control suspensions or travel restriction. The explicit financial-obligations exclusion (under Reference column) stops a client ever arguing that a cash-flow problem is itself a force majeure event excusing non-payment.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",
@@ -510,12 +513,12 @@
       "clause": "Intellectual property (standalone clause)",
       "draft_heading": "Intellectual property",
       "required_content": "Each party's pre-existing IP stays with that party. Start2 retains ownership of its own methodology, curriculum, frameworks and materials absolutely, licensed for use during the program only. Limited licence to use each other's name and logo, no transfer of ownership. A closing catch-all stating no rights other than those expressly set out in the clause are granted.",
-      "rationale": "Start2's core asset is its methodology. Must not be assignable to the client through vague \"developed by each other\" language that does not distinguish pre-existing IP from program deliverables. The closing catch-all (under Refence column) removes any argument that a right was granted by implication.",
+      "rationale": "Start2's core asset is its methodology. Must not be assignable to the client through vague \"developed by each other\" language that does not distinguish pre-existing IP from program deliverables. The closing catch-all (under Reference column) removes any argument that a right was granted by implication.",
       "mutuality": "Mutual for each party's own creations. Asymmetric in that Start2's core methodology is never transferred, regardless of who commissioned the work.",
-      "cap_position": "Infringement liability capped at the higher multiple, see Cap measure",
+      "cap_position": "Breach of the IP clause capped at 2x the Service Fee, see Cap measure",
       "cap_type": "higher",
       "base_severity": "High",
-      "cap_measure": "Higher cap for IP infringement claims Start2 causes: 2x the Service Fee, not the general cap ({{LOL}}.3). Client is exposed to real third-party claims if Start2 materials infringe someone else's IP.",
+      "cap_measure": "Higher cap for breach of Clause {{IP}}: 2x the Service Fee, not the general cap ({{LOL}}.3). {{LOL}}.3 covers breach of this clause only; a third-party claim that Start2 materials infringe someone else's IP is not a breach of {{IP}} and falls under the general cap ({{LOL}}.2).",
       "negotiation_stance": null,
       "standard_language": "{{IP}}.1 Start2 retains sole and exclusive ownership of all intellectual property rights, whether registered or not, in its pre-existing and independently developed materials, including its methodology, curriculum, frameworks, training materials, evaluation tools, software, platforms, databases, trademarks, trade names, logos, business plans, know-how, and processes, and any improvement, enhancement, or derivative work of the foregoing, however and whenever created, including during the course of delivering the Service. None of the foregoing is assigned or transferred to Company under this Agreement.\n{{IP}}.2 Company retains ownership of its own pre-existing intellectual property and confidential business information.\n{{IP}}.3 Program-specific deliverables prepared for Company's own cohort (such as mentor evaluation reports, session schedules, or feedback scores) are licensed to Company for its own internal use. This licence does not extend to the underlying methodology, tools, or materials used to produce them, which remain Start2's under Clause {{IP}}.1.\n{{IP}}.4 Each Party grants the other a limited, non-exclusive licence to use its name and logo for purposes connected with this Agreement, with no transfer of ownership.\n{{IP}}.5 For the avoidance of doubt, no rights other than those expressly set out in this Clause are granted.",
       "notes": null,
@@ -538,7 +541,7 @@
       "required_content": "Short clause on handling personal data of participants, mentors, client staff, referencing applicable law (PDPA Singapore, PIPA Korea, APPI Japan, PIPL China).",
       "rationale": "Start2 routinely processes participant and mentor personal data across four jurisdictions with active data protection regimes.",
       "mutuality": "Mutual",
-      "cap_position": "N/A",
+      "cap_position": "See Cap measure (2x the Service Fee)",
       "cap_type": "higher",
       "base_severity": "High",
       "cap_measure": "Higher cap: 2x the Service Fee ({{LOL}}.3).",
@@ -609,7 +612,7 @@
       "clause": "Entire agreement",
       "draft_heading": "Entire agreement",
       "required_content": "This agreement and its appendices are the entire agreement between the parties on this subject, superseding all prior discussions, drafts, side emails and verbal representations not incorporated into it. Includes a non-reliance line: neither party has a remedy for any statement made to it that it relied on in entering the agreement, unless that statement is written into the agreement itself.",
-      "rationale": "Without it, a client can point to pre-signature emails, decks, or verbal assurances from a sales conversation as additional terms. This is what makes the Amendment clause (already Must Have) actually hold: change only happens in writing, signed by both, because nothing else counts as part of the deal. The non-reliance line (under Refence column) goes further, it also blocks a claim that the client relied on something a Start2 salesperson said outside the written document.",
+      "rationale": "Without it, a client can point to pre-signature emails, decks, or verbal assurances from a sales conversation as additional terms. This is what makes the Amendment clause (already Must Have) actually hold: change only happens in writing, signed by both, because nothing else counts as part of the deal. The non-reliance line (under Reference column) goes further, it also blocks a claim that the client relied on something a Start2 salesperson said outside the written document.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",
@@ -632,7 +635,7 @@
       "clause": "Survival",
       "draft_heading": "Survival",
       "required_content": "Express list of which clauses survive termination or expiry of the agreement: Confidentiality, Indemnity, Limitation of Liability, Intellectual Property, Dispute Resolution, and Data Protection.",
-      "rationale": "Confidentiality already has its own explicit survival line. The other four do not. Without an express survival clause, a party could argue the liability cap or the arbitration requirement lapses the moment the contract ends, even for a claim about conduct that happened during the term.",
+      "rationale": "Confidentiality already has its own explicit survival line. The others do not. Without an express survival clause, a party could argue the liability cap or the arbitration requirement lapses the moment the contract ends, even for a claim about conduct that happened during the term.",
       "mutuality": "Mutual",
       "cap_position": "N/A",
       "cap_type": "n/a",
@@ -807,13 +810,13 @@
       "base_severity": "Low",
       "cap_measure": null,
       "negotiation_stance": "Ask once. Drop immediately if resisted.",
-      "standard_language": "Each Party shall name an operational contact for day-to-day matters under this Agreement, separate from the signatory named in Clause {{NOTICES}}.",
+      "standard_language": "Each Party shall name an operational contact for day-to-day matters under this Agreement, separate from the signatories in Clause {{SIGN}}.",
       "notes": null,
       "open_placeholders": null,
       "survives": null,
       "reference_clause": null,
       "refs": [
-        "NOTICES"
+        "SIGN"
       ]
     },
     {
@@ -915,7 +918,7 @@
   "execution_checks": [
     {
       "id": 1,
-      "check": "Every bracketed placeholder ([XXX], COMPANY DESCRIPTION, [Insert commencement event]) is filled. A signed agreement with a placeholder still in it is a live incident, not a defect, escalate immediately."
+      "check": "Every bracketed placeholder ([X], [Company Description], [defined commencement event, completed per deal]) is filled. A signed agreement with a placeholder still in it is a live incident, not a defect, escalate immediately."
     },
     {
       "id": 2,
@@ -987,6 +990,7 @@
     ],
     "reviewer_output_spec": "One marked-up copy of the draft with tracked changes, plus a short cover note listing: \n(a) any Must Have clause that is missing or drafted differently from the standard set out in Standard language on the Clauses sheet; \n(b) any client-inserted clause and where it sits against the rejection threshold on the Client-Inserted Clauses tab; \n(c) any Execution Check item that failed; \n(d) a one-line recommendation: proceed, proceed with named conditions, or escalate"
   },
+  "version": "v7.7",
   "process_and_authority": [
     {
       "topic": "Never without review",

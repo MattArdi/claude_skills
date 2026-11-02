@@ -57,7 +57,7 @@ For each clause in `standards.json` (34 rows, Must Have first):
 6. Good to Have and Nice to Have clauses: Missing is Low. For `ABC` raise to Medium when the counterparty is government-linked or state-owned and say so in the issue.
 
 ## 4a. Payment split, higher cap and cancellation terms
-These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule.
+These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule. Where a contract matches more than one row in a table, the most severe row applies; mention the other rows in the Issue. When the severity comes from a row below rather than the section 8 rule, name the row in `severity_note` (for example "Rubric 4a: 50/50 split"); the workbook shows it as a comment on the Severity cell.
 
 **Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion, each due within 7 days of Start2's invoice. The signing instalment is non-refundable on Commencement.
 
@@ -95,12 +95,11 @@ Below 2x leaves Start2 under-protected when the counterparty breaches; above 2x 
 
 | What the contract says | Verdict | Severity |
 |---|---|---|
-| Cost recovery for every cancellation or termination, with or without roll-forward | No finding | - |
-| Roll-forward alone, the scope shows no third-party cost and delivery depends mainly on Start2 | No finding; say so in the coverage note | - |
-| Roll-forward alone, the scope shows third-party costs (venue, mentors, travel, subcontractors) | Deviant | Medium |
+| Cost recovery for every cancellation or termination, with no roll-forward, or with a roll-forward that is agreed in the contract, has a time limit and says what happens to the credited money | No finding | - |
+| Such a roll-forward without cost recovery, where the scope shows no third-party cost and delivery depends mainly on Start2 | No finding; say so in the coverage note | - |
+| Such a roll-forward without cost recovery, where the scope shows third-party costs (venue, mentors, travel, subcontractors) | Deviant | Medium |
 | Roll-forward left to the parties to agree after cancellation ("may agree to reschedule and credit the fee"), with or without cost recovery | Deviant | Critical |
-| Roll-forward that does not say what happens to the credited money if the rescheduled programme does not take place | Deviant | Critical |
-| Roll-forward that says what happens to the credited money | Judge it against roll-forward in `required_content` (agreed in the contract, a set period, no third-party cost, delivery mainly by Start2) as in section 4; Start2 has no standard roll-forward wording | section 8 rule |
+| Roll-forward that does not say what happens to the credited money if the rescheduled programme does not take place, with or without cost recovery | Deviant | Critical |
 | Roll-forward with no time limit for the rescheduled programme | Partial | Medium (section 8 rule) |
 | Cost recovery or roll-forward for force majeure only, not other cancellation or termination | Partial | Medium (section 8 rule) |
 | Neither | Missing | High (section 8 rule) |
@@ -128,7 +127,7 @@ Run `scripts/run_checks.py` and judge each candidate. It covers blanks and place
 Result per check: Pass, Fail, N/A, Cannot verify. Each Fail also becomes a Finding with type `Execution` and clause `Check n`, and lists in `correct` every contract clause or page that needs correcting, each with what to change, for example "App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD and put a telephone number in the Telephone field".
 
 ## 7. Commercial pass
-Fee, currency, tax, payment trigger and due date, term dates, balance amounts, ceilings against annex totals. Findings of type `Commercial`.
+Fee, currency, tax, payment trigger and due date, term dates, balance amounts, ceilings against annex totals. Findings of type `Commercial`. `run_checks.py` lists arithmetic candidates as check `C` (kind `percent_does_not_reconcile`); confirm or dismiss each.
 
 ## 8. Severity
 | Source | Severity |
@@ -141,6 +140,7 @@ Fee, currency, tax, payment trigger and due date, term dates, balance amounts, c
 | Client clause: escalate-always row or grant flow-down | High |
 | Client clause accepted with conditions to confirm | Medium |
 | Client clause within position | Low |
+| Unclassified clause (section 5 generic screen) | Medium; Low if benign |
 | Execution: blank essential field in a draft for signature | High (Critical if already executed) |
 | Execution: annex missing or wrong in a payment or scope clause | High |
 | Execution: date or cross-reference mismatch | Medium |
@@ -191,4 +191,4 @@ Other rules:
 - For scanned contracts say in the issue when a reading is uncertain.
 
 ## 10. What to log
-Critical and High findings are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation. It is exempt from the reviewer output on the standards' Review Method sheet (tracked-changes copy, cover note and a proceed or escalate recommendation): the review workbook replaces it. The Summary shows the sign-off chain worked out from Whose paper: the Director of People and Operations and the Regional Director of Innovation and Product Strategy for every contract, and the CEO as well for anything other than an unmodified Start2 template.
+Critical and High findings, and every client-clause finding, are logged for a person to confirm. The workbook counts them on the Summary. The skill gives no other recommendation. It is exempt from the reviewer output on the standards' Review Method sheet (tracked-changes copy, cover note and a proceed or escalate recommendation): the review workbook replaces it. The Summary shows the sign-off chain worked out from Whose paper: the Director of People and Operations and the Regional Director of Innovation and Product Strategy for every contract, and the CEO as well for anything other than an unmodified Start2 template.

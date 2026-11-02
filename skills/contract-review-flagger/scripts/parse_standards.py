@@ -74,6 +74,11 @@ def parse(path):
         elif d.get("Order") and not d["Order"].startswith("Reviewer"):
             reviewer_output = d["Order"]
     out["review_method"] = {"passes": review, "reviewer_output_spec": reviewer_output}
+    try:  # content version: last "vN" or "vN.N" row of the Design Guide version history (the file name may lag)
+        labels = [str(c.value).strip() for c in sheet(wb, 6)["A"] if c.value and re.fullmatch(r"v\d+(?:\.\d+)?", str(c.value).strip())]
+        out["version"] = labels[-1] if labels else None
+    except KeyError:
+        out["version"] = None
     out["process_and_authority"] = [
         {"topic": d["Topic"], "rule": d["Rule / guidance"]}
         for d in rows(sheet(wb, 5))

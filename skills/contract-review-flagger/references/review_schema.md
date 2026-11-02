@@ -27,11 +27,11 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
      "clause": "standard clause ID (LOL), playbook row name, 'Check 3', or the document name for Not supplied",
      "where": "13.1 (p. 10) | Not in contract",
      "quote": "verbatim full sentence or sub-clause, the critical words in **bold**; excerpts joined by '...'; '(clause absent)' when nothing exists",
-     "issue": "what the clause says, what it means for Start2, how it compares with the standard, why this severity (rubric section 9); two sentences for Low or no-action findings",
+     "issue": "what the clause says, what it means for Start2, how it compares with the standard (rubric section 9); never the severity or why; two sentences for Low or no-action findings",
      "action": "what to do and who, the concrete ask, the fallback (rubric section 9); one sentence for Low or no-action findings; never command text",
      "subjective": true,
      "action_required": false,
-     "severity_note": "optional: why the severity differs from the rule; shown as a comment on the Severity cell",
+     "severity_note": "why the severity differs from the section 8 rule, or the rubric section 4a row it comes from; shown as a comment on the Severity cell",
      "suggested_language": "optional: wording to propose; omit for standard clauses to use the Start2 standard"}
   ],
   "coverage": { "LOL": {"verdict": "Conforming | Partial | Deviant | Missing | Not supplied | N/A", "where": "", "note": "a plain sentence",
@@ -73,5 +73,7 @@ Rules enforced by `validate_review.py`:
 - A quote with subjective wording but no `subjective` flag, a quote with no bold part and a quote that ends mid-sentence each give a warning. So does text outside its form: for Critical, High and Medium, an issue under 40 words or an action under 25; for Low or no-action findings, an issue over 70 words or an action over 40.
 - A failed check with no `correct` list gives a warning; `correct` must be a list of strings.
 - A Missing, Partial or Deviant coverage verdict without a finding gives a warning. So does a failed check without an Execution finding, and a document with `part_of_contract` true without a `Not supplied` finding.
+- A severity allowed only by a rubric section 4a row gives a warning unless `severity_note` names the row.
+- A Missing, Partial or Deviant finding on a clause whose coverage verdict is Conforming or N/A gives a warning.
 - A `Not supplied` coverage verdict with an empty `documents_not_supplied` list is an error. A `Not supplied` verdict without `document`, or whose `document` matches no `Not supplied` finding, gives a warning.
-- The Coverage sheet shows, for each clause, the highest severity among its findings (by clause ID, or by `document` for Not supplied), so coverage and findings agree.
+- The Coverage sheet shows, for each clause, the highest severity among its findings (by clause ID, or by `document` for Not supplied), so coverage and findings agree. A clause with a finding shows that severity even if its verdict was left Conforming.

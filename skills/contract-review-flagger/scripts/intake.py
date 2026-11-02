@@ -7,7 +7,7 @@ Collects everything the review needs from the user, so it can run without stoppi
   1. Start2 entity and role: known Start2 entities found, and any other "Start2" names to confirm.
   2. Outside documents the contract names (general conditions, bid, policies, links): can the user supply them?
   3. Plain-language explanations: explain legal terms and clause codes where used? (summary.explain_terms)
-  4. Purpose of the review: Pre-signature, Signed or Renewal (rubric section 1).
+  4. Purpose of the review: Pre-signature, Signed or Renewal (rubric section 1a).
 Prints a draft. Claude adds its own reading (the role guess, documents the patterns missed, a status guess), sends
 it as one message, waits for the answer, and records it in review.json (summary.purpose, summary.explain_terms,
 documents_not_supplied).

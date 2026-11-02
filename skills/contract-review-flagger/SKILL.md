@@ -5,7 +5,7 @@ description: Review a contract against the Start2 Asia contract standards and re
 
 # Contract Review Flagger
 
-Reads one contract and produces one workbook: Summary, Findings, Coverage, Checks, Documents not supplied. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
+Reads one contract and produces one workbook: Read Me, Summary, Findings, Coverage, Checks, Documents not supplied. Claude does the judgement (mapping clauses, screening client clauses, writing findings). Scripts do everything that must be exact (reading files, finding blanks and date errors, checking quotes, building the workbook).
 
 Scope today: English contracts where Start2 delivers a service or programme (service, funding or collaboration agreements). Before reviewing, it sends one intake message to confirm the Start2 entity and role, ask for documents the contract names but that were not supplied, ask whether legal terms should be explained in plain words, and fix the purpose (Pre-signature, Signed or Renewal). It does not stop again after that.
 
@@ -15,7 +15,7 @@ Scope today: English contracts where Start2 delivers a service or programme (ser
 |---|---|
 | `README.md` | User guide: what the tool does, when to use it, how a review runs, how issues are rated, and what each sheet and column shows. No technical detail. Update it when a sheet, column or rating rule changes. |
 | `references/Start2_Asia_Contract_Standards_UP_02_Nov_v7.xlsx` | The standards workbook. Source of truth. Never edit `standards.json` by hand. |
-| `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
+| `references/standards.json` | Generated from the workbook by `scripts/parse_standards.py`: content version, 34 clauses with required content, standard language, base severity; client-inserted playbook; 12 execution checks. |
 | `references/rubric.md` | How to judge: role guess, verdicts, the fixed positions on payment split, higher cap and cancellation (section 4a), client-clause screen, severity table, writing rules. Read it before step 4. |
 | `references/review_schema.md` | The `review.json` format. |
 | `references/plain_terms.json` | Legal terms with plain explanations, for the plain-language pass. Add terms as reviews meet them. |
@@ -74,13 +74,13 @@ Write `W/review.json` (format in `references/review_schema.md`). Use the full fo
 python3 S/scripts/plain_language.py S/references/standards.json W/review.json
 python3 S/scripts/validate_review.py S/references/standards.json W/review.json W/document.json
 ```
-Fix every ERROR. Read every WARN: give a `severity_note` for a severity that differs from the rule, add missing findings, complete cut-off quotes, bold the critical words, flag subjective wording, expand terse Issue and Action text, and for scanned contracts check the quoted pages by eye.
+Fix every ERROR. Read every WARN: give a `severity_note` for a severity that differs from the rule or comes from a rubric section 4a row, add missing findings, complete cut-off quotes, bold the critical words, flag subjective wording, expand terse Issue and Action text, and for scanned contracts check the quoted pages by eye.
 
 ### 6. Build and deliver
 ```
 python3 S/scripts/build_review_workbook.py S/references/standards.json W/review.json W/<contract>_review.xlsx
 ```
-Hand over the workbook with a short message: role guess and basis, status, counts by severity, the number of Critical and High findings to confirm, the three to five items that matter most, the documents not supplied, and anything uncertain (scanned pages, role guess, items needing a person). Counts and the to-confirm line are formulas in the workbook; state them as the workbook will show them.
+Hand over the workbook with a short message: role guess and basis, status, counts by severity, the number of findings to confirm (Critical, High and client clauses), the three to five items that matter most, the documents not supplied, and anything uncertain (scanned pages, role guess, items needing a person). Counts and the to-confirm line are formulas in the workbook; state them as the workbook will show them.
 
 ## Rules
 - No quote, no finding. Quote full sentences and bold the critical words. Scanned quotes are transcriptions: say so.

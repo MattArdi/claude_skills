@@ -57,13 +57,15 @@ The starting point is how important the topic is: each Start2 standard clause ha
 - **Up one step** when the clause lets the client alone judge Start2's work or payment, for example "acceptable to the client", "to the client's satisfaction" or "in its sole discretion". Those words are shown in bold in the quote.
 - **Down one step** when Start2 has nothing to do about it, for example a standard government term that cannot be changed and has no effect on delivery. The action then starts "No action needed".
 
-Three Start2 positions have their own ratings:
+A missing anti-bribery clause is Low, or Medium when the client is government-linked or state-owned.
+
+Three Start2 positions have their own ratings. Where a contract matches more than one rule, the most serious rating applies, and a comment on the Severity cell names the rule used:
 
 | Topic | Start2 position | How a different term is rated |
 |---|---|---|
-| Payment split | 50% on signing, 30% midway on delivery of named and described deliverables, 20% on completion, each due within 7 days of Start2's invoice. The signing payment cannot be refunded once the programme starts. | 50/50 or another split with 50% on signing: Low, and the CEO must approve it. Less than 50% on signing, a middle payment not tied to named deliverables, or a payment with no due date: High. A due date longer than 7 days: Critical. Signing payment refundable after the programme starts, or the contract silent on it: Medium. More paid upfront is not flagged. |
+| Payment split | 50% on signing, 30% midway on delivery of named and described deliverables, 20% on completion, each due within 7 days of Start2's invoice. The signing payment cannot be refunded once the programme starts. | 50/50 or another split with 50% on signing: Low, and the CEO must approve it. Less than 50% on signing, a middle payment not tied to named deliverables, or a payment with no due date: High. A due date longer than 7 days: Critical. Signing payment refundable after the programme starts, or the contract silent on it: Medium. More paid upfront is not flagged. For funding agreements the split is not checked, only that every payment has a clear trigger. |
 | Higher liability cap | Twice the total fee, binding both sides, for breaches of confidentiality, data protection and intellectual property. | Any other multiple, or a cap that covers only some of these breaches or one side only: High. No higher cap at all: High. A fixed amount instead of a multiple: Low if it equals twice the fee, High otherwise. |
-| Cancellation | Start2 recovers the third-party costs it has committed (cost recovery), or keeps the fee paid and credits it to a rescheduled programme (roll-forward), or both. | Neither: High. Roll-forward alone where the programme has third-party costs such as venues, mentors or travel: Medium. Roll-forward left to be agreed after cancellation, or one that does not say what happens to the money if the rescheduled programme never runs: Critical. |
+| Cancellation | For every cancellation or termination, Start2 recovers the third-party costs it has committed (cost recovery), or keeps the fee paid and credits it to a rescheduled programme (roll-forward), or both. A roll-forward must be agreed in the contract, have a time limit, and say what happens to the money if the rescheduled programme never runs. Start2's standard wording has cost recovery only. | Neither: High. Roll-forward alone where the programme has third-party costs such as venues, mentors or travel: Medium. Roll-forward with no time limit, or cover for force majeure only: Medium. Roll-forward left to be agreed after cancellation, or one that does not say what happens to the money: Critical, even when cost recovery is also there. |
 
 ## What is in the workbook
 
@@ -79,10 +81,10 @@ A guide to the workbook: what each sheet and column means, and the rating scale.
 | Contract type | Service, Funding, Vendor or Other. |
 | Whose paper | Start2's template unchanged, Start2's template changed, or the client's own paper. Filling in the deal details (names, fee, dates, scope) does not count as a change; changing any clause wording does. |
 | Purpose | Before signing, already signed, or renewal, as given at the start. |
-| Standards version | Which version of Start2's standards was used. |
+| Standards version | Which version of Start2's standards was used: the file name and the content version from its version history. |
 | Our entity, Our role, Role basis, Counterparty | Which Start2 company is signing, its role, how that was confirmed, and the other party. |
 | Critical, High, Medium, Low | The number of issues at each rating. These update automatically if you change a rating on the Findings sheet. |
-| To confirm | How many Critical and High issues need a person to confirm them. |
+| To confirm | How many issues need a person to confirm them: every Critical and High issue, and every client-added clause. |
 | Documents not supplied | How many outside documents are missing. |
 | Review lead time | The recommended review time before signature: 3 business days for Start2's unchanged template, 5 otherwise. |
 | Sign-off chain | Director of People and Operations, then Regional Director of Innovation and Product Strategy, for every contract. The CEO also approves any contract that is not Start2's unchanged template. Worked out from Whose paper. |
@@ -94,14 +96,14 @@ One row per issue, most serious first.
 | Column | What it shows |
 |---|---|
 | # | Row number. |
-| Severity | Critical, High, Medium or Low. If a rating differs from the usual rule, a comment on the cell explains why. |
+| Severity | Critical, High, Medium or Low. A comment on the cell explains a rating that differs from the usual rule, or names the special rule above that it comes from. |
 | Type | What kind of issue it is: a Start2 standard clause that is missing, partly covered or contradicted; a client-added clause (with Start2's position: accept, accept with conditions, escalate or reject); another unusual clause; a money issue; a document check that failed; or a missing document. |
 | Clause | The Start2 standard clause, client clause or check concerned. |
 | Where | The clause number and page in the contract. |
 | Quote | The exact words from the contract, with the key words in bold. |
 | Issue | What the clause says, what it means for Start2 in practice, and how it differs from Start2's standard. |
 | Action | What to do next, who should do it, what to ask the client for, and a fallback if they say no. |
-| Suggested language | Start2's standard wording, using the contract's own names for the parties, ready to propose to the client. Blank where no standard wording applies. |
+| Suggested language | For a Start2 standard clause, Start2's standard wording using the contract's own names for the parties, ready to propose to the client. For other issues, wording written for that issue where a change is asked. Blank otherwise. |
 
 Low and no-action items are kept short; Critical, High and Medium items are explained in full.
 
@@ -111,10 +113,10 @@ One row for each of Start2's 34 standard clauses, so you can see at a glance wha
 | Column | What it shows |
 |---|---|
 | ID, Clause | The Start2 standard clause. |
-| Base severity | The starting rating if the clause is missing or contradicted, before the adjustments described above. |
+| Base severity | The starting rating if the clause is missing or contradicted, before the adjustments and special rules described above. Used for Severity only when the clause has no issue on the Findings sheet. |
 | Verdict | Conforming (meets the standard), Partial (something is missing), Deviant (contradicts the standard), Missing, Not supplied (the contract leaves this topic to a document that was not attached), or N/A. |
 | Where | Where the clause is in the contract. |
-| Severity | The most serious rating among this clause's issues on the Findings sheet, so the two sheets always agree. It updates if you change a rating on Findings. |
+| Severity | The most serious rating among this clause's issues on the Findings sheet (for Not supplied, the issue for the missing document), so the two sheets always agree. It updates if you change a rating on Findings. A clause with no issue shows "-" if it conforms, otherwise the rating worked out from the verdict and base severity. |
 | Note | A short description of what is there or missing. Details are on the Findings sheet. |
 
 ### Checks
@@ -135,7 +137,7 @@ Every outside document the contract relies on that was not attached, such as gen
 | Document | The document, as the contract names it. |
 | Referenced at | Every place in the contract that mentions it. |
 | Quotes | The contract text at each of those places. |
-| Part of contract | Yes if the contract says the document forms part of it. Those also appear on the Findings sheet. |
+| Part of contract | Yes if the contract says the document forms part of it. Those, and documents that place obligations on Start2, also appear on the Findings sheet. |
 | Governs | What the contract says the document covers. |
 | Effect on this review | Which issues could not be fully checked without it. |
 | Action | How to get it and what to check once you have it. |
@@ -145,5 +147,5 @@ Every outside document the contract relies on that was not attached, such as gen
 - **Scanned pages** are read from the page images. Quotes from those pages should be checked against the original before you rely on them.
 - **Missing documents** cannot be reviewed. If a contract relies on general conditions that were not attached, the related issues stay open until those conditions are read.
 - **Only English contracts** where Start2 is the service provider are reviewed against the standards. If Start2 is the buyer, the workbook shows "Not assessed" and lists only general issues such as blanks and wrong dates.
-- **You can edit the workbook.** Change a rating or verdict and the counts on the Summary update automatically.
+- **You can edit the workbook.** Change a rating on the Findings sheet and the Summary counts and Coverage severities update automatically. Changing a verdict on the Coverage sheet does not change the counts.
 - **Contracts stay private.** They are not sent to any outside service.

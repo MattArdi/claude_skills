@@ -5,7 +5,8 @@ Usage: validate_review.py <standards.json> <review.json> [document.json]
 
 Errors (exit 1): bad enumerations, unknown clause IDs, missing required fields, quotes not found in a text document.
 Warnings: severity differs from the rule (including the one-level raise for subjective wording and the clause-specific
-severities for FEE, LOL and COSTREC in rubric section 4a), a non-conforming
+severities for FEE, LOL and COSTREC in rubric section 4a, which need a severity_note naming the row), a Missing, Partial or
+Deviant finding on a clause whose coverage verdict is Conforming or N/A, a non-conforming
 verdict without a finding, a failed check without a finding, quotes that cannot be verified because the document is
 scanned (verify the cited page by eye), quotes cut off mid-sentence or with nothing in **bold**, Issue or Action
 text too short to explain itself (or too long for a Low or no-action finding), command text left in Action, documents not supplied without a finding,
@@ -41,8 +42,11 @@ SHORT = {"issue": (15, 70), "action": (8, 40)}
 RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one level|lowered one level|severity of"
                     r"|gives (?:Low|Medium|High|Critical)\b|is (?:Low|Medium|High|Critical)\b|at (?:Low|Medium|High|Critical)\.?$"
                     r"|at (?:Low|Medium|High|Critical)[.;]|this is (?:Partial|Deviant|Conforming)\b)", re.I | re.M)
-# Clause-specific severities (rubric section 4a): allowed in addition to the base-severity rule.
-ALT = {("FEE", "Deviant"): ("Low", "Medium", "High"), ("FEE", "Partial"): ("Medium",), ("LOL", "Deviant"): ("Low", "High"), ("COSTREC", "Deviant"): ("Medium", "Critical")}
+# Severities allowed besides the base rule. RULE_ALT: section 8 rules (anti-bribery raised for a government counterparty).
+# ALT_4A: clause-specific rows in rubric section 4a; these need a severity_note naming the row.
+RULE_ALT = {("ABC", "Missing"): ("Medium",)}
+ALT_4A = {("FEE", "Deviant"): ("Low", "Medium", "High"), ("FEE", "Partial"): ("Medium",), ("LOL", "Deviant"): ("Low", "High"),
+          ("COSTREC", "Deviant"): ("Medium", "Critical")}
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
 
 
@@ -64,10 +68,12 @@ def expected(base, verdict, subjective=False, action_required=True):
 
 
 def allowed(cid, base, verdict, subjective=False, action_required=True):
-    """Severities the rules allow: the base rule plus any clause-specific case (rubric section 4a)."""
+    """(rule severities, section 4a severities): the base rule plus section 8 exceptions, and the clause-specific rows."""
     exp = expected(base, verdict, subjective, action_required)
-    if exp is None: return None
-    return [exp] + [a for a in (adjust(s, subjective, action_required) for s in ALT.get((cid, verdict), ())) if a != exp]
+    if exp is None: return None, []
+    rule = [exp] + [adjust(s, subjective, action_required) for s in RULE_ALT.get((cid, verdict), ())]
+    four_a = [a for a in (adjust(s, subjective, action_required) for s in ALT_4A.get((cid, verdict), ())) if a not in rule]
+    return list(dict.fromkeys(rule)), list(dict.fromkeys(four_a))
 
 
 def main(std_path, rev_path, doc_path=None):
@@ -91,6 +97,7 @@ def main(std_path, rev_path, doc_path=None):
         if any(p["source"] == "vision" for p in doc["pages"]):
             warns.append("document text is a vision transcript: quotes match the transcript, not the original image. Check cited pages.")
     para_ends = [norm(p["text"]) for p in doc["paragraphs"]] if doc_path else []
+    cov = rev.get("coverage", {})
     unverified = 0
     for i, f in enumerate(rev.get("findings", []), 1):
         tag = f"finding {i} ({f.get('clause')})"
@@ -134,9 +141,14 @@ def main(std_path, rev_path, doc_path=None):
                     if len(norm(seg)) >= 15 and norm(seg) not in corpus:
                         errors.append(f"{tag}: quote not found in document: {seg[:70]!r}")
         if f.get("type") in ("Missing", "Partial", "Deviant") and f.get("clause") in base:
-            ok = allowed(f["clause"], base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
-            exp = " or ".join(dict.fromkeys(ok)) if ok else None
-            if ok and f["severity"] not in ok and not f.get("severity_note"):
+            ok, four_a = allowed(f["clause"], base[f["clause"]], f["type"], bool(f.get("subjective")), f.get("action_required") is not False)
+            exp = " or ".join(ok) if ok else None
+            cv = cov.get(f["clause"], {}).get("verdict")
+            if cv in ("Conforming", "N/A"):
+                warns.append(f"{tag}: coverage verdict for {f['clause']} is {cv} but this finding is {f['type']}; set the coverage verdict to match")
+            if f["severity"] in four_a and not f.get("severity_note"):
+                warns.append(f"{tag}: severity {f['severity']} comes from a rubric section 4a row; name the row in severity_note")
+            elif ok and f["severity"] not in ok + four_a and not f.get("severity_note"):
                 adj = [x for x, on in (("raised one level for subjective wording", f.get("subjective")),
                                        ("lowered one level as no action is needed", f.get("action_required") is False)) if on]
                 warns.append(f"{tag}: severity {f['severity']} differs from rule {exp} (base {base[f['clause']]}"
@@ -146,7 +158,6 @@ def main(std_path, rev_path, doc_path=None):
     if unverified:
         warns.append(f"{unverified} quotes could not be machine-verified (scanned or no document.json given). Check each cited page by eye.")
 
-    cov = rev.get("coverage", {})
     S_role = S.get("our_role")
     for cid, v in cov.items():
         if cid not in base: errors.append(f"coverage: unknown clause ID {cid!r}")

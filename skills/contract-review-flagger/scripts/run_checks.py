@@ -7,7 +7,8 @@ Check numbers match the Execution Check list in the standards workbook:
  1 blank fields and placeholders   2 duplicate or undefined clause numbers   3 date errors
  9 annex/attachment references against what is present, and outside documents the contract names
    (general conditions, bids, policies, codes, links) that may not have been supplied
- plus: subjective standards (check "S", see subjective.py), amount reconciliation, translation hint.
+ plus: subjective standards (check "S", see subjective.py), amount reconciliation (check "C", commercial pass),
+ translation hint.
 A page with source needs_vision has no text and is reported as unchecked.
 """
 import json
@@ -81,7 +82,7 @@ def main(src, dst):
             if ok:
                 add(0, "percent_reconciles", p, pm.group(0) + " ... " + am.group(0), f"{pct:g}% of {ok[0]:,.0f} = {derived:,.0f}.", info)
             elif bases:
-                add(1, "percent_does_not_reconcile", p, pm.group(0) + " ... " + am.group(0), f"{pct:g}% of no other stated amount equals {derived:,.0f}.")
+                add("C", "percent_does_not_reconcile", p, pm.group(0) + " ... " + am.group(0), f"{pct:g}% of no other stated amount equals {derived:,.0f}.")
     seen = {}
     for c, v, p, raw in amounts: seen.setdefault((c, v), p)
     keys = list(seen)

@@ -1,6 +1,6 @@
 ## 1. Parties
 
-This Agreement is made between [Start2 Entity Legal Name] ("Start2"), a company with its registered address at [Registered Address], and 
+This Agreement is made on [Agreement Date] between [Start2 Entity Legal Name] ("Start2"), a company with its registered address at [Registered Address], and 
 
 [Company Full Name] ("Company"), a company with its registered address at [Company Address]. 
 
@@ -16,7 +16,7 @@ D. Start2 will provide [Service Description] to Company (the "Service").
 
 ## 3. Details and scope of Service
 
-3.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1 (the "Scope"), which the Parties shall agree and attach before execution of this Agreement.
+3.1 The contents of the Service to be delivered by Start2 under this Agreement are set out in Appendix 1, which the Parties shall agree and attach before execution of this Agreement.
 3.2 Appendix 1 shall specify, at minimum: the deliverables Start2 will provide, any exclusions, and the number of participants or startups covered (if applicable).
 
 ## 4. Term
@@ -38,8 +38,8 @@ Company shall not withhold, deduct, or set off any amount from the Service Fee a
 
 ## 7. Late payment
 
-7.1 Any amount not paid by its due date shall accrue interest at [X]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.
-7.2 If any payment is overdue by more than [X] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.
+7.1 Any amount not paid by its due date shall accrue interest at [Interest Rate]% per annum (or the maximum rate permitted by applicable law, if lower), calculated daily from the due date until paid.
+7.2 If any payment is overdue by more than [Suspension Days] days, Start2 may suspend delivery of the Service on written notice to Company, without this being treated as a breach by Start2, until payment is received in full.
 
 ## 8. Confidentiality
 
@@ -76,7 +76,7 @@ To Company: [Address] / Attention: [Name, Position] / Email: [Email]
 11.2.2 if sent by pre-paid registered mail from an address in one country to an address also in the same country, two (2) days after the same is sent;
 11.2.3 if sent by pre-paid registered mail from an address in one country to an address in another country, seven (7) days after the same is sent;
 11.2.4 if sent by facsimile, upon the issue of report of confirmation of successful transmission by the machine used by the sender to send the facsimile, subject to a confirmation copy being sent by post within forty-eight (48) hours; and
-11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicting failed delivery or non-receipt.
+11.2.5 if sent by email, at the time of transmission, provided that the sender does not receive any automated message indicating failed delivery or non-receipt.
 
 11.3 Either party may from time to time by written notice to the other designate a different address applicable or designate a different person to whose attention the notices, communications, demands, requests, approvals, or consents must be addressed.
 
@@ -95,7 +95,7 @@ This Agreement may only be amended by a written instrument signed by both Partie
 
 ## 14. Cost recovery on cancellation
 
-Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
+Where this Agreement is cancelled or terminated for any reason, including under Clause 18, any cost that Start2 has committed, incurred, or paid to a third party (including mentors, venue, travel, logistics, or sub-contractors) in connection with delivering the Service before the date of cancellation or termination is for Company's account and is due and payable to Start2. This is in addition to, and not in substitution for, Start2's entitlement to the Service Fee for work performed to date under Clause 13.
 
 ## 15. Warranties
 

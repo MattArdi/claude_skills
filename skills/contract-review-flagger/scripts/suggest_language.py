@@ -34,8 +34,8 @@ def render(by, cid, terms=None):
     c = by.get(cid)
     if not c or not c["standard_language"]:
         return None
-    text = re.sub(r"(?m)^\{\{[A-Z-]+\}\}\.(\d+(?:\.\d+)*)", r"\1", c["standard_language"])  # own sub-clause numbers
-    text = re.sub(r"\{\{([A-Z-]+)\}\}(\.\d+(?:\.\d+)*)?", lambda m: f"[{by[m.group(1)]['draft_heading'] or m.group(1)}]" + (f" sub-clause {m.group(2)[1:]}" if m.group(2) else ""), text)
+    text = re.sub(r"(?m)^\{\{[A-Z0-9-]+\}\}\.(\d+(?:\.\d+)*)", r"\1", c["standard_language"])  # own sub-clause numbers
+    text = re.sub(r"\{\{([A-Z0-9-]+)\}\}(\.\d+(?:\.\d+)*)?", lambda m: f"[{by[m.group(1)]['draft_heading'] or m.group(1)}]" + (f" sub-clause {m.group(2)[1:]}" if m.group(2) else ""), text)
     return swap_terms(text, terms)
 
 
