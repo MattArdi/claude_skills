@@ -37,7 +37,8 @@ The file Claude writes after reading a contract. `build_review_workbook.py` turn
   ],
   "coverage": { "LOL": {"verdict": "Conforming | Partial | Deviant | Missing | Not supplied | N/A", "where": "", "note": "a plain sentence",
                         "document": "Not supplied only: the document name, exactly as the clause of its Not supplied finding"} },
-  "checks":   { "4": {"result": "Pass | Fail | N/A | Cannot verify", "evidence": "what was seen, with pages",
+  "client_screen": { "Exclusivity": "No match", "Insurance requirement (minimum cover, evidence, or additional-insured status)": "Insurance requirement (minimum cover, evidence, or additional-insured status)" },
+  "checks":   { "4": {"result": "Pass | Fail | N/A | Cannot verify", "location": "clauses, pages or annexes checked", "evidence": "what was seen, with pages",
                     "covered_by": "optional: the clause of the finding that already records this problem (one problem, one finding)",
                     "correct": ["App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD", "..."]} },
   "documents_not_supplied": [
@@ -73,6 +74,7 @@ Rules enforced by `validate_review.py`:
 - An Issue that states or justifies the severity or verdict ("rated High", "raised one level", "rates this Partial") gives a warning.
 - Document references: every quote must be found in the document (error), and a paragraph matching `search` that no reference covers gives a warning.
 - A quote with subjective wording but no `subjective` flag, a quote with no bold part and a quote that ends mid-sentence each give a warning. So does text outside its form: for Critical, High and Medium, an issue under 40 words or an action under 25; for Low or no-action findings, an issue over 70 words or an action over 40.
+- A check with result Pass, Fail or Cannot verify and no `location` gives a warning. So does a coverage note under 12 words (Missing, Partial, Deviant, Not supplied) or 6 words (otherwise), a playbook row with no `client_screen` decision, and a figure with a unit (days, months, %) stated in the Issue but absent from its quote, outside sentences about the Start2 standard. A `client_screen` value that is neither "No match" nor a finding's clause is an error.
 - A failed check with no `correct` list gives a warning; `correct` must be a list of strings. A `covered_by` that names no finding's clause is an error.
 - Text in another language without check 5 `Cannot verify` and a Critical `Check 5` finding gives a warning; so do comments without `consider_comments`.
 - Excerpts in a quote are separated by an ellipsis with a space on each side; an ellipsis inside a fill-in such as `[....]` is contract text.

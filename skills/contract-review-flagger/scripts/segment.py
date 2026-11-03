@@ -6,6 +6,8 @@ Usage: segment.py <document.json> <clauses.json>
 Recognises: roman top-level headings (I., II.), dotted numbers (11.2), single numbers (1.),
 parenthesised levels ((I), (a), (1)), Article/Clause N, and Annex/Appendix/Schedule/Attachment/Exhibit headings.
 Paths: roman top + numbers restart under each heading, for example III(I).1, I.1, 11.2, 11.2(a).
+Inside an annex or appendix, numbered headings ("3.7. Assignment. The Contractor ...") start clause nodes too,
+prefixed with the annex id, for example APPENDIX-A/3.7, so contracts whose terms sit in an appendix are split.
 Node types: front, clause, annex, signature.
 """
 import json
@@ -30,6 +32,7 @@ def main(src, dst):
     cur = nodes[0]
     top = sec = None
     last_path = None
+    annex = None  # id of the annex or appendix the current text sits in
 
     def start(path, label, heading, typ, p):
         nonlocal cur
@@ -40,12 +43,14 @@ def main(src, dst):
         t = p["text"]
         m = None
         if (m := ANNEX.match(t)) and len(t) <= 140:
-            start(f"ANNEX-{m.group(2)}", m.group(2), t, "annex", p); last_path = None; top = sec = None; continue
-        if cur["type"] == "annex" and not (ROMAN.match(t) or DOTTED.match(t)):
-            pass  # annex content stays in the annex node unless a clause-style heading appears
+            annex = f"{m.group(1).upper()}-{m.group(2)}"
+            start(annex, m.group(2), t, "annex", p); last_path = None; top = sec = None; continue
         if SIGN.match(t) and any(n["type"] == "clause" for n in nodes) and cur["type"] != "signature":
             start("SIGNATURE", "", t, "signature", p); continue
-        if cur["type"] == "annex":
+        if annex and (m := DOTTED.match(t) or SINGLE.match(t) or ARTICLE.match(t)):
+            lab = m.group(1) if m.re is not ARTICLE else f"{m.group(1).title()} {m.group(2)}"
+            start(f"{annex}/{lab}", lab, (m.group(m.re.groups) or t), "clause", p); last_path = f"{annex}/{lab}"; continue
+        if cur["type"] == "annex" or annex:
             cur["text"].append(t); cur["paragraphs"].append(p["id"]); continue
         if (m := ROMAN.match(t)) and len(t) <= 110 and roman_top:
             top, sec = m.group(1), None; last_path = top

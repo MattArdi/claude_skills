@@ -14,7 +14,7 @@ review.json (all keys optional):
   findings: [{severity, type, clause, where, quote, issue, action, subjective, action_required, severity_note,
               suggested_language}]   (severity_note becomes a comment on the Severity cell)
   coverage: {CLAUSE_ID: {verdict, where, note, document}}   (document: for Not supplied, the name used as that finding's clause)
-  checks:   {"1": {result, evidence, correct: [clauses to correct]}, ...}   (keys are Execution Check numbers)
+  checks:   {"1": {result, location, evidence, correct: [clauses to correct], covered_by}, ...}   (keys are Execution Check numbers)
   documents_not_supplied: [{document, search, references: [{where, quote}], part_of_contract, governs, effect, action}]
 Quotes may mark the words a finding turns on with **bold**; they are rendered bold in Excel.
 Suggested language is the finding's own suggested_language, else the Start2 standard language of a standard clause
@@ -49,7 +49,9 @@ PAPER = ["Start2 template, unmodified", "Start2 template, modified", "Client or 
 SIGNOFF_BASE = "1. Director of People and Operations; 2. Regional Director of Innovation and Product Strategy"
 SIGNOFF_TWO = SIGNOFF_BASE + ". No CEO approval: the Start2 template is unmodified."
 SIGNOFF_CEO = SIGNOFF_BASE + "; 3. CEO, as terms differ from the Start2 template."
-CHECK_LABEL_OVERRIDE = {11: "Cross-references in the contract point to clauses and annexes that exist and are correctly numbered."}
+CHECK_LABEL_OVERRIDE = {11: "Cross-references in the contract point to clauses and annexes that exist and are correctly numbered.",
+                        12: "Currency, fee figures, tax terms, governing law and arbitration body fit this deal and this Start2 entity, "
+                            "with no wording left over from another contract, country or period (for example VAT where GST applies)."}
 
 HFILL = PatternFill("solid", fgColor="FF1F3864"); HFONT = Font(name="Arial", size=10, bold=True, color="FFFFFFFF")
 SFILL = PatternFill("solid", fgColor="FFD9E1F2"); BFONT = Font(name="Arial", size=10); BOLD = Font(name="Arial", size=10, bold=True)
@@ -178,6 +180,7 @@ def readme(ws):
         ("#", "Number of the check in the standards workbook."),
         ("Check", "What is verified before a draft leaves Start2 and again before signature."),
         ("Result", "Pass, Fail, N/A or Cannot verify (drop-down)."),
+        ("Location", "The clauses, pages or annexes checked, so the result can be cited to the counterparty."),
         ("Evidence", "What was seen, with page references. When the problem is already a finding, it names that finding instead of repeating it."),
         ("Clauses to correct", "For a failed check, each contract clause or page that needs correcting and what to change, numbered."),
         ("S", "Sheet: Documents not supplied (one row per document)"),
@@ -297,7 +300,7 @@ def build(standards, review, out):
     colour(ws, f"C2:C{n}"); colour(ws, f"F2:F{n}"); ws.auto_filter.ref = f"A1:G{n}"
 
     # ---- Checks
-    ws = wb.create_sheet("Checks"); header(ws, ["#", "Check", "Result", "Evidence", "Clauses to correct"], [5, 70, 14, 70, 70])
+    ws = wb.create_sheet("Checks"); header(ws, ["#", "Check", "Result", "Location", "Evidence", "Clauses to correct"], [5, 60, 14, 28, 65, 65])
     res = review.get("checks", {})
     for i, ck in enumerate(standards["execution_checks"], 2):
         v = res.get(str(ck["id"]), {})
@@ -306,8 +309,8 @@ def build(standards, review, out):
         ev = plain(v.get("evidence")) if review else None
         if v.get("covered_by"):
             ev = f"{ev or ''}\nRecorded on the Findings sheet under {v['covered_by']}.".strip()
-        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, ev)
-        cell(ws, i, 5, fix)
+        cell(ws, i, 1, ck["id"]); cell(ws, i, 2, label); cell(ws, i, 3, v.get("result")); cell(ws, i, 4, v.get("location"))
+        cell(ws, i, 5, ev); cell(ws, i, 6, fix)
     dropdown(ws, f"C2:C{len(standards['execution_checks']) + 1}", RESULTS)
 
     # ---- Documents not supplied

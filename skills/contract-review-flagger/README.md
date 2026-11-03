@@ -130,6 +130,7 @@ The 12 document checks Start2 runs before a draft leaves the company and again b
 |---|---|
 | #, Check | The check, for example "every placeholder is filled" or "the company name is the same everywhere". |
 | Result | Pass, Fail, N/A or Cannot verify. |
+| Location | The clauses, pages or annexes checked, ready to cite if the point is raised with the client. |
 | Evidence | What was found, with page numbers. If the problem is already listed on the Findings sheet, the check points to that issue instead of listing it twice. |
 | Clauses to correct | For a failed check, a numbered list of the clauses or pages to correct and what to change. |
 
@@ -148,7 +149,7 @@ Every outside document the contract relies on that was not attached, such as gen
 
 ## Good to know
 
-- **Scanned pages** are read from the page images. Quotes from those pages should be checked against the original before you rely on them.
+- **Scanned pages**, including pages that are an image under a repeated header such as an e-signature ID, are read from the page images. Quotes from those pages should be checked against the original before you rely on them.
 - **Bilingual contracts:** only the English text is reviewed. The other language is never translated, and the Checks sheet flags this as Critical so a fluent reviewer confirms both versions match before signing.
 - **Missing documents** cannot be reviewed. If a contract relies on general conditions that were not attached, the related issues stay open until those conditions are read.
 - **Only English contracts** where Start2 is the service provider are reviewed against the standards. If Start2 is the buyer, the workbook shows "Not assessed" and lists only general issues such as blanks and wrong dates.

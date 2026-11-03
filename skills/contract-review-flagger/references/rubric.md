@@ -4,6 +4,7 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 
 ## 0. Principles
 - Evidence first. Every finding carries a verbatim quote and a page. No quote, no finding. For an absent clause write `(clause absent)` and `Not in contract`.
+- The quote holds every fact the Issue relies on. If the Issue mentions a time limit, an amount, a condition or a step (for example a 15-working-day plan and a 30-day termination right), the quote shows the contract words for each, joined as excerpts if they sit in different sentences. `validate_review.py` warns when a figure in the Issue is missing from the quote.
 - Quotes give the fullest context. Quote the whole sentence, sub-clause or list the finding rests on, never a fragment cut off mid-sentence or ending at "that:" or "by:" before the list it introduces. Where the relevant words sit in a long clause, join the excerpts with `...` (each excerpt still verbatim and complete in itself). Aim for under about 1,200 characters per quote.
 - Bold the critical words. Wrap the words the finding turns on in `**double asterisks**` (rendered bold in the workbook), for example `perform the Work in accordance with **standards of quality acceptable to Canada**`. Bold only what the Issue discusses, usually one to three phrases.
 - Never describe what an unsupplied document contains. Write "not supplied, so not reviewed", not "may provide", "typically includes" or "usually covers" (section 1, Documents not supplied).
@@ -27,14 +28,12 @@ How Claude judges a contract. Read once per review. The standards live in `stand
 **Page types.** Body, annex, template form (blank claim or bank forms: note them, do not review them as clauses), FAQ or guidance pages (treat as part of the contract). An annex page that holds only a file icon or a title means the annex is not included.
 
 ## 1a. Intake: one message, then wait
-After ingest, run `scripts/intake.py W/document.json`. It drafts one message with four questions, and a fifth when the file has comments:
+After ingest, run `scripts/intake.py W/document.json`. It drafts one message with four questions, and a fifth when the file has comments. The message holds the numbered questions and nothing else: no introduction, no first-read summary, no observations or findings, no notes (for example about image pages or other-language text) and no closing line. Put each guess inside its question in a few words, fill the bracketed prompts and delete the brackets:
 1. **Entity and role.** The Start2 names found and the party Start2 appears to be. Add your role guess (section 2) so the user confirms or corrects it in the same reply.
 2. **Documents not supplied.** The outside documents the contract names. Remove ones that are attached or are only statutes, add any the patterns missed, and ask which the user can send.
 3. **Plain-language explanations.** Whether legal terms (carve-out, set-off, indemnity and so on) and Start2 clause codes should be explained where they are used, for readers who are not lawyers. Record the answer as `summary.explain_terms` (true or false).
 4. **Purpose.** Pre-signature (not signed; findings become requests before signing), Signed (findings become checks and records for the current contract) or Renewal (signed, with a new version coming; findings become requests for the next version). Say which the contract looks like.
 5. **Comments** (only when the file has comments). Whether to consider them. Record `summary.consider_comments` (true or false). True: read `document.json` `comments` as the commenters' proposed positions, mention them in the Issue or Action of the matching findings, never quote them as contract text and never let them change a verdict. False: ignore them entirely.
-
-The draft also notes any text in another language, which is never translated or reviewed (section 0).
 
 Send it as one message and wait. Record the answers: `summary.purpose`, `summary.explain_terms`, `summary.consider_comments`, `role_basis` ("confirmed by the user"), and the supplied or missing documents. If the user does not answer a question, use your guess and say so in `role_basis` or the hand-over.
 
@@ -56,12 +55,12 @@ For each clause in `standards.json` (34 rows, Must Have first):
 1. Find every contract clause that deals with the topic. One standard clause may map to several contract clauses and the reverse.
 2. Break `required_content` into its elements and check each one. Use `standard_language` and `mutuality` to see what a conforming clause looks like and who it binds.
 3. Verdict: **Conforming** all elements present and balanced as in the standard; **Partial** present but an element is missing; **Deviant** present but it contradicts the standard (one-sided against Start2, a different number, a different mechanism); **Missing** no such clause; **Not supplied** the contract hands the topic to a document that was not supplied, so it could not be checked; **N/A** the standard does not apply (for example `LANG` in a monolingual contract, `NOCOST` always).
-4. Fill `where` (clause number and page) and a `note` in a plain sentence.
+4. Fill `where` (clause number and page) and a `note`: one or two plain sentences saying what the contract says or lacks and why it matters, never shorthand such as "no carve-out" or "open-ended extras" (at least 12 words for Missing, Partial, Deviant or Not supplied, 6 otherwise).
 5. Missing, Partial and Deviant verdicts each get a Finding (type = the verdict, clause = the ID).
 6. Good to Have and Nice to Have clauses: Missing is Low. For `ABC` raise to Medium when the counterparty is government-linked or state-owned and say so in the issue.
 
-## 4a. Payment split, higher cap and cancellation terms
-These three clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule. Where a contract matches more than one row in a table, the most severe row applies; mention the other rows in the Issue. When the severity comes from a row below rather than the section 8 rule, name the row in `severity_note` (for example "Rubric 4a: 50/50 split"); the workbook shows it as a comment on the Severity cell.
+## 4a. Payment split, higher cap, cancellation terms and open-ended scope
+These clauses have fixed positions. Apply them on top of section 4. The severities below replace `base_severity` for the cases listed; every other deviation in these clauses keeps the section 8 rule. Where a contract matches more than one row in a table, the most severe row applies; mention the other rows in the Issue. When the severity comes from a row below rather than the section 8 rule, name the row in `severity_note` (for example "Rubric 4a: 50/50 split"); the workbook shows it as a comment on the Severity cell.
 
 **Payment split (`FEE`).** Standard: 50% on signing, 30% midway through the Service on delivery of named deliverables, 20% on Completion, each due within 7 days of Start2's invoice. The signing instalment is non-refundable on Commencement.
 
@@ -110,14 +109,17 @@ Below 2x leaves Start2 under-protected when the counterparty breaches; above 2x 
 
 A clause that only lets the parties discuss postponing or rescheduling the programme, without saying what happens to the fee, is not a roll-forward: the Start2 force majeure standard (FM) does this, and it is judged under `FM`.
 
+**Open-ended scope (`SCOPE`).** In a fixed or firm-price contract, scope that is "including but not limited to" a list, that requires further unlisted elements, or that runs past the end of the term is Partial at High (not the usual Medium); name the rule in `severity_note`.
+
 ## 5. Client clauses and anything outside the standard
 Every contract clause not mapped in step 4 is a candidate. Compare it with the playbook rows in `standards.json` (`client_inserted_clauses`): exclusivity, clawback or refund on underperformance, most-favoured pricing, unlimited liability, IP assignment, governing law switch, payment terms beyond 30 days, confidentiality carve-outs for affiliates, insurance, audit rights, payment suspension on allegation, minimum-threshold revenue, grant flow-down audit rights, liquidated damages.
 - Within Start2's position: type `Client: Accept`, Low.
 - Position met with conditions to confirm: `Client: Conditional`, Medium.
 - Playbook says escalate or the grant flow-down row applies: `Client: Escalate`, High.
 - Reject threshold met: `Client: Reject`, Critical. "Hard stop" rows are always Critical.
-- Not in the playbook: apply the generic screen below and use `Unclassified clause`. Default Medium, Low if benign.
-Generic screen: one-way termination or cancellation rights, open-ended scope, per-breach penalties, uncapped indemnity, price control, unfunded obligations, outcome-linked payment, payment conditions with no deadline, data or audit access, exclusivity, non-compete.
+- Not in the playbook: apply the generic screen below and use `Unclassified clause`. Default Medium, Low if benign, High for a client right to suspend or stop the work at any time without time or cost relief.
+- Decide every playbook row, matched or not, in `client_screen` (`{"<row>": "No match"}` or the clause of the finding that records it), so a clause within Start2's position (for example insurance at the contractor's discretion) is not dropped. `validate_review.py` warns on rows with no decision.
+Generic screen: one-way termination or cancellation rights, open-ended scope (section 4a), suspension or stop-work rights, per-breach penalties, uncapped indemnity, price control, unfunded obligations, outcome-linked payment, payment conditions with no deadline, data or audit access, exclusivity, non-compete.
 
 ## 5a. Subjective standards
 A subjective standard lets the counterparty alone judge Start2's work, payment or people: "acceptable to Canada", "to the satisfaction of the Client", "in its sole discretion", "as determined by the Company", "suitable to", "in acceptable form or condition". Such wording can be used to withhold acceptance, and so payment, without an objective test Start2 can point to.
@@ -128,10 +130,10 @@ A subjective standard lets the counterparty alone judge Start2's work, payment o
 
 ## 6. Execution checks (1 to 12)
 Run `scripts/run_checks.py` and judge each candidate. It covers blanks and placeholders (1), duplicate or undefined clause numbers (2), date errors (3), annex presence and outside documents (9), translation (5) and tracked changes (8), plus subjective standards (S, section 5a). You must still judge 4, 6, 7, 10, 11, 12 yourself and confirm or dismiss every candidate (labels that introduce a list and end in a colon are false positives).
-Result per check: Pass, Fail, N/A, Cannot verify. Check 5 with other-language text follows section 0. Each Fail also becomes a Finding with type `Execution` and clause `Check n` (unless the same problem is already a finding: set `covered_by` instead, section 8), and lists in `correct` every contract clause or page that needs correcting, each with what to change, for example "App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD and put a telephone number in the Telephone field".
+Result per check: Pass, Fail, N/A, Cannot verify, with a `location` (the clauses, pages or annexes checked) so the result can be cited. Check 5 with other-language text follows section 0. Check 12 covers leftovers from any other contract, country or period, on Start2 or client paper: tax names from another country (VAT where GST applies), obsolete wording (pandemic measures), and currency, law or entity names that do not fit this deal. Each Fail also becomes a Finding with type `Execution` and clause `Check n` (unless the same problem is already a finding: set `covered_by` instead, section 8), and lists in `correct` every contract clause or page that needs correcting, each with what to change, for example "App. A 3.5 (p. 3): replace 'Start2 Group' with START2 GROUP PTE LTD and put a telephone number in the Telephone field".
 
 ## 7. Commercial pass
-Fee, currency, tax, payment trigger and due date, term dates, balance amounts, ceilings against annex totals. Findings of type `Commercial`. `run_checks.py` lists arithmetic candidates as check `C` (kind `percent_does_not_reconcile`); confirm or dismiss each.
+Fee, currency, tax, payment trigger and due date, term dates, balance amounts, ceilings against annex totals. Check that the invoicing instructions fit the payment schedule: invoice frequency against milestones, the form an invoice must take, and what starts the payment period; a mismatch that lets the client treat an invoice as not acceptable is a contradiction (High). Findings of type `Commercial`. `run_checks.py` lists arithmetic candidates as check `C` (kind `percent_does_not_reconcile`); confirm or dismiss each.
 
 ## 8. Severity
 | Source | Severity |
@@ -158,6 +160,8 @@ Fee, currency, tax, payment trigger and due date, term dates, balance amounts, c
 `validate_review.py` warns when a Missing, Partial or Deviant severity differs from the rule, including both adjustments.
 
 **One problem, one finding, at the highest level.** When the same problem is caught by more than one rule, record it once, at the highest severity any of those rules gives, and name the other rules in `severity_note`. Typical cases: a standard clause that also matches a client-clause playbook row (for example an IP clause that assigns Start2 materials, where the playbook reject threshold gives Critical); a missing clause that also fails an execution check (no signature block and check 6); a document not supplied that also fails check 9. A failed check whose problem is already a finding sets `covered_by` to that finding's clause instead of a separate Execution finding; the Checks sheet then points to it.
+
+**Order of the rules.** First take the highest severity any applicable rule gives (one problem, one finding), then raise one level for subjective wording, then lower one level if no action is needed.
 
 **No action needed.** Set `"action_required": false` when Start2 has nothing to do about the finding, now or at renewal: no negotiation, no internal check, no change to how the work is delivered, only noting it. Typical cases: a client clause within Start2's position, a standard government term that cannot be changed and has no practical effect on delivery or payment, a slip with no consequence. The Action then starts "No action needed" and says in one sentence why, and what would change that (for example "unless Start2 later opens an office in Canada"). Lower the severity one level. If any step remains, even a check, the finding needs action and keeps its severity. Critical and High findings that remain after the reduction still go to a person to confirm.
 

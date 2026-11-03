@@ -14,7 +14,9 @@ legal terms or clause codes left unexplained (plain_language.py, only when summa
 an Issue that states or justifies the severity or verdict, a no-action finding not lowered one level,
 document references that miss a paragraph where the document is named, a Not supplied coverage verdict without a
 matching document finding, a failed check with neither an Execution finding nor covered_by, other-language text without
-check 5 'Cannot verify' and a Critical Check 5 finding, and comments without summary.consider_comments.
+check 5 'Cannot verify' and a Critical Check 5 finding, comments without summary.consider_comments, a check without a
+location, a short coverage note, a playbook row with no client_screen decision, and an Issue figure (days, months, %)
+missing from its quote.
 Quotes starting with "(" are placeholders such as "(clause absent)" and are not verified. **bold** markers are
 ignored when quotes are matched against the document.
 """
@@ -48,6 +50,7 @@ RATING = re.compile(r"\b(?:rated|rates? (?:this|it)|base severity|raised one lev
 # ALT_4A: clause-specific rows in rubric section 4a; these need a severity_note naming the row.
 RULE_ALT = {("ABC", "Missing"): ("Medium",)}
 ALT_4A = {("FEE", "Deviant"): ("Low", "Medium", "High"), ("FEE", "Partial"): ("Medium",), ("LOL", "Deviant"): ("Low", "High"),
+          ("SCOPE", "Partial"): ("High",),
           ("COSTREC", "Deviant"): ("Medium", "Critical")}
 # Excerpts in a quote are joined by an ellipsis with a space on each side (or at the start or end of the quote).
 # Ellipses inside a fill-in such as "[....]" or "………," are contract text, not separators.
@@ -56,6 +59,27 @@ SEP = re.compile(r"(?:^|\s)(?:\.\.\.|…)(?=\s|$)")
 
 def excerpts(q):
     return [s for s in SEP.split(q) if s.strip()]
+
+
+# Figures with units in an Issue sentence about the contract (not about the Start2 standard) should appear in the quote.
+FIGURE = re.compile(r"\b(\d+(?:[.,]\d+)?)(?:\s*-\s*|\s+)(working days?|business days?|calendar days?|days?|weeks?|months?|years?|hours?|per ?cent)\b|\b(\d+(?:\.\d+)?)\s?%", re.I)
+NUM_WORDS = {"7": "seven", "10": "ten", "14": "fourteen", "15": "fifteen", "30": "thirty", "60": "sixty", "90": "ninety"}
+
+
+def missing_figures(issue, quote):
+    """Figures the Issue states about the contract that the quote does not contain (digits or words)."""
+    qn = quote.lower()
+    out = []
+    for sent in re.split(r"(?<=[.;])\s+", issue):
+        if re.search(r"\bstandard\b|\bStart2\b[\w\s-]{0,20}\b(?:asks|position|rules?|playbook)\b", sent, re.I):
+            continue  # a sentence about Start2's own standard or rules, not the contract
+        for m in FIGURE.finditer(sent):
+            if re.search(r"\b(?:about|around|roughly|some|nearly|almost)\s+$", sent[:m.start()], re.I):
+                continue  # an approximate figure worked out in the review, not contract text
+            n = m.group(1) or m.group(3)
+            if n and n not in qn and NUM_WORDS.get(n, "#") not in qn:
+                out.append(m.group(0))
+    return sorted(set(out))
 
 
 QUOTE_END = re.compile(r"""(?:[.;!?)"'”’]|\.\.\.|…)\s*$""")
@@ -117,6 +141,10 @@ def main(std_path, rev_path, doc_path=None):
         if f.get("severity") not in SEV: errors.append(f"{tag}: severity {f.get('severity')!r}")
         if f.get("type") not in TYPES: errors.append(f"{tag}: type {f.get('type')!r}")
         q = f.get("quote") or ""
+        if q and not q.startswith("(") and f.get("issue"):
+            gone = missing_figures(f["issue"], q.replace("**", ""))
+            if gone:
+                warns.append(f"{tag}: the issue relies on {gone} but the quote does not contain it; quote the text the issue relies on")
         if RATING.search(f.get("issue") or ""):
             warns.append(f"{tag}: issue states or justifies the rating ({RATING.search(f['issue']).group(0)!r}); the Severity and Type"
                          " columns show it, so leave it out (put a reason for an unusual severity in severity_note)")
@@ -174,6 +202,21 @@ def main(std_path, rev_path, doc_path=None):
     for cid, v in cov.items():
         if cid not in base: errors.append(f"coverage: unknown clause ID {cid!r}")
         if v.get("verdict") not in VERDICTS: errors.append(f"coverage {cid}: verdict {v.get('verdict')!r}")
+        words = len((v.get("note") or "").split())
+        need = 12 if v.get("verdict") in ("Missing", "Partial", "Deviant", "Not supplied") else 6
+        if S_role == "Provider" and base.get(cid) != "n/a" and words < need:
+            warns.append(f"coverage {cid}: note has {words} words; say in a plain sentence what the contract says or lacks and why it matters")
+    if S_role == "Provider":
+        screen = rev.get("client_screen") or {}
+        rows = [r["clause"] for r in std["client_inserted_clauses"]]
+        clauses = {f.get("clause") for f in rev.get("findings", [])}
+        undecided = [r for r in rows if r not in screen]
+        if undecided:
+            warns.append(f"client_screen: no decision for {len(undecided)} playbook row(s): {undecided[:3]}{' ...' if len(undecided) > 3 else ''} "
+                         "(record 'No match' or the finding's clause)")
+        for r, d in screen.items():
+            if r not in rows: errors.append(f"client_screen: {r!r} is not a playbook row")
+            elif d != "No match" and d not in clauses: errors.append(f"client_screen {r!r}: {d!r} names no finding's clause")
     if S_role == "Provider":
         missing = [c for c in base if c not in cov]
         if missing: errors.append(f"coverage: no verdict for {missing}")
@@ -226,6 +269,8 @@ def main(std_path, rev_path, doc_path=None):
             errors.append(f"check {n}: correct must be a list of clause descriptions")
         if v.get("result") == "Fail" and not fix:
             warns.append(f"check {n} failed but lists no clauses to correct")
+        if v.get("result") in ("Pass", "Fail", "Cannot verify") and not v.get("location"):
+            warns.append(f"check {n}: no location; give the clause, page or annex checked so it can be cited")
     has_exec = {f.get("clause") for f in rev.get("findings", []) if f.get("type") == "Execution"}
     all_clauses = {f.get("clause") for f in rev.get("findings", [])}
     for n, v in checks.items():

@@ -45,15 +45,15 @@ Work in a scratch directory `W` (for example `/tmp/review-<contract>/`). `S` is 
 ```
 python3 S/scripts/ingest.py <contract> W
 ```
-- Text PDF or DOCX: `W/document.json` is ready. DOCX tracked changes are counted; deleted text is excluded.
-- Scanned PDF: the script lists the pages needing vision and writes them as images to `W/pages/`. Read them with the Read tool (20 pages per call), write `W/transcript.json` as `{"1": "page text", ...}`, keep paragraph breaks as blank lines, and re-run with `--transcript W/transcript.json`. Quotes from a transcript cannot be machine-verified: record the page for every quote.
+- Text PDF or DOCX: `W/document.json` is ready. DOCX tracked changes are counted; deleted text is excluded. DOCX comments and PDF annotation comments are extracted for intake question 5.
+- Scanned PDF, or pages whose only text is a repeated header or footer over an image (for example an e-signature ID over a scanned annex): the script lists the pages needing vision and writes them as images to `W/pages/`. Read them with the Read tool (20 pages per call), write `W/transcript.json` as `{"1": "page text", ...}`, keep paragraph breaks as blank lines, and re-run with `--transcript W/transcript.json`. Quotes from a transcript cannot be machine-verified: record the page for every quote.
 - If a file is neither PDF, DOCX nor text, say so and stop.
 
 ### 2. Intake: one message, then wait
 ```
 python3 S/scripts/intake.py W/document.json
 ```
-Skim the contract, then edit the draft (rubric section 1a): add the role guess, prune the document list, add documents the patterns missed, and say whether the contract looks signed. Send it as one message covering entity and role, documents not supplied, whether to explain legal terms in plain words, purpose (Pre-signature, Signed or Renewal) and, when the file has comments, whether to consider them. Wait for the reply; this is the only time the review stops for the user.
+Skim the contract, then edit the draft (rubric section 1a): put the role and purpose guesses inside their questions, prune the document list and add documents the patterns missed. Send only the numbered questions (entity and role, documents not supplied, plain-language explanations, purpose and, when the file has comments, whether to consider them): no introduction, no first-read summary or observations, no notes, no closing line. Wait for the reply; this is the only time the review stops for the user.
 
 ### 2b. Context and role
 Read the contract. Establish status (Draft or Executed), paper, contract type and page types as in `references/rubric.md` section 1. Record the confirmed entity and role in `role_basis` and the purpose in `summary.purpose`. A Buyer or Other role means no standards coverage (rubric section 2, step 5). Ingest any documents the user sent and review them as part of the contract; record the rest in `documents_not_supplied`, with every place each is named (`python3 S/scripts/find_references.py W/document.json "<name>" ... --json`).
